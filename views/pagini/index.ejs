@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title><%= typeof title !== 'undefined' ? title : 'ArtModern' %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="magazin, arta, sculpturi, vaze, arta moderna, artisti contemporani, artă modernă, galerie de artă, opere de artă contemporană, artiști contemporani, colecționare artă, picturi originale, sculpturi moderne, expoziții de artă, artă românească contemporană, investiție în artă">
+    <meta name="description" content="Magazin online de artă modernă.">
+    <meta name="author" content="Claudia Cazacu">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/resurse/ico/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/resurse/ico/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/resurse/ico/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/resurse/ico/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="ArtModern" />
+    <link rel="manifest" href="/resurse/ico/favicon/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#ffffff">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/general.css">
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/nav700.css">
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/nav1000.css">
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/bd011679a8.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Magazin Online de Artă Modernă</h1>
+        
+        <div class="user-info">
+            <p>IP utilizator: <%= typeof ipUtilizator !== 'undefined' ? ipUtilizator : 'Necunoscut' %></p>
+        </div>
+        
+        <nav>
+            <ul>
+                <li>
+                    <a href="/index"><i class="fa-solid fa-home"></i> Acasă</a>
+                    <ul>
+                        <li><a href="#despre-noi">Despre noi</a></li>
+                        <li><a href="#colectii-recente">Colecții recente</a></li>
+                        <li><a href="#artisti-reprezentati">Artiști reprezentați</a></li>
+                        <li><a href="#testimoniale">Testimoniale</a></li>
+                    </ul>
+                </li>
+                <li><a href="/galerie">Galerie</a></li>
+                <li><a href="/artisti">Artiști</a></li>
+                <li><a href="/evenimente">Evenimente</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/despre">Despre site</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Secțiunea 1 - Despre noi -->
+        <section id="despre-noi">
+            <h2>Despre noi</h2>
+            <p>Bine ai venit în <strong>universul nostru creativ</strong>!<br/>
+             Magazinul nostru de <b>artă modernă</b> este locul unde imaginația prinde formă, iar arta devine accesibilă tuturor celor care caută ceva diferit, autentic și inspirat. Punem la dispoziție o selecție atent curatoriată de <b>lucrări contemporane</b> – de la picturi vibrante și <b>sculpturi conceptuale</b>, până la printuri grafice și obiecte decorative cu personalitate.</p>
+            <p>Explorăm constant noile tendințe în <dfn>arta conceptuală</dfn>, care se referă la operele în care ideea primează asupra aspectului formal.</p>
+            <p>Avem plăcerea să colaborăm cu <abbr title="Uniunea Artiștilor Plastici din România">UAPR</abbr> pentru a aduce cele mai bune lucrări de artă în galeria noastră.</p>
+            <p><q>Arta nu reproduce vizibilul; ea face vizibilul.</q> - Paul Klee</p>
+            <p>Vizitează <a href="https://www.mnar.arts.ro/" target="_blank" rel="noopener noreferrer">Muzeul Național de Artă al României</a> pentru a înțelege mai bine contextul istoric al artei românești.</p>
+        </section>
+
+        <!-- Secțiunea 2 - Fun Facts -->
+        <section id="fun-facts">
+            <h2>Fun Facts despre Starry Night</h2>
+            
+            <section id="about-stars">
+              <h3>Stelele din Starry Night</h3>
+              <p>Stelele strălucitoare sunt unul dintre elementele cele mai distinctive ale operei "Starry Night", reprezentând conexiunea lui Van Gogh cu universul și eternitatea.</p>
+            </section>
+
+            <section id="about-village">
+              <h3>Satul din Starry Night</h3>
+              <p>Satul liniștit din tablou reprezintă comunitatea și viața terestră, contrastând cu dinamismul cerului nocturn.</p>
+            </section>
+
+            <section id="about-hills">
+              <h3>Dealurile din Starry Night</h3>
+              <p>Dealurile ondulatorii creează o tranziție între cer și pământ, reflectând stilul caracteristic al lui Van Gogh de a reprezenta natura.</p>
+            </section>
+
+             <section id="about-colors">
+              <h3>Culorile din Starry Night</h3>
+              <p>Paleta vibrantă de albastru, galben și verde creează un contrast emoțional puternic, sugerând stările interioare ale artistului și intensitatea percepției sale asupra lumii.</p>
+            </section>
+
+            <article>
+                <h3>Matematica din Starry Night</h3>
+                <p>Opera <cite>Starry Night</cite> a lui Van Gogh ascunde structuri matematice fascinante. Vârtejurile din cer urmează principii similare cu <i>turbulența Kolmogorov</i>.</p>
+                
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                  <mrow>
+                    <mi>E</mi>
+                    <mo>(</mo>
+                    <mi>k</mi>
+                    <mo>)</mo>
+                    <mo>∝</mo>
+                    <msup>
+                      <mi>k</mi>
+                      <mrow>
+                        <mo>-</mo>
+                        <mfrac>
+                          <mn>5</mn>
+                          <mn>3</mn>
+                        </mfrac>
+                      </mrow>
+                    </msup>
+                  </mrow>
+                </math>
+                
+                <p>Această ecuație descrie distribuția energiei în turbulență, fenomen regăsit intuitiv în capodopera sa.</p>
+            </article>
+
+            <details>
+                <summary>Alte fapte fascinante</summary>
+                <ul>
+                    <li>Van Gogh a pictat <strong>Starry Night</strong> în iunie 1889, în timp ce era internat la azilul Saint-Paul-de-Mausole</li>
+                    <li>Tabloul nu a fost pictat din natură, ci din <em>imaginația</em> artistului</li>
+                    <li>Vârtejurile din cer au fost studiate de fizicieni și confirmă teoriile despre <i>fluxul turbulent</i></li>
+                    <li>Artistul nu a văzut niciodată nebuloza Whirlpool, dar vârtejurile sale seamănă perfect cu ea</li>
+                    <li>Tabla este păstrată la <abbr title="Museum of Modern Art">MoMA</abbr> din New York din 1941</li>
+                </ul>
+            </details>
+
+            <aside>
+                <h3>Recenzii ale marilor critici</h3>
+                
+                <blockquote>
+                    <p><q>Starry Night este o <em>meditație asupra infinitului</em>, o viziune care transcende realitatea și ne transportă în universul interior al artistului.</q></p>
+                    <cite>— Robert Hughes, critic de artă</cite>
+                </blockquote>
+
+                <blockquote>
+                    <p><q>În această operă, Van Gogh a reușit să <strong>capteze energia cosmică</strong> și să o transpună într-un limbaj vizual de o frumusețe tulburătoare.</q></p>
+                    <cite>— John Berger, Ways of Seeing</cite>
+                </blockquote>
+
+                <blockquote>
+                    <p><q>Noaptea înstelată reprezintă apogeul <i>expresionismului</i> lui Van Gogh - o sinteză perfectă între observația naturii și <dfn>viziunea artistică personală</dfn>.</q></p>
+                    <cite>— Meyer Schapiro, istoric de artă</cite>
+                </blockquote>
+
+                <details>
+                    <summary>Mai multe păreri critice</summary>
+                    <dl>
+                        <dt>André Malraux</dt>
+                        <dd><q>Van Gogh nu pictează cerul nopții, ci <em>vântul nopții</em> care face ca stelele să danseze.</q></dd>
+                        
+                        <dt>Kenneth Clark</dt>
+                        <dd><q>Această operă este o <strong>rugăciune vizuală</strong>, o încercare de a comunica cu divinitatea prin intermediul artei.</q></dd>
+                        
+                        <dt>Griselda Pollock</dt>
+                        <dd><q>Starry Night demonstrează capacitatea artei de a transforma <i>suferința psihică</i> în frumusețe transcendentă.</q></dd>
+                    </dl>
+                </details>
+            </aside>
+
+            <blockquote>
+                <p>"Am nevoie de stele, sunt întotdeauna visător." - Vincent van Gogh</p>
+            </blockquote>
+        </section>
+
+        <!-- Secțiunea 3 - Colecții recente -->
+        <section id="colectii-recente"> 
+            <h2>Colecții recente</h2>
+            
+            <p>Opera <strong>"Starry Night"</strong> de Vincent van Gogh a stat la baza inspirației pentru întreaga colecție de primăvară, aducând în prim-plan contraste vibrante, forme dinamice și un spirit contemplativ specific artei moderne.</p>
+          
+            <figure>
+              <picture>
+                <source media="(max-width: 600px)" srcset="/resurse/imagini/StarryNight-small.jpg">
+                <source media="(max-width: 1024px)" srcset="/resurse/imagini/StarryNight-medium.jpg">
+                <img src="/resurse/imagini/StarryNight.jpg" alt="Starry Night de Vincent van Gogh" width="500" height="300" usemap="#starry-night-map">
+              </picture>
+              <figcaption>Starry Night - Vincent van Gogh</figcaption>
+            </figure>
+            
+            <map name="starry-night-map">
+              <area shape="circle" coords="350,50,40" href="#about-stars" alt="Stele strălucitoare" title="Stele în cer">
+              <area shape="rect" coords="100,200,300,280" href="#about-village" alt="Satul" title="Satul din tablou">
+              <area shape="poly" coords="50,150,120,100,180,150,150,200,70,180" href="#about-hills" alt="Dealuri" title="Dealurile din tablou">
+            </map>
+
+            <!-- Tabel cu opere populare -->
+            <div class="table-container">
+                <table class="opere-populare">
+                    <caption>Top opere de artă din colecția noastră</caption>
+                    <thead>
+                        <tr>
+                            <th>Poziție</th>
+                            <th>Titlu operă</th>
+                            <th>Artist</th>
+                            <th>An</th>
+                            <th>Preț (EUR)</th>
+                            <th>Disponibilitate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Primăvara Abstractă</td>
+                            <td>Ana Petrescu</td>
+                            <td>2024</td>
+                            <td>2,500</td>
+                            <td>Disponibil</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td colspan="2">Colecția "Geometrii Urbane" (Set 3 piese)</td>
+                            <td>2023-2024</td>
+                            <td>4,200</td>
+                            <td>Ultimul set</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Portret în Roșu</td>
+                            <td>Elena Radu</td>
+                            <td>2024</td>
+                            <td>1,800</td>
+                            <td>Rezervat</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Instalația "Natura Digitală"</td>
+                            <td>Mihai Dumitrescu</td>
+                            <td>2024</td>
+                            <td>3,100</td>
+                            <td>Disponibil</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Visions of Tomorrow</td>
+                            <td>Colaborare Internațională</td>
+                            <td>2024</td>
+                            <td>5,500</td>
+                            <td rowspan="2">Expoziție specială</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Sculptura "Echilibru"</td>
+                            <td>Artist Anonim</td>
+                            <td>2023</td>
+                            <td>2,900</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4"><strong>Total opere în top</strong></td>
+                            <td><strong>20,000</strong></td>
+                            <td><strong>6 opere</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <p>Vedeți <a href="/resurse/pdf/pdf.pdf" target="_blank">aici</a> catalogul complet al colecției de primăvară.</p>
+            <p>Descărcați <a href="/resurse/pdf/catalog.pdf" download>catalogul nostru</a> pentru a consulta idei de decorare.</p>
+          
+            <embed src="/resurse/pdf/pdf.pdf" type="application/pdf" width="800" height="600">
+          
+            <div class="container-iframe">
+              <div class="taburi-iframe">
+                <a href="https://www.youtube.com/embed/wk9L1N9bRRE" target="ifr-video">Istoria din spatele operei de artă</a>
+                <a href="https://www.youtube.com/embed/PMerSm2ToFY" target="ifr-video">Matematica din spatele operei</a>
+              </div>
+              <iframe name="ifr-video" src="https://www.youtube.com/embed/wk9L1N9bRRE" width="560" height="315" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <!-- Secțiunea 4 - Testimoniale -->
+        <section id="testimoniale"> 
+            <h2>Recenzii</h2>
+            <ol>
+                <li>
+                    <p>"Am descoperit ArtModern anul trecut și am fost impresionat de diversitatea și calitatea operelor prezentate. Am achiziționat două lucrări care acum sunt punctul focal al livingului meu." - Alexandru M.</p>
+                </li>
+                <li>
+                    <p>"Apreciez profesionalismul echipei și mai ales consultanța oferită. Ca novice în colecționarea artei, sfaturile primite au fost neprețuite." - Ioana C.</p>
+                </li>
+                <li>
+                    <p>"Un spațiu minunat pentru descoperirea artiștilor români contemporani. Recomand cu căldură tuturor pasionaților de artă!" - Cristian D.</p>
+                </li>
+            </ol>
+        </section>
+
+        <!-- Secțiunea 5 - Misiune detaliată -->
+        <section id="misiune-detaliata">
+            <h2>Misiunea noastră detaliată</h2>
+            <details>
+                <summary>Misiunea noastră!</summary>
+                <p>La ArtModern credem că arta contemporană trebuie să fie accesibilă tuturor. Misiunea noastră este să:</p>
+                <ul>
+                    <li>Promovăm artiști români contemporani</li>
+                    <li>Educăm publicul despre curentele artistice moderne</li>
+                    <li>Creăm o comunitate pentru pasionații de artă</li>
+                    <li>Facilităm accesul la opere de artă autentice la prețuri corecte</li>
+                </ul>
+            </details>
+            <p>Înțelegem că de multe ori e greu să alegi, de aceea <s>oferim consultanță doar în galerie</s> <ins>oferim consultanță atât în galeria fizică cât și online</ins> pentru a te ajuta să găsești opera perfectă.</p>
+        </section>
+
+        <!-- Secțiunea 6 - Evenimente viitoare -->
+        <section id="evenimente-viitoare">
+            <h2>Evenimente viitoare</h2>
+            <p>Urmărește-ne pentru a fi la curent cu următoarele evenimente:</p>
+            <ul>
+                <li><strong>15 aprilie 2025</strong> - Vernisaj "Primăvara artei moderne"</li>
+                <li><strong>22 aprilie 2025</strong> - Workshop de pictură abstractă</li>
+                <li><strong>1 mai 2025</strong> - Expoziție temporară "Artiști tineri"</li>
+            </ul>
+            <details>
+                <summary>Detalii evenimente</summary>
+                <p>Toate evenimentele se desfășoară în galeria noastră și sunt gratuite pentru vizitatori. Pentru workshopuri este necesară înregistrarea în avans.</p>
+            </details>
+        </section>
+
+        <!-- Secțiunea 7 - Artiști reprezentați -->
+        <section id="artisti-reprezentati"> 
+            <h2>Artiști Reprezentați</h2>
+            <p>Descoperă artiștii contemporani care expun în galeria noastră:</p>
+            <dl>
+                <dt>Ana Petrescu</dt>
+                <dd>Specializată în tehnici mixte și instalații interactive, ea explorează relația dintre tehnologie și natură.</dd>
+                
+                <dt>Mihai Dumitrescu</dt>
+                <dd>Are o abordare minimalistă, lucrări cu simplitate geometrică și armonie cromatică.</dd>
+                
+                <dt>Elena Radu</dt>
+                <dd>Pictură figurativă contemporană cu influențe din expresionismul clasic, centrată pe portretistică și scene urbane.</dd>
+
+                <dt>Ioana Marinescu</dt>
+                <dd>Lucrările multimedia cu performance, fotografie și sunet ambiental, abordează diverse teme sociale.</dd>
+                
+                <dt>Victor Tănase </dt>
+                <dd>Sculptor contemporan cunoscut pentru lucrările sale monumentale în metal reciclat, cu teme legate de ecologie și industrie.</dd>
+            
+            </dl>
+        </section>
+
+        <!-- Secțiunea 8 - Newsletter -->
+        <section id="newsletter">
+            <h2>Rămâi conectat</h2>
+            <p>Abonează-te la newsletter-ul nostru pentru a fi primul care află despre noile achiziții, evenimente speciale și oferte exclusive!</p>
+            <blockquote>
+                <p>"Arta spală de pe suflet praful vieții de zi cu zi." - Pablo Picasso</p>
+            </blockquote>
+            <p>Urmărește-ne pe rețelele sociale pentru conținut zilnic despre lumea artei moderne și contemporane.</p>
+        </section>
+    </main>
+    
+    <!-- Link top cu poziție fixă -->
+    <a href="#despre-noi" id="link-top" title="Înapoi la începutul paginii">
+        <div id="triunghi"></div>
+    </a>
+    
+    <footer>
+        <address>
+            <details> 
+                <summary>Ne puteți contacta la:</summary>
+                <p>Telefon: <a href="tel:+40753894746">+40 753 894 746</a></p>
+                <p>Email: <a href="mailto:claudia.cazacu29@gmail.com">claudia.cazacu29@gmail.com</a></p>
+                <p>Adresă: <a href="https://maps.app.goo.gl/CAc4Wgo7S3hYvhQN7" target="_blank">Facultatea de Matematică și Informatică</a></p>
+                <p>
+                    <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8864633930873!2d26.09757687670362!3d44.435450506087894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff472f47f047%3A0x493984726f0235f9!2sFacultatea%20de%20Matematic%C4%83%20%C8%99i%20Informatic%C4%83%20-%20Universitatea%20din%20Bucure%C8%99ti!5e0!3m2!1sro!2sro!4v1709999529776!5m2!1sro!2sro" target="locatie-harta">Arată harta</a> | 
+                    <a href="https://www.google.com/maps/place/Facultatea+de+Matematic%C4%83+%C8%99i+Informatic%C4%83+-+Universitatea+din+Bucure%C8%99ti/@44.4354505,26.0975769,17z/data=!3m1!4b1!4m6!3m5!1s0x40b1ff472f47f047:0x493984726f0235f9!8m2!3d44.4354505!4d26.0975769!16s%2Fg%2F11b6qywx_h?entry=ttu" target="locatie-harta">Vezi în Google Maps</a>
+                </p>
+                <iframe name="locatie-harta" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8864633930873!2d26.09757687670362!3d44.435450506087894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff472f47f047%3A0x493984726f0235f9!2sFacultatea%20de%20Matematic%C4%83%20%C8%99i%20Informatic%C4%83%20-%20Universitatea%20din%20Bucure%C8%99ti!5e0!3m2!1sro!2sro!4v1709999529776!5m2!1sro!2sro" 
+                  width="450" height="300" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    Browserul dumneavoastră nu suportă iframe-uri. Accesați <a href="https://goo.gl/maps/CAc4Wgo7S3hYvhQN7" target="_blank">acest link</a> pentru a vedea locația noastră.
+                </iframe>
+                <p>WhatsApp: <a href="https://wa.me/40753894746">Chat cu noi</a></p>
+            </details>
+        </address>
+        <small>&copy; <time datetime="2025-03-02">2 martie 2025</time> ArtModern</small>
+    </footer>
+</body>
+</html>

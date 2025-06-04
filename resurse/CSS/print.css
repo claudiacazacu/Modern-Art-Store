@@ -1,0 +1,415 @@
+/* =================================================================== */
+/* PRINT.CSS - STILURI PENTRU TIPĂRIRE - css-printare */
+/* =================================================================== */
+
+@media print {
+    /* Resetare stiluri pentru print */
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 12pt;
+        line-height: 1.4;
+        font-family: "Times New Roman", Times, serif;
+    }
+    
+    /* 1. Banner în dreapta-sus a primei pagini */
+    #banner-print {
+        position: absolute !important;
+        display: block !important;
+        top: 1cm;
+        right: 1cm;
+        width: 50%; /* jumătate din lățimea conținutului */
+        border: 3px double black;
+        background: white;
+        padding: 10pt;
+        text-align: center;
+        font-size: 12pt;
+        z-index: 1000;
+    }
+    
+    #banner-print p {
+        margin: 0;
+        font-weight: bold;
+        color: black !important;
+        background: white !important;
+        font-style: normal !important;
+    }
+    
+    /* 2. Ascunderea elementelor media și dependente */
+    img,
+    iframe,
+    embed,
+    video,
+    audio,
+    figcaption,
+    #link-top,
+    .container-iframe,
+    .taburi-iframe,
+    figure,
+    .fa-solid,
+    .fa-beat-fade,
+    .fa-shake,
+    .footer-links {
+        display: none !important;
+    }
+    
+    /* 3. Grid-ul paginii afișat ca block */
+    main {
+        display: block !important;
+        grid-template-areas: none !important;
+        grid-template-columns: none !important;
+        grid-template-rows: none !important;
+        gap: 0 !important;
+    }
+    
+    section {
+        display: block !important;
+        page-break-inside: avoid;
+        border: 1px solid black !important;
+        margin: 15pt 0 !important;
+        padding: 12pt !important;
+        background: white !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        grid-area: auto !important;
+    }
+    
+    /* 4. Linkurile ca text normal */
+    a {
+        color: black !important;
+        text-decoration: none !important;
+        background: white !important;
+    }
+    
+    a:after {
+        content: none !important;
+    }
+    
+    /* 5. Header pe prima pagină cu page break */
+    header {
+        page-break-after: always;
+        background: white !important;
+        color: black !important;
+        border: none !important;
+        padding: 15pt;
+        text-align: center;
+        margin: 0 0 10pt 0;
+    }
+    
+    /* Titlul site-ului centrat */
+    h1 {
+        text-align: center !important;
+        font-size: 20pt;
+        margin: 20pt 0 15pt 0;
+        border-bottom: none !important;
+        padding-bottom: 0 !important;
+        page-break-after: avoid;
+        color: black !important;
+        font-weight: bold;
+        border-left: none !important;
+        padding-left: 0 !important;
+    }
+    
+    /* Meniul ca listă neordonată */
+    nav {
+        display: block !important;
+        background: white !important;
+        border: none !important;
+        padding: 10pt 0;
+        margin: 0;
+        text-align: center;
+    }
+    
+    #hamburger,
+    #ch-menu {
+        display: none !important;
+    }
+    
+    .meniu,
+    nav ul {
+        display: block !important;
+        list-style-type: disc;
+        padding: 0 0 0 30pt;
+        background: white !important;
+        border: none !important;
+        margin: 0 auto;
+        box-shadow: none !important;
+        position: static !important;
+        width: auto !important;
+        opacity: 1 !important;
+        transform: none !important;
+        text-align: left;
+        max-width: 300pt;
+    }
+    
+    .meniu li,
+    nav ul li {
+        display: list-item !important;
+        width: auto !important;
+        height: auto !important;
+        border: none !important;
+        background: white !important;
+        page-break-inside: avoid;
+        margin: 5pt 0;
+        padding: 0;
+        list-style-type: disc;
+    }
+    
+    .meniu > li > a,
+    nav ul > li > a {
+        display: inline !important;
+        color: black !important;
+        text-decoration: none !important;
+        padding: 0 !important;
+        background: white !important;
+        border-radius: 0 !important;
+        font-weight: bold;
+    }
+    
+    .meniu > li > a i,
+    nav ul > li > a i {
+        display: none !important;
+    }
+    
+    /* Sublistele pentru submeniu */
+    .meniu ul,
+    nav ul ul {
+        display: block !important;
+        padding-left: 20pt;
+        list-style-type: circle;
+        opacity: 1 !important;
+        transform: scale(1, 1) !important;
+        background: white !important;
+        border: none !important;
+        margin: 5pt 0;
+        position: static !important;
+        box-shadow: none !important;
+        visibility: visible !important;
+    }
+    
+    .meniu ul li,
+    nav ul ul li {
+        display: list-item !important;
+        margin: 3pt 0;
+        border: none !important;
+        background: white !important;
+        list-style-type: circle;
+    }
+    
+    .meniu ul li a,
+    nav ul ul li a {
+        display: inline !important;
+        color: black !important;
+        text-decoration: none !important;
+        padding: 0 !important;
+        background: white !important;
+        font-weight: normal;
+    }
+    
+    /* Footer cu page break înainte */
+    footer {
+        page-break-before: always;
+        background: white !important;
+        color: black !important;
+        border: 2px solid black;
+        padding: 15pt;
+        text-align: center;
+        margin: 10pt 0 0 0;
+    }
+    
+    /* 6. Watermark pe fiecare pagină */
+    #watermark-print {
+        position: fixed !important;
+        display: block !important;
+        width: 60vw; /* 60% din lățimea paginii */
+        height: 10vh; /* 10% din înălțimea paginii */
+        text-align: center;
+        font-size: 24pt;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        z-index: -1;
+        border: none;
+        background: transparent;
+        pointer-events: none;
+    }
+    
+    #watermark-print p {
+        margin: 0;
+        padding: 0;
+        color: rgba(0, 0, 0, 0.3) !important; /* opacitate 0.3 pe culoare */
+        font-weight: bold;
+        background: transparent !important;
+        line-height: 1.2;
+    }
+    
+    /* Restul elementelor */
+    h2 {
+        font-size: 16pt;
+        margin: 15pt 0 10pt 0;
+        border-left: 4px solid black !important;
+        padding-left: 10pt !important;
+        page-break-after: avoid;
+        color: black !important;
+        font-weight: bold;
+    }
+    
+    h3 {
+        font-size: 14pt;
+        margin: 12pt 0 8pt 0;
+        page-break-after: avoid;
+        color: black !important;
+        font-weight: bold;
+    }
+    
+    p {
+        margin: 8pt 0;
+        line-height: 1.4;
+        color: black !important;
+        background: white !important;
+        border-radius: 0 !important;
+        font-style: normal !important;
+        padding: 0 !important;
+        text-align: justify;
+    }
+    
+    /* Tabelul */
+    table {
+        border-collapse: collapse !important;
+        width: 100% !important;
+        page-break-inside: avoid;
+        margin: 15pt 0;
+        background: white !important;
+    }
+    
+    table, th, td {
+        border: 1px solid black !important;
+    }
+    
+    th, td {
+        padding: 6pt !important;
+        background: white !important;
+        color: black !important;
+        text-align: left;
+    }
+    
+    th {
+        background: #f0f0f0 !important;
+        font-weight: bold;
+        text-align: center;
+    }
+    
+    caption {
+        color: black !important;
+        background: white !important;
+        font-style: italic;
+        margin-bottom: 5pt;
+    }
+    
+    /* Liste */
+    ul, ol {
+        margin: 8pt 0;
+        padding-left: 20pt;
+    }
+    
+    li {
+        margin: 3pt 0;
+        color: black !important;
+        background: white !important;
+    }
+    
+    /* Details/summary pentru print */
+    details {
+        border: 1px solid black !important;
+        padding: 10pt !important;
+        margin: 10pt 0 !important;
+        background: white !important;
+        page-break-inside: avoid;
+        border-radius: 0 !important;
+    }
+    
+    summary {
+        font-weight: bold;
+        color: black !important;
+        margin-bottom: 5pt;
+        cursor: default;
+    }
+    
+    details[open] > summary {
+        border-bottom: 1px solid black;
+        padding-bottom: 5pt;
+    }
+    
+    details > summary::before {
+        content: "► ";
+        color: black;
+    }
+    
+    details[open] > summary::before {
+        content: "▼ ";
+    }
+    
+    /* Blockquote */
+    blockquote {
+        border-left: 3px solid black;
+        padding-left: 10pt;
+        margin: 10pt 0 10pt 15pt;
+        font-style: italic;
+        color: black !important;
+        background: white !important;
+    }
+    
+    /* Strong și emphasis */
+    strong, b {
+        font-weight: bold;
+        color: black !important;
+    }
+    
+    em, i {
+        font-style: italic;
+        color: black !important;
+    }
+    
+    /* Time și small */
+    time {
+        color: black !important;
+        font-style: normal !important;
+    }
+    
+    small {
+        font-size: 10pt;
+        color: black !important;
+        background: white !important;
+    }
+    
+    /* 7. Margini pentru pagini pare/impare */
+    @page {
+        margin-top: 2cm;
+        margin-bottom: 2cm;
+    }
+    
+    @page:left {
+        margin-left: 2cm;  /* stânga: 2cm stânga */
+        margin-right: 1cm; /* stânga: 1cm dreapta */
+    }
+    
+    @page:right {
+        margin-left: 1cm;  /* dreapta: 1cm stânga */
+        margin-right: 2cm; /* dreapta: 2cm dreapta */
+    }
+    
+    @page:first {
+        margin-top: 3cm; /* mai mult spațiu sus pentru banner */
+    }
+}

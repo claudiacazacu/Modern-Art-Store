@@ -1,0 +1,112 @@
+/* =================================================================== */
+/* NAV1000.CSS - STILURI PENTRU ECRANE MEDII (max-width: 1000px) */
+/* =================================================================== */
+
+@media (max-width: 1000px) {
+    nav {
+        --inaltime-meniu: 2.2em;
+        --latime-buton: 120px;
+    }
+    
+    /* Hamburger încă ascuns la această rezoluție */
+    #hamburger {
+        display: none;
+    }
+    
+    /* Meniul principal devine vertical */
+    nav ul.meniu {
+        flex-direction: column;
+        background-color: var(--color-white);
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--color-light);
+        padding: 10px 0;
+    }
+    
+    nav ul.meniu li {
+        width: 100%;
+        border-bottom: 1px solid var(--color-light);
+    }
+    
+    nav ul.meniu li:last-child {
+        border-bottom: none;
+    }
+    
+    nav ul.meniu > li > a {
+        display: block;
+        width: 100%;
+        padding: 12px 20px;
+        text-align: left;
+        border-radius: 0;
+        color: var(--color-primary);
+        font-weight: 500;
+    }
+    
+    nav ul.meniu > li > a:hover {
+        background-color: var(--color-background);
+        color: var(--color-secondary);
+        border-radius: 0;
+    }
+    
+    nav ul.meniu > li > a i {
+        margin-right: 8px;
+        width: 16px;
+        text-align: center;
+    }
+    
+    /* Submeniul pentru "Acasă" */
+    nav ul.meniu > li ul {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        width: 100%;
+        background-color: var(--color-background);
+        border: none;
+        border-left: 3px solid var(--color-accent);
+        border-radius: 0;
+        box-shadow: none;
+        margin: 5px 0 0 20px;
+        padding: 5px 0;
+        min-width: auto;
+    }
+    
+    nav ul.meniu > li ul li {
+        width: 100%;
+        border-bottom: 1px solid rgba(141, 110, 99, 0.2);
+    }
+    
+    nav ul.meniu > li ul li:last-child {
+        border-bottom: none;
+    }
+    
+    nav ul.meniu > li ul li a {
+        padding: 8px 15px;
+        font-size: 0.9em;
+        color: var(--color-secondary);
+        background-color: transparent;
+    }
+    
+    nav ul.meniu > li ul li a:hover {
+        background-color: var(--color-light);
+        color: var(--color-primary);
+        padding-left: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    nav ul.meniu > li ul li a::before {
+        content: "▸ ";
+        color: var(--color-accent);
+        margin-right: 5px;
+    }
+    
+    /* Ajustări pentru layout în general */
+    body {
+        padding-left: var(--padding-medium);
+        padding-right: var(--padding-medium);
+    }
+    
+    main {
+        gap: var(--grid-gap-medium);
+    }
+}
