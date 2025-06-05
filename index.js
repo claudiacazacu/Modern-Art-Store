@@ -20,27 +20,24 @@ let obGlobal = {
 // GALERIE ANIMATĂ - Identificator: galerie-animata
 // ===================================================================
 
-// 1. JSON-ul cu imaginile pentru galeria statică (DOAR IMAGINI EXISTENTE)
+// 1. JSON-ul cu imaginile pentru galeria statică - NUMELE EXACTE DIN FOLDERUL TĂU
 const imaginiGalerie = [
-    "StarryNight.jpg", 
-    "StarryNight-medium.jpg", 
-    "StarryNight-small.jpg",
-    "galerie-interior.jpg", 
-    "galerie-interior-medium.jpg", 
-    "galerie-interior-small.jpg",
-    "evolutie-galerie.jpg", 
-    "evolutie-galerie-medium.jpg", 
-    "evolutie-galerie-small.jpg",
-    "StarryNight.jpg", 
-    "StarryNight-medium.jpg", 
-    "StarryNight-small.jpg",
-    "galerie-interior.jpg", 
-    "galerie-interior-medium.jpg", 
-    "galerie-interior-small.jpg",
-    "evolutie-galerie.jpg", 
-    "evolutie-galerie-medium.jpg", 
-    "evolutie-galerie-small.jpg"
+    "arta1.jpg", "arta2.jpg", "arta3.jpg", "arta4.jpg", "arta5.jpg",
+    "arta6.jpg", "arta7.jpg", "arta8.jpg", "arta9.jpg", "arta10.jpg",
+    "arta11.jpg", "arta12.jpg", "arta13.jpg", "arta14.jpg", "arta15.jpg",
+    "arta16.jpg", "arta17.jpg", "arta18.jpg", "arta19.jpg", "arta20.jpg",
+    "brush.png", "brushstroke.png", "paint stroke.png", "paint stroke1.png",
+    "problema.png", "StarryNight.jpg"
 ];
+
+// Dacă nu funcționează, să verificăm dacă imaginile se încarcă
+// Adaugă această funcție pentru debugging:
+function verificaImagini() {
+    console.log('Imaginile din array:');
+    imaginiGalerie.forEach((img, index) => {
+        console.log(`${index}: ${img}`);
+    });
+}
 
 // 2. Funcție pentru generarea numărului aleator divizibil cu 3, mai mic de 16
 function genereazaNumarImagini() {
@@ -71,26 +68,42 @@ function selecteazaImagini() {
     };
 }
 
-// 5. Funcție pentru generarea CSS-ului din SASS (simulare)
+// 5. Variabilă globală pentru stocarea datelor galeriei (regenerează la fiecare cerere)
+let dataGalerie = null;
+
+// 6. Funcție pentru generarea CSS-ului din SASS (simulare) - CORECTATĂ
 function compileazaSASS() {
-    const { imagini, numarImagini } = selecteazaImagini();
+    if (!dataGalerie) {
+        dataGalerie = selecteazaImagini();
+    }
+    
+    const { numarImagini } = dataGalerie;
+    const durataAnimatie = numarImagini * 4; // 4 secunde per imagine
+    const durataFiecareiImagini = 100 / numarImagini; // Procentaj pentru fiecare imagine
     
     let css = `
 /* ===================================================================*/
-/* GALERIE ANIMATĂ - CSS GENERAT DINAMIC */
+/* GALERIE ANIMATĂ - CSS GENERAT DINAMIC DIN SASS */
 /* Identificator: galerie-animata */
+/* Numărul de imagini: ${numarImagini} */
 /* ===================================================================*/
 
 .galerie-animata {
-    width: 600px;
-    height: 400px;
+    width: 800px;
+    height: 500px;
     position: relative;
     margin: 40px auto;
-    border: 20px solid transparent;
-    border: 20px solid #8d6e63;
     overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    
+    /* Border-image cu imagine artistică - folosind una din imaginile tale */
+    border: 20px solid;
+    border-image: url('/resurse/imagini/StarryNight.jpg') 30 repeat;
+    border-image-slice: 30;
+    border-image-width: 20px;
+    border-image-outset: 0;
+    border-image-repeat: repeat;
 }
 
 /* Ascunde galeria pe ecrane medii și mici */
@@ -106,69 +119,142 @@ function compileazaSASS() {
     left: 0;
     width: 100%;
     height: 100%;
+    opacity: 0; /* Toate încep invizibile */
+    z-index: 1;
+}
+
+/* PRIMA imagine să înceapă vizibilă pentru un start smooth */
+.galerie-animata .imagine-container:first-child {
     opacity: 1;
-    z-index: 5;
 }
 
 .galerie-animata .imagine-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* clip-path: inset(0 50% 0 50%); */
-    /* animation: clip-reveal ${numarImagini * 3}s infinite; */
-    opacity: 1;
-    position: relative;
-    z-index: 10;
+    /* Începem cu imaginea vizibilă complet */
+    clip-path: inset(0 0% 0 0%);
 }
 `;
 
-    // Generez delay-uri pentru fiecare imagine
+    // Generez delay-uri și z-index pentru fiecare imagine
     for (let i = 0; i < numarImagini; i++) {
-        const delay = (i / numarImagini) * 100;
+        const delay = (i * durataAnimatie) / numarImagini;
+        const zIndex = numarImagini - i;
+        
         css += `
+.galerie-animata .imagine-container:nth-child(${i + 1}) {
+    z-index: ${zIndex};
+    /* Fiecare imagine își controlează propria opacitate prin animație */
+    animation: container-reveal ${durataAnimatie}s infinite;
+    animation-delay: ${delay}s;
+}
+
 .galerie-animata .imagine-container:nth-child(${i + 1}) img {
-    animation-delay: ${delay}%;
+    animation: clip-reveal ${durataAnimatie}s infinite;
+    animation-delay: ${delay}s;
 }
 `;
     }
 
     css += `
 /* Pauzare animație la hover */
+.galerie-animata:hover .imagine-container,
 .galerie-animata:hover .imagine-container img {
     animation-play-state: paused;
 }
 
-/* Animația de clip-path care începe din centru */
-@keyframes clip-reveal {
+/* Animația pentru container (controlează opacity) */
+@keyframes container-reveal {
     0% {
         opacity: 0;
-        clip-path: inset(0 50% 0 50%);
     }
     
-    ${100 / numarImagini * 0.1}% {
+    /* Devine vizibil */
+    ${durataFiecareiImagini * 0.05}% {
         opacity: 1;
-        clip-path: inset(0 45% 0 45%);
     }
     
-    ${100 / numarImagini * 0.5}% {
+    /* Rămâne vizibil */
+    ${durataFiecareiImagini * 0.95}% {
         opacity: 1;
-        clip-path: inset(0 0% 0 0%);
     }
     
-    ${100 / numarImagini * 0.9}% {
-        opacity: 1;
-        clip-path: inset(0 0% 0 0%);
-    }
-    
-    ${100 / numarImagini}% {
+    /* Devine invizibil */
+    ${durataFiecareiImagini}% {
         opacity: 0;
-        clip-path: inset(0 50% 0 50%);
     }
     
+    /* Rămâne invizibil restul timpului */
     100% {
         opacity: 0;
+    }
+}
+
+/* Animația pentru imagine (controlează clip-path) */
+@keyframes clip-reveal {
+    0% {
         clip-path: inset(0 50% 0 50%);
     }
+    
+    /* Se deschide din centru */
+    ${durataFiecareiImagini * 0.1}% {
+        clip-path: inset(0 25% 0 25%);
+    }
+    
+    /* Complet vizibilă */
+    ${durataFiecareiImagini * 0.2}% {
+        clip-path: inset(0 0% 0 0%);
+    }
+    
+    /* Rămâne complet vizibilă */
+    ${durataFiecareiImagini * 0.8}% {
+        clip-path: inset(0 0% 0 0%);
+    }
+    
+    /* Se închide spre centru */
+    ${durataFiecareiImagini * 0.9}% {
+        clip-path: inset(0 25% 0 25%);
+    }
+    
+    /* Complet închisă */
+    ${durataFiecareiImagini}% {
+        clip-path: inset(0 50% 0 50%);
+    }
+    
+    /* Rămâne închisă */
+    100% {
+        clip-path: inset(0 50% 0 50%);
+    }
+}
+
+/* Pentru debugging - să vedem containerele */
+.galerie-animata .imagine-container {
+    border: 2px solid red;
+    box-sizing: border-box;
+}
+
+.galerie-animata .imagine-container img {
+    border: 1px solid blue;
+    box-sizing: border-box;
+}
+
+/* Titlu galerie */
+.galerie-animata-titlu {
+    text-align: center;
+    font-size: 1.8em;
+    margin: 20px 0;
+    color: #2c3e50;
+    font-family: 'Georgia', serif;
+}
+
+/* Informații tehnice */
+.galerie-info {
+    text-align: center;
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin: 10px 0;
+    font-style: italic;
 }
 
 /* Responsive - verificare suplimentară */
@@ -176,25 +262,52 @@ function compileazaSASS() {
     .galerie-animata {
         display: none !important;
     }
+    
+    .galerie-animata-titlu {
+        display: none !important;
+    }
+    
+    .galerie-info {
+        display: none !important;
+    }
+}
+
+/* Efecte hover pe container */
+.galerie-animata:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
 }
 `;
 
     return css;
 }
 
-// 6. Funcție pentru generarea HTML-ului galeriei
+// 7. Funcție pentru generarea HTML-ului galeriei cu debugging
 function genereazaHTMLGalerie() {
-    const { imagini, numarImagini, offset } = selecteazaImagini();
+    // Regenerează datele la fiecare apel pentru a avea imagini noi
+    dataGalerie = selecteazaImagini();
+    const { imagini, numarImagini, offset } = dataGalerie;
     
-    let html = '<div class="galerie-animata">\n';
+    // Debugging - să vedem ce imagini se aleg
+    console.log(`Galerie generată cu ${numarImagini} imagini, offset ${offset}`);
+    console.log('Imaginile selectate:', imagini);
+    
+    let html = `<h3 class="galerie-animata-titlu">Galerie Animată - Colecția Noastră</h3>\n`;
+    html += `<p class="galerie-info">Imaginile: ${numarImagini} | Offset: ${offset} | Durată ciclu: ${numarImagini * 4}s</p>\n`;
+    html += '<div class="galerie-animata">\n';
     
     imagini.forEach((imagine, index) => {
+        const caleCompleta = `/resurse/imagini/${imagine}`;
+        console.log(`Imagine ${index + 1}: ${caleCompleta}`);
         html += `    <div class="imagine-container">
-        <img src="/resurse/imagini/${imagine}" alt="Operă de artă ${index + 1}" loading="lazy" />
+        <img src="${caleCompleta}" alt="Operă de artă ${index + 1} - ${imagine}" loading="lazy" 
+             onerror="console.error('Nu s-a putut încărca imaginea: ${caleCompleta}')" 
+             onload="console.log('Imaginea s-a încărcat cu succes: ${caleCompleta}')" />
     </div>\n`;
     });
     
-    html += '</div>';
+    html += '</div>\n';
     
     return html;
 }
@@ -317,13 +430,16 @@ function creeazaFoldere() {
 // RUTE EXPRESS CU INTEGRAREA GALERIEI ANIMATE
 // ===================================================================
 
-// Ruta pentru CSS-ul galeriei animate (GENERAT DINAMIC)
+// Ruta pentru CSS-ul galeriei animate (GENERAT DINAMIC DIN SASS)
 app.get('/resurse/CSS/galerie-animata.css', (req, res) => {
     try {
         const cssContent = compileazaSASS();
         res.setHeader('Content-Type', 'text/css');
-        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
         res.send(cssContent);
+        console.log('CSS galerie animată generat cu succes');
     } catch (error) {
         console.error('Eroare la generarea CSS galerie:', error);
         res.status(500).send('/* Eroare la generarea CSS-ului galeriei */');
@@ -346,6 +462,9 @@ app.get('*.ejs', (req, res) => {
 // Rutele pentru pagina principală
 app.get(['/', '/index', '/home'], (req, res) => {
     const ipUtilizator = req.ip || req.connection.remoteAddress || '::1';
+    
+    // Reset datele galeriei pentru a genera noi imagini
+    dataGalerie = null;
     
     res.render('pagini/index', { 
         title: 'ArtModern - Acasă',
@@ -399,4 +518,5 @@ creeazaFoldere();
 // Pornirea serverului
 app.listen(PORT, () => {
     console.log(`Serverul rulează pe http://localhost:${PORT}`);
+    console.log('Galerie animată implementată cu identificatorul: galerie-animata');
 });
