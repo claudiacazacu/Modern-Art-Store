@@ -1,4 +1,123 @@
-/* Variabile CSS pentru spațiere și culori */
+/* ===================================================================== */
+/* STILURI PENTRU SECȚIUNEA GALERIEI ANIMATE */
+/* ===================================================================== */
+
+#galerie-animata-section {
+    background: linear-gradient(135deg, var(--color-background) 0%, var(--color-light) 100%);
+    border-left: 5px solid var(--color-accent);
+    position: relative;
+}
+
+#galerie-animata-section h2 {
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+}
+
+#galerie-animata-section > p {
+    text-align: center;
+    font-size: 1.1em;
+    color: var(--color-secondary);
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+}
+
+/* Stilizare pentru informațiile de debug */
+.galerie-info-grid dl {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+    background-color: var(--color-white);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--color-light);
+    margin: 15px 0;
+}
+
+.galerie-info-grid dt {
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.galerie-info-grid dd {
+    color: var(--color-secondary);
+    margin: 0;
+}
+
+/* Stilizare pentru aside-ul cu instrucțiuni */
+#galerie-animata-section aside {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-light);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+#galerie-animata-section aside h3 {
+    color: var(--color-primary);
+    margin-top: 0;
+    border-bottom: 2px solid var(--color-accent);
+    padding-bottom: 10px;
+}
+
+#galerie-animata-section aside ul {
+    list-style: none;
+    padding: 0;
+}
+
+#galerie-animata-section aside li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-background);
+    position: relative;
+    padding-left: 25px;
+}
+
+#galerie-animata-section aside li::before {
+    content: "🎨";
+    position: absolute;
+    left: 0;
+    top: 8px;
+}
+
+#galerie-animata-section aside li:last-child {
+    border-bottom: none;
+}
+
+/* Responsive pentru secțiunea galeriei */
+@media (max-width: 1024px) {
+    #galerie-animata-section {
+        /* Secțiunea rămâne vizibilă, doar galeria se ascunde */
+        text-align: center;
+    }
+    
+    #galerie-animata-section::after {
+        content: "📱 Galeria animată este disponibilă doar pe ecrane mari pentru o experiență optimă.";
+        display: block;
+        background-color: var(--color-background);
+        color: var(--color-secondary);
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        font-style: italic;
+        border: 1px solid var(--color-light);
+    }
+}
+
+@media (max-width: 600px) {
+    .galerie-info-grid dl {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+    
+    .galerie-info-grid dt {
+        margin-top: 10px;
+    }
+    
+    .galerie-info-grid dt:first-child {
+        margin-top: 0;
+    }
+}/* Variabile CSS pentru spațiere și culori */
 :root {
     --padding-main: 80px;
     --padding-medium: 40px;
@@ -13,6 +132,7 @@
     --color-background: #efebe9;
     --color-white: #ffffff;
     --color-text: #3e2723;
+    --color-link-visited: #6d4c41; /* Culoare pentru linkurile vizitate */
 }
 
 body {
@@ -503,6 +623,139 @@ iframe[name="locatie-harta"] {
 
 #link-top:hover #triunghi {
     border-bottom-color: var(--color-white);
+}
+
+/* =================================================================== */
+/* STILIZARE LINKURI - Identificator: stilizare-linkuri */
+/* =================================================================== */
+
+/* 1. Linkuri vizitate - culoare diferită prin variabilă CSS */
+a:visited {
+    color: var(--color-link-visited);
+}
+
+/* 2. Linkuri externe - pseudoelement ::before cu simbolul ⮳ */
+a[href^="http"]::before {
+    content: "⮳";
+    font-size: 1.5em; /* 50% mai mare decât fontul linkului (unitate relativă) */
+    margin-right: 0.3em;
+    transition: color 0.3s ease;
+    color: var(--color-secondary); /* Culoare din schema cromatică */
+}
+
+/* 3. Hover pe linkuri externe - simbolul își schimbă culoarea */
+a[href^="http"]:hover::before {
+    color: var(--color-primary); /* Schimbă la altă culoare din schemă */
+}
+
+/* 4. Linkuri din main - pata de culoare care crește din centru */
+main a {
+    position: relative;
+    background-image: radial-gradient(circle, 
+        var(--color-light) 0%, /* c1 la 0% */
+        var(--color-light) 40%, /* c1 la 40% */
+        transparent 80%, /* transparent la 80% */
+        transparent 100%); /* transparent la 100% */
+    background-position: center; /* poziționat centrat */
+    background-size: 0; /* dimensiune inițială 0 */
+    background-repeat: no-repeat;
+    transition: background-size 0.4s ease; /* tranziție pentru background-size */
+    border-radius: 4px;
+    padding: 2px 6px;
+}
+
+/* 5. Hover pe linkuri din main - pata crește la 100% */
+main a:hover {
+    background-size: 100%; /* crește la 100% */
+    color: var(--color-primary); /* Text contrastant */
+}
+
+/* Excludem linkurile din meniu (nu din main) */
+nav a {
+    background-image: none !important;
+    background-size: auto !important;
+}
+
+/* Excludem linkurile din footer - EXCEPTIE pentru linkurile externe */
+footer a:not([href^="http"]) {
+    background-image: none !important;
+    background-size: auto !important;
+}
+
+/* Linkurile externe din footer păstrează efectul */
+footer a[href^="http"] {
+    background-image: radial-gradient(circle, 
+        var(--color-light) 0%, 
+        var(--color-light) 40%, 
+        transparent 80%, 
+        transparent 100%);
+    background-position: center;
+    background-size: 0;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s ease;
+    border-radius: 4px;
+    padding: 2px 6px;
+}
+
+footer a[href^="http"]:hover {
+    background-size: 100%;
+    color: var(--color-white); /* Text alb pentru contrast pe footer închis */
+}
+
+/* Excludem linkurile din header */
+header a {
+    background-image: none !important;
+    background-size: auto !important;
+}
+
+/* Combinăm efectele pentru linkurile externe din main */
+main a[href^="http"] {
+    background-image: radial-gradient(circle, 
+        var(--color-light) 0%, 
+        var(--color-light) 40%, 
+        transparent 80%, 
+        transparent 100%);
+}
+
+main a[href^="http"]:hover {
+    background-size: 100%;
+    color: var(--color-primary);
+}
+
+/* Simbolul rămâne vizibil pe fundal colorat */
+main a[href^="http"]:hover::before {
+    color: var(--color-primary);
+}
+
+/* Stilizări bonus pentru alte tipuri de linkuri */
+a[download]::after {
+    content: " ⬇";
+    font-size: 0.9em;
+    color: var(--color-secondary);
+    transition: color 0.3s ease;
+}
+
+a[download]:hover::after {
+    color: var(--color-primary);
+}
+
+a[href^="mailto:"]::before {
+    content: "✉ ";
+    font-size: 1.1em;
+    color: var(--color-secondary);
+    margin-right: 0.2em;
+}
+
+a[href^="tel:"]::before {
+    content: "☎ ";
+    font-size: 1.1em;
+    color: var(--color-secondary);
+    margin-right: 0.2em;
+}
+
+a[href^="mailto:"]:hover::before,
+a[href^="tel:"]:hover::before {
+    color: var(--color-primary);
 }
 
 /* Media queries pentru responsive design */

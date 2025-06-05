@@ -16,6 +16,193 @@ let obGlobal = {
     obErori: null
 };
 
+// ===================================================================
+// GALERIE ANIMATĂ - Identificator: galerie-animata
+// ===================================================================
+
+// 1. JSON-ul cu imaginile pentru galeria statică (DOAR IMAGINI EXISTENTE)
+const imaginiGalerie = [
+    "StarryNight.jpg", 
+    "StarryNight-medium.jpg", 
+    "StarryNight-small.jpg",
+    "galerie-interior.jpg", 
+    "galerie-interior-medium.jpg", 
+    "galerie-interior-small.jpg",
+    "evolutie-galerie.jpg", 
+    "evolutie-galerie-medium.jpg", 
+    "evolutie-galerie-small.jpg",
+    "StarryNight.jpg", 
+    "StarryNight-medium.jpg", 
+    "StarryNight-small.jpg",
+    "galerie-interior.jpg", 
+    "galerie-interior-medium.jpg", 
+    "galerie-interior-small.jpg",
+    "evolutie-galerie.jpg", 
+    "evolutie-galerie-medium.jpg", 
+    "evolutie-galerie-small.jpg"
+];
+
+// 2. Funcție pentru generarea numărului aleator divizibil cu 3, mai mic de 16
+function genereazaNumarImagini() {
+    const numereValide = [3, 6, 9, 12, 15]; // Divizibile cu 3, mai mici de 16
+    return numereValide[Math.floor(Math.random() * numereValide.length)];
+}
+
+// 3. Funcție pentru generarea offset-ului aleator
+function genereazaOffset(numarImagini) {
+    const offsetMaxim = imaginiGalerie.length - numarImagini;
+    return Math.floor(Math.random() * (offsetMaxim + 1));
+}
+
+// 4. Funcție pentru selectarea imaginilor consecutive
+function selecteazaImagini() {
+    const numarImagini = genereazaNumarImagini();
+    const offset = genereazaOffset(numarImagini);
+    
+    const imaginiSelectate = [];
+    for (let i = 0; i < numarImagini; i++) {
+        imaginiSelectate.push(imaginiGalerie[offset + i]);
+    }
+    
+    return {
+        imagini: imaginiSelectate,
+        numarImagini: numarImagini,
+        offset: offset
+    };
+}
+
+// 5. Funcție pentru generarea CSS-ului din SASS (simulare)
+function compileazaSASS() {
+    const { imagini, numarImagini } = selecteazaImagini();
+    
+    let css = `
+/* ===================================================================*/
+/* GALERIE ANIMATĂ - CSS GENERAT DINAMIC */
+/* Identificator: galerie-animata */
+/* ===================================================================*/
+
+.galerie-animata {
+    width: 600px;
+    height: 400px;
+    position: relative;
+    margin: 40px auto;
+    border: 20px solid transparent;
+    border: 20px solid #8d6e63;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Ascunde galeria pe ecrane medii și mici */
+@media (max-width: 1024px) {
+    .galerie-animata {
+        display: none !important;
+    }
+}
+
+.galerie-animata .imagine-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    z-index: 5;
+}
+
+.galerie-animata .imagine-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* clip-path: inset(0 50% 0 50%); */
+    /* animation: clip-reveal ${numarImagini * 3}s infinite; */
+    opacity: 1;
+    position: relative;
+    z-index: 10;
+}
+`;
+
+    // Generez delay-uri pentru fiecare imagine
+    for (let i = 0; i < numarImagini; i++) {
+        const delay = (i / numarImagini) * 100;
+        css += `
+.galerie-animata .imagine-container:nth-child(${i + 1}) img {
+    animation-delay: ${delay}%;
+}
+`;
+    }
+
+    css += `
+/* Pauzare animație la hover */
+.galerie-animata:hover .imagine-container img {
+    animation-play-state: paused;
+}
+
+/* Animația de clip-path care începe din centru */
+@keyframes clip-reveal {
+    0% {
+        opacity: 0;
+        clip-path: inset(0 50% 0 50%);
+    }
+    
+    ${100 / numarImagini * 0.1}% {
+        opacity: 1;
+        clip-path: inset(0 45% 0 45%);
+    }
+    
+    ${100 / numarImagini * 0.5}% {
+        opacity: 1;
+        clip-path: inset(0 0% 0 0%);
+    }
+    
+    ${100 / numarImagini * 0.9}% {
+        opacity: 1;
+        clip-path: inset(0 0% 0 0%);
+    }
+    
+    ${100 / numarImagini}% {
+        opacity: 0;
+        clip-path: inset(0 50% 0 50%);
+    }
+    
+    100% {
+        opacity: 0;
+        clip-path: inset(0 50% 0 50%);
+    }
+}
+
+/* Responsive - verificare suplimentară */
+@media (max-width: 1000px) {
+    .galerie-animata {
+        display: none !important;
+    }
+}
+`;
+
+    return css;
+}
+
+// 6. Funcție pentru generarea HTML-ului galeriei
+function genereazaHTMLGalerie() {
+    const { imagini, numarImagini, offset } = selecteazaImagini();
+    
+    let html = '<div class="galerie-animata">\n';
+    
+    imagini.forEach((imagine, index) => {
+        html += `    <div class="imagine-container">
+        <img src="/resurse/imagini/${imagine}" alt="Operă de artă ${index + 1}" loading="lazy" />
+    </div>\n`;
+    });
+    
+    html += '</div>';
+    
+    return html;
+}
+
+// ===================================================================
+// FUNCȚII PENTRU APLICAȚIA EXPRESS (CODUL ORIGINAL)
+// ===================================================================
+
 // Setări Express și EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -126,6 +313,26 @@ function creeazaFoldere() {
     });
 }
 
+// ===================================================================
+// RUTE EXPRESS CU INTEGRAREA GALERIEI ANIMATE
+// ===================================================================
+
+// Ruta pentru CSS-ul galeriei animate (GENERAT DINAMIC)
+app.get('/resurse/CSS/galerie-animata.css', (req, res) => {
+    try {
+        const cssContent = compileazaSASS();
+        res.setHeader('Content-Type', 'text/css');
+        res.setHeader('Cache-Control', 'no-cache');
+        res.send(cssContent);
+    } catch (error) {
+        console.error('Eroare la generarea CSS galerie:', error);
+        res.status(500).send('/* Eroare la generarea CSS-ului galeriei */');
+    }
+});
+
+// Helper functions pentru template-uri EJS
+app.locals.genereazaGalerieAnimata = genereazaHTMLGalerie;
+
 // Middleware pentru blocarea accesului la foldere din resurse
 app.get('/resurse/*/', (req, res) => {
     afisareEroare(res, 403);
@@ -180,6 +387,10 @@ app.get('/*', (req, res) => {
         }
     });
 });
+
+// ===================================================================
+// INIȚIALIZAREA ȘI PORNIREA SERVERULUI
+// ===================================================================
 
 // Inițializarea aplicației
 initErori();
