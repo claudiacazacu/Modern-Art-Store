@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>ArtModern - Despre</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="magazin, arta, sculpturi, vaze, arta moderna, artisti contemporani, artă modernă, galerie de artă, opere de artă contemporană, artiști contemporani, colecționare artă, picturi originale, sculpturi moderne, expoziții de artă, artă românească contemporană, investiție în artă">
+    <meta name="description" content="Magazin online de artă modernă.">
+    <meta name="author" content="Claudia Cazacu">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/resurse/ico/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/resurse/ico/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/resurse/ico/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/resurse/ico/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="ArtModern" />
+    <link rel="manifest" href="/resurse/ico/favicon/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#ffffff">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/general.css">
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/bd011679a8.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Magazin Online de Artă Modernă</h1>
+        
+        <div class="user-info">
+            <p>IP utilizator: <%= typeof ipUtilizator !== 'undefined' ? ipUtilizator : 'Necunoscut' %></p>
+        </div>
+        
+        <nav>
+            <ul>
+                <li>
+                    <a href="/index"><i class="fa-solid fa-home"></i> Acasă</a>
+                    <ul>
+                        <li><a href="/index#despre-noi">Despre noi</a></li>
+                        <li><a href="/index#colectii-recente">Colecții recente</a></li>
+                        <li><a href="/index#artisti-reprezentati">Artiști reprezentați</a></li>
+                        <li><a href="/index#testimoniale">Testimoniale</a></li>
+                    </ul>
+                </li>
+                <li><a href="/galerie">Galerie</a></li>
+                <li><a href="/artisti">Artiști</a></li>
+                <li><a href="/evenimente">Evenimente</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/despre">Despre site</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="despre-site">
+            <h2>Despre ArtModern - Povestea noastră</h2>
+            
+            <article>
+                <h3>Începuturile</h3>
+                <p>ArtModern a luat naștere în 2020, din dorința de a democratiza accesul la <b>arta contemporană românească</b>. Fondatorii noștri, <strong>Claudia Cazacu</strong> și echipa sa, au observat că multe talente locale rămâneau necunoscute publicului larg din cauza lipsei unei platforme dedicate.</p>
+                
+                <p>Prima noastră expoziție a avut loc într-un spațiu modest din <i>centrul Bucureștiului</i>, cu doar 15 opere de la 5 artiști. Astăzi, galeria noastră găzduiește peste 200 de lucrări de la mai bine de 50 de <dfn>artiști contemporani</dfn>.</p>
+            </article>
+
+            <article>
+                <h3>Misiunea și viziunea</h3>
+                <p>Credem că <q>arta nu trebuie să fie un privilegiu al elitei</q>, ci o experiență accesibilă oricui dorește să exploreze frumusețea și creativitatea. De aceea, ne-am concentrat pe:</p>
+                
+                <ul>
+                    <li>Susținerea tinerilor artiști români</li>
+                    <li>Educația publicului despre <strong>curentele artistice contemporane</strong></li>
+                    <li>Crearea unui spațiu de dialog între artă și comunitate</li>
+                    <li>Promovarea artei ca <em>investiție culturală și financiară</em></li>
+                </ul>
+            </article>
+
+            <details>
+                <summary>Echipa noastră</summary>
+                <dl>
+                    <dt>Claudia Cazacu</dt>
+                    <dd>Fondator și curator principal. Absolventă a <abbr title="Universitatea Națională de Arte">UNA</abbr> București, cu experiență de 10 ani în promovarea artei contemporane.</dd>
+                    
+                    <dt>Andrei Popescu</dt>
+                    <dd>Specialist în comunicare și marketing artistic. Gestionează relațiile cu presa și evenimentele speciale.</dd>
+                    
+                    <dt>Maria Ionescu</dt>
+                    <dd>Consultant în achiziții de artă. Ajută clienții să găsească opera perfectă pentru colecția lor.</dd>
+                </dl>
+            </details>
+
+            <article>
+                <h3>Realizări notabile</h3>
+                <p>În cei <strong>5 ani de activitate</strong>, ArtModern a organizat:</p>
+                
+                <ol>
+                    <li>Peste 50 de expoziții individuale și de grup</li>
+                    <li>20 de workshopuri educaționale</li>
+                    <li>10 proiecte de artă în spațiul public</li>
+                    <li>Prima platformă online dedicată artei românești contemporane</li>
+                </ol>
+                
+                <p>Suntem mândri că <s>doar 30% din lucrările noastre</s> <ins>peste 70% din operele prezentate</ins> au găsit noi proprietari, contribuind astfel la dezvoltarea pieței de artă locală.</p>
+            </article>
+
+            <figure>
+                <picture>
+                    <source media="(max-width: 600px)" srcset="/resurse/imagini/galerie-interior-small.jpg">
+                    <source media="(max-width: 1024px)" srcset="/resurse/imagini/galerie-interior-medium.jpg">
+                    <img src="/resurse/imagini/galerie-interior.jpg" alt="Interiorul galeriei ArtModern" />
+                </picture>
+                <figcaption>Galeria noastră din centrul Bucureștiului</figcaption>
+            </figure>
+
+            <blockquote>
+                <p><cite>"Arta contemporană românească"</cite> de Ruxandra Demetrescu menționează ArtModern ca fiind <q>unul dintre spațiile care redefinesc scena artistică locală</q>.</p>
+            </blockquote>
+
+            <aside>
+                <h3>Recunoaștere și premii</h3>
+                <ul>
+                    <li><strong>2022</strong> - Premiul pentru "Cea mai bună galerie emergentă" - Gala Artelor Vizuale</li>
+                    <li><strong>2023</strong> - Mențiune specială pentru promovarea tinerilor artiști - <abbr title="Ministerul Culturii">MC</abbr></li>
+                    <li><strong>2024</strong> - Parteneriat cu <em>Muzeul Național de Artă Contemporană</em></li>
+                </ul>
+            </aside>
+
+            <details>
+                <summary>Planuri de viitor</summary>
+                <p>Pentru următorii ani, ne propunem să:</p>
+                <ul>
+                    <li>Deschidem o a doua locație în Cluj-Napoca</li>
+                    <li>Lansăm un program de burse pentru studenții la arte</li>
+                    <li>Dezvoltăm o aplicație mobilă pentru arta virtuală</li>
+                    <li>Organizăm primul târg de artă contemporană românească</li>
+                </ul>
+            </details>
+
+            <section id="about-technology">
+                <h3>Tehnologia din spatele site-ului</h3>
+                <p>Site-ul nostru este dezvoltat cu tehnologii moderne pentru a oferi o experiență optimă utilizatorilor:</p>
+                <dl>
+                    <dt>Backend</dt>
+                    <dd>Serverul este construit cu <strong>Node.js</strong> și <strong>Express.js</strong>, oferind performanță și scalabilitate.</dd>
+                    
+                    <dt>Template Engine</dt>
+                    <dd>Folosim <strong>EJS</strong> pentru a genera dinamic conținutul paginilor.</dd>
+                    
+                    <dt>Design</dt>
+                    <dd>Interface-ul este responsive, adaptat pentru <em>desktop</em>, <em>tabletă</em> și <em>mobil</em>.</dd>
+                    
+                    <dt>Performanță</dt>
+                    <dd>Imaginile sunt optimizate prin <dfn>responsive images</dfn> pentru încărcare rapidă.</dd>
+                </dl>
+                
+                <details>
+                    <summary>Funcționalități tehnice</summary>
+                    <ul>
+                        <li>Sistem de gestionare a erorilor personalizat</li>
+                        <li>Routing dinamic pentru pagini</li>
+                        <li>Servire optimizată a fișierelor statice</li>
+                        <li>Template-uri modulare și reutilizabile</li>
+                        <li>Protecție împotriva accesului neautorizat</li>
+                    </ul>
+                </details>
+            </section>
+        </section>
+
+        <section id="contact-despre">
+            <h2>Ești artist și vrei să expui la noi?</h2>
+            <p>Ne place să descoperim talente noi! Trimite-ne portfoliul tău la <a href="mailto:artisti@artmodern.ro">artisti@artmodern.ro</a> sau vizitează-ne în galerie cu câteva dintre lucrările tale.</p>
+            
+            <p>Pentru mai multe informații despre procesul de selecție, consultă <a href="/resurse/pdf/ghid-artisti.pdf" download>ghidul pentru artiști</a>.</p>
+            
+            <blockquote>
+                <p><q>Fiecare artist începător a fost odată un amator. Fiecare profesionist a fost odată un începător.</q> - Robin Sharma</p>
+            </blockquote>
+
+            <details>
+                <summary>Criterii de selecție</summary>
+                <p>Când evaluăm lucrările pentru expoziție, ne concentrăm pe:</p>
+                <ol>
+                    <li><strong>Originalitatea</strong> - Căutăm voci artistice distincte</li>
+                    <li><strong>Calitatea tehnică</strong> - Execuția trebuie să fie la nivel profesional</li>
+                    <li><strong>Coerența</strong> - Portfoliul să prezinte o viziune coerentă</li>
+                    <li><strong>Relevanța</strong> - Lucrările să aibă impact în contextul artistic contemporan</li>
+                </ol>
+            </details>
+            
+            <aside>
+                <h3>Testimoniale de la artiști</h3>
+                <blockquote>
+                    <p><q>ArtModern mi-a oferit prima oportunitate de a-mi expune lucrările într-un cadru profesional. Echipa este <em>extraordinar de susținătoare</em> și înțelege nevoile artistului emergent.</q></p>
+                    <cite>— Ana Petrescu, artist multimedia</cite>
+                </blockquote>
+                
+                <blockquote>
+                    <p><q>Colaborarea cu galeria a fost o experiență <strong>transformatoare</strong>. Nu doar că mi-au expus lucrările, dar m-au ajutat să îmi dezvolt și cariera artistică.</q></p>
+                    <cite>— Mihai Dumitrescu, sculptor</cite>
+                </blockquote>
+            </aside>
+        </section>
+
+        <section id="historia-galerie">
+            <h2>Istoria galeriei în imagini</h2>
+            <p>De la primele expoziții până la evenimentele recente, urmăriți evoluția galeriei noastre:</p>
+            
+            <figure>
+                <picture>
+                    <source media="(max-width: 600px)" srcset="/resurse/imagini/evolutie-galerie-small.jpg">
+                    <source media="(max-width: 1024px)" srcset="/resurse/imagini/evolutie-galerie-medium.jpg">
+                    <img src="/resurse/imagini/evolutie-galerie.jpg" alt="Evoluția galeriei ArtModern de-a lungul anilor" />
+                </picture>
+                <figcaption>Colaj cu momente importante din istoria galeriei (2020-2025)</figcaption>
+            </figure>
+            
+            <details>
+                <summary>Cronologia principalelor evenimente</summary>
+                <dl>
+                    <dt>Martie 2020</dt>
+                    <dd>Inaugurarea galeriei cu expoziția <cite>"Începuturi"</cite></dd>
+                    
+                    <dt>Septembrie 2020</dt>
+                    <dd>Prima expoziție online în timpul pandemiei</dd>
+                    
+                    <dt>Iunie 2021</dt>
+                    <dd>Lansarea programului de mentorat pentru tineri artiști</dd>
+                    
+                    <dt>Decembrie 2022</dt>
+                    <dd>Premierea ca <q>Galeria Anului</q> de către Asociația Criticilor de Artă</dd>
+                    
+                    <dt>Mai 2024</dt>
+                    <dd>Deschiderea celui de-al doilea spațiu expoziționel</dd>
+                </dl>
+            </details>
+        </section>
+    </main>
+    
+    <!-- Link top cu poziție fixă -->
+    <a href="#despre-site" id="link-top" title="Înapoi la începutul paginii">
+        <div id="triunghi"></div>
+    </a>
+    
+    
+    <footer>
+        <address>
+            <details> 
+                <summary>Ne puteți contacta la:</summary>
+                <p>Telefon: <a href="tel:+40753894746">+40 753 894 746</a></p>
+                <p>Email: <a href="mailto:claudia.cazacu29@gmail.com">claudia.cazacu29@gmail.com</a></p>
+                <p>Adresă: <a href="https://maps.app.goo.gl/CAc4Wgo7S3hYvhQN7" target="_blank">Facultatea de Matematică și Informatică</a></p>
+                <p>
+                    <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8864633930873!2d26.09757687670362!3d44.435450506087894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff472f47f047%3A0x493984726f0235f9!2sFacultatea%20de%20Matematic%C4%83%20%C8%99i%20Informatic%C4%83%20-%20Universitatea%20din%20Bucure%C8%99ti!5e0!3m2!1sro!2sro!4v1709999529776!5m2!1sro!2sro" target="locatie-harta">Arată harta</a> | 
+                    <a href="https://www.google.com/maps/place/Facultatea+de+Matematic%C4%83+%C8%99i+Informatic%C4%83+-+Universitatea+din+Bucure%C8%99ti/@44.4354505,26.0975769,17z/data=!3m1!4b1!4m6!3m5!1s0x40b1ff472f47f047:0x493984726f0235f9!8m2!3d44.4354505!4d26.0975769!16s%2Fg%2F11b6qywx_h?entry=ttu" target="locatie-harta">Vezi în Google Maps</a>
+                </p>
+                <iframe name="locatie-harta" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8864633930873!2d26.09757687670362!3d44.435450506087894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff472f47f047%3A0x493984726f0235f9!2sFacultatea%20de%20Matematic%C4%83%20%C8%99i%20Informatic%C4%83%20-%20Universitatea%20din%20Bucure%C8%99ti!5e0!3m2!1sro!2sro!4v1709999529776!5m2!1sro!2sro" 
+                  width="450" height="300" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    Browserul dumneavoastră nu suportă iframe-uri. Accesați <a href="https://goo.gl/maps/CAc4Wgo7S3hYvhQN7" target="_blank">acest link</a> pentru a vedea locația noastră.
+                </iframe>
+                <p>WhatsApp: <a href="https://wa.me/40753894746">Chat cu noi</a></p>
+            </details>
+        </address>
+        <small>&copy; <time datetime="2025-03-02">2 martie 2025</time> ArtModern</small>
+    </footer>
+</body>
+</html>

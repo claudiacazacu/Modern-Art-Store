@@ -1,0 +1,542 @@
+// =================================================================== 
+// NAV.SCSS - Meniu responsive complet cu hamburger animat
+// Identificator: variante-meniu + bonusuri hamburger
+// CERINȚE: imbricare SASS, mixins, @for/@while, variabile SASS
+// ===================================================================
+
+// Variabile SASS
+$color-primary: #5d4037;
+$color-secondary: #8d6e63;
+$color-accent: #a1887f;
+$color-light: #d7ccc8;
+$color-background: #efebe9;
+$color-white: #ffffff;
+
+$breakpoint-mare: 1001px;
+$breakpoint-mediu: 700px;
+$submeniu-items: 4;
+$hamburger-bars: 3;
+$animation-delay: 150ms;
+
+// Mixin pentru butonul de bază
+@mixin buton-meniu($padding: 15px 20px, $font-size: 1rem) {
+    display: block;
+    padding: $padding;
+    font-size: $font-size;
+    background: $color-white;
+    color: $color-primary;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    
+    // Element ::before pentru efectul overlay
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        background: $color-accent;
+        border-radius: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: -1;
+        opacity: 0.8;
+    }
+    
+    &:hover {
+        background: $color-secondary;
+        color: $color-white;
+        transform: scale(1.02);
+        
+        &::before {
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+    }
+}
+
+// Mixin pentru submeniu
+@mixin submeniu-base {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    background: $color-background;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    // Tranziția de scalare din colțul stânga-sus
+    transform-origin: top left;
+    transform: scale(0);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1000;
+    
+    li {
+        width: 100%;
+        border-bottom: 1px solid rgba(141, 110, 99, 0.2);
+        
+        &:last-child {
+            border-bottom: none;
+        }
+        
+        a {
+            @include buton-meniu(12px 20px, 0.9rem);
+            background: transparent;
+            border-radius: 0;
+            
+            &:hover {
+                background: $color-secondary;
+                color: $color-white;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+                padding-left: 25px;
+            }
+        }
+    }
+}
+
+// Mixin pentru hamburger bar
+@mixin hamburger-bar($width: 25px, $height: 3px) {
+    position: absolute;
+    width: $width;
+    height: $height;
+    background: $color-white;
+    border-radius: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.3s ease;
+}
+
+// Generarea animațiilor pentru hamburger cu @for
+@for $i from 1 through $hamburger-bars {
+    @keyframes hamburger-bar-#{$i} {
+        0% {
+            transform: translateX(-50%) rotate(0deg) scale(1);
+            background: $color-white;
+            opacity: 1;
+        }
+        30% {
+            transform: translateX(-50%) rotate(#{10deg * $i}) scale(1.2);
+            background: #ffd23f;
+            opacity: 0.8;
+        }
+        60% {
+            transform: translateX(-50%) rotate(#{-5deg * $i}) scale(0.9);
+            background: #ff6b35;
+            opacity: 0.9;
+        }
+        100% {
+            @if $i == 1 {
+                transform: translateX(-50%) rotate(45deg) scale(1);
+            } @else if $i == 2 {
+                transform: translateX(-50%) scaleX(0);
+            } @else {
+                transform: translateX(-50%) rotate(-45deg) scale(1);
+            }
+            background: #ff6b35;
+            opacity: if($i == 2, 0, 1);
+        }
+    }
+    
+    @keyframes hamburger-bar-#{$i}-reverse {
+        0% {
+            @if $i == 1 {
+                transform: translateX(-50%) rotate(45deg) scale(1);
+            } @else if $i == 2 {
+                transform: translateX(-50%) scaleX(0);
+            } @else {
+                transform: translateX(-50%) rotate(-45deg) scale(1);
+            }
+            background: #ff6b35;
+            opacity: if($i == 2, 0, 1);
+        }
+        30% {
+            transform: translateX(-50%) rotate(#{-5deg * $i}) scale(0.9);
+            background: #ff6b35;
+            opacity: 0.9;
+        }
+        60% {
+            transform: translateX(-50%) rotate(#{10deg * $i}) scale(1.2);
+            background: #ffd23f;
+            opacity: 0.8;
+        }
+        100% {
+            transform: translateX(-50%) rotate(0deg) scale(1);
+            background: $color-white;
+            opacity: 1;
+        }
+    }
+}
+
+// =================================================================== 
+// STILURI PENTRU NAV
+// ===================================================================
+nav {
+    position: relative;
+    font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+// =================================================================== 
+// ECRAN MARE (desktop) - min-width: 1001px
+// ===================================================================
+@media (min-width: #{$breakpoint-mare}) {
+    nav {
+        background: $color-white;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        
+        // Ascundem hamburger-ul
+        #hamburger, #ch-menu, .hamburger-icon {
+            display: none;
+        }
+        
+        ul.meniu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+            gap: 5px;
+            
+            > li {
+                position: relative;
+                
+                > a {
+                    @include buton-meniu();
+                    border-radius: 8px;
+                    
+                    i {
+                        margin-right: 8px;
+                        color: $color-accent;
+                        transition: color 0.3s ease;
+                    }
+                    
+                    &:hover i {
+                        color: $color-white;
+                    }
+                }
+                
+                // Submeniul
+                ul {
+                    @include submeniu-base;
+                }
+                
+                // Afișarea submeniului la hover
+                &:hover ul {
+                    transform: scale(1);
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}
+
+// =================================================================== 
+// ECRAN MEDIU (tablet) - 701px to 1000px
+// ===================================================================
+@media (max-width: $breakpoint-mare) and (min-width: #{$breakpoint-mediu + 1}) {
+    nav {
+        background: $color-white;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 8px;
+        
+        // Ascundem hamburger-ul
+        #hamburger, #ch-menu, .hamburger-icon {
+            display: none;
+        }
+        
+        ul.meniu {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            
+            > li {
+                position: relative;
+                width: 100%;
+                border-bottom: 1px solid $color-light;
+                
+                &:last-child {
+                    border-bottom: none;
+                }
+                
+                > a {
+                    @include buton-meniu(12px 16px, 0.9rem);
+                    border-radius: 0;
+                    text-align: left;
+                    
+                    i {
+                        margin-right: 8px;
+                        color: $color-accent;
+                        
+                        // Schimbăm iconul home cu căsuță pentru ecran mediu
+                        &.fa-home::before {
+                            content: "\f015"; // Font Awesome house icon
+                        }
+                    }
+                    
+                    &:hover i {
+                        color: $color-white;
+                    }
+                }
+                
+                // Submeniul pentru ecran mediu
+                ul {
+                    @include submeniu-base;
+                    position: static;
+                    transform: scale(1, 0);
+                    transform-origin: top;
+                    
+                    li a {
+                        @include buton-meniu(8px 25px, 0.8rem);
+                        background: transparent;
+                        
+                        &:before {
+                            content: "▷ ";
+                            color: $color-accent;
+                            margin-right: 8px;
+                        }
+                    }
+                }
+                
+                &:hover ul {
+                    transform: scale(1, 1);
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}
+
+// =================================================================== 
+// ECRAN MIC (mobile) - max-width: 700px - HAMBURGER MENU
+// ===================================================================
+@media (max-width: $breakpoint-mediu) {
+    nav {
+        position: relative;
+    }
+    
+    // Containerul pentru iconul hamburger din 3 divuri
+    .hamburger-icon {
+        position: relative;
+        width: 30px;
+        height: 20px;
+        display: inline-block;
+        margin-right: 8px;
+        cursor: pointer;
+        
+        // Stiluri pentru fiecare bară (3 divuri)
+        .hamburger-bar {
+            @include hamburger-bar();
+            
+            &.bar-1 {
+                top: 0;
+            }
+            
+            &.bar-2 {
+                top: 50%;
+                transform: translateX(-50%) translateY(-50%);
+            }
+            
+            &.bar-3 {
+                bottom: 0;
+            }
+        }
+        
+        &:hover .hamburger-bar {
+            background: #ffd23f;
+            transform: translateX(-50%) scale(1.1);
+            
+            &.bar-2 {
+                transform: translateX(-50%) translateY(-50%) scale(1.1);
+            }
+        }
+    }
+    
+    // Butonul hamburger
+    #hamburger {
+        display: flex !important;
+        align-items: center;
+        cursor: pointer;
+        padding: 12px 20px;
+        background-color: $color-secondary;
+        color: $color-white;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        border: 2px solid $color-secondary;
+        font-weight: bold;
+        user-select: none;
+        
+        &:hover {
+            background-color: $color-primary;
+            border-color: $color-primary;
+            transform: scale(1.02);
+        }
+        
+        .hamburger-text {
+            margin-left: 5px;
+            font-size: 0.9rem;
+        }
+    }
+    
+    // Checkbox ascuns
+    #ch-menu {
+        display: none;
+    }
+    
+    // Animații pentru starea checked cu delay-uri diferite (folosind @for)
+    #ch-menu:checked + #hamburger .hamburger-icon {
+        @for $i from 1 through $hamburger-bars {
+            .hamburger-bar.bar-#{$i} {
+                animation: hamburger-bar-#{$i} 0.8s ease-in-out forwards;
+                animation-delay: ($i - 1) * $animation-delay;
+            }
+        }
+    }
+    
+    // Animații pentru starea unchecked cu delay-uri inverse
+    #ch-menu:not(:checked) + #hamburger .hamburger-icon {
+        @for $i from 1 through $hamburger-bars {
+            .hamburger-bar.bar-#{$i} {
+                animation: hamburger-bar-#{$i}-reverse 0.8s ease-in-out forwards;
+                animation-delay: ($hamburger-bars - $i) * $animation-delay;
+            }
+        }
+    }
+    
+    // Meniul care apare sub hamburger
+    ul.meniu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: $color-white;
+        border-radius: 8px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        border: 2px solid $color-light;
+        overflow: hidden;
+        margin-top: 5px;
+        list-style: none;
+        padding: 0;
+        
+        > li {
+            width: 100%;
+            border-bottom: 1px solid $color-light;
+            
+            &:last-child {
+                border-bottom: none;
+            }
+            
+            > a {
+                @include buton-meniu(15px 20px, 1rem);
+                background-color: $color-white;
+                border-radius: 0;
+                
+                i {
+                    margin-right: 10px;
+                    width: 16px;
+                    text-align: center;
+                    color: $color-secondary;
+                    
+                    // Schimbăm iconul home cu căsuță pentru ecran mic
+                    &.fa-home::before {
+                        content: "\f015"; // Font Awesome house icon
+                    }
+                }
+                
+                &:hover {
+                    background-color: $color-background;
+                    color: $color-secondary;
+                    padding-left: 25px;
+                }
+            }
+            
+            // Submeniul pentru mobile cu clip-path (săgeată)
+            ul {
+                position: static !important;
+                width: 100%;
+                background-color: $color-background;
+                border-left: 4px solid $color-accent;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                
+                // Efectul clip-path pentru săgeată
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: clip-path 0.4s ease;
+                
+                li {
+                    width: 100%;
+                    border-bottom: 1px solid rgba(161, 136, 127, 0.3);
+                    
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                    
+                    a {
+                        @include buton-meniu(12px 30px, 0.9rem);
+                        background-color: transparent;
+                        border-radius: 0;
+                        
+                        &:before {
+                            content: "▷ ";
+                            color: $color-accent;
+                            margin-right: 8px;
+                            font-size: 0.8rem;
+                        }
+                        
+                        &:hover {
+                            background-color: $color-light;
+                            color: $color-primary;
+                            padding-left: 35px;
+                        }
+                    }
+                }
+            }
+            
+            // Afișarea submeniului cu clip-path
+            &:hover ul {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+    }
+    
+    // Afișarea meniului când checkbox-ul este bifat
+    #ch-menu:checked ~ ul.meniu {
+        display: block;
+        animation: meniu-aparitie 0.7s ease-out forwards;
+    }
+    
+    @keyframes meniu-aparitie {
+        0% {
+            opacity: 0;
+            transform: scale(0.8, 0);
+            transform-origin: top center;
+        }
+        50% {
+            opacity: 0.5;
+            transform: scale(1, 0.5);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1, 1);
+        }
+    }
+}

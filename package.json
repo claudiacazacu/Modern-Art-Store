@@ -1,0 +1,32 @@
+{
+  "name": "tehniciw",
+  "version": "1.0.0",
+  "description": "proiectul meu la tehnici web",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/claudiacazacu/tehniciweb.git"
+  },
+  "keywords": [
+    "tehnici",
+    "web",
+    "magazin",
+    "online",
+    "arta",
+    "moderna"
+  ],
+  "author": "claudia cazacu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/claudiacazacu/tehniciweb/issues"
+  },
+  "homepage": "https://github.com/claudiacazacu/tehniciweb#readme",
+  "dependencies": {
+    "ejs": "3.1.9",
+    "express": "4.18.2"
+  }
+}
