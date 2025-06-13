@@ -177,17 +177,6 @@ Proiectul include un sistem complet de logging care afișează:
 📚 Proiect realizat pentru cursul de **Tehnici Web**  
 🎓 Focalizat pe dezvoltarea de aplicații web moderne și interactive
 
-## 📞 Contact și Suport
-
-Pentru întrebări, sugestii sau contribuții:
-- 📧 Email: [prin repository GitHub]
-- 🐛 Bug reports: [GitHub Issues]
-- 💡 Feature requests: [GitHub Discussions]
-
 ## 📜 Licență
 
 📄 **ISC License** - Proiect cu scop educațional  
-
----
-
-⭐ **Dacă proiectul îți place, oferă-i o stea pe GitHub!** ⭐
