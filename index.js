@@ -11,16 +11,17 @@ console.log('__filename:', __filename);
 console.log('process.cwd():', process.cwd());
 console.log('Sunt __dirname și process.cwd() identice?', __dirname === process.cwd());
 
+// Setări Express și EJS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 // Variabilă globală pentru erori
-let obGlobal = {
-    obErori: null
-};
+const obGlobal = { obErori: null };
 
 // ===================================================================
-// GALERIE ANIMATĂ - Identificator: galerie-animata
+// GALERIE ANIMATĂ
 // ===================================================================
 
-// 1. JSON-ul cu imaginile pentru galeria statică - NUMELE EXACTE DIN FOLDERUL TĂU
 const imaginiGalerie = [
     "arta1.jpg", "arta2.jpg", "arta3.jpg", "arta4.jpg", "arta5.jpg",
     "arta6.jpg", "arta7.jpg", "arta8.jpg", "arta9.jpg", "arta10.jpg",
@@ -30,28 +31,16 @@ const imaginiGalerie = [
     "problema.png", "StarryNight.jpg"
 ];
 
-// Dacă nu funcționează, să verificăm dacă imaginile se încarcă
-// Adaugă această funcție pentru debugging:
-function verificaImagini() {
-    console.log('Imaginile din array:');
-    imaginiGalerie.forEach((img, index) => {
-        console.log(`${index}: ${img}`);
-    });
-}
-
-// 2. Funcție pentru generarea numărului aleator divizibil cu 3, mai mic de 16
 function genereazaNumarImagini() {
-    const numereValide = [3, 6, 9, 12, 15]; // Divizibile cu 3, mai mici de 16
+    const numereValide = [3, 6, 9, 12, 15];
     return numereValide[Math.floor(Math.random() * numereValide.length)];
 }
 
-// 3. Funcție pentru generarea offset-ului aleator
 function genereazaOffset(numarImagini) {
     const offsetMaxim = imaginiGalerie.length - numarImagini;
     return Math.floor(Math.random() * (offsetMaxim + 1));
 }
 
-// 4. Funcție pentru selectarea imaginilor consecutive
 function selecteazaImagini() {
     const numarImagini = genereazaNumarImagini();
     const offset = genereazaOffset(numarImagini);
@@ -61,422 +50,214 @@ function selecteazaImagini() {
         imaginiSelectate.push(imaginiGalerie[offset + i]);
     }
     
-    return {
-        imagini: imaginiSelectate,
-        numarImagini: numarImagini,
-        offset: offset
-    };
+    return { imagini: imaginiSelectate, numarImagini, offset };
 }
 
-// 5. Variabilă globală pentru stocarea datelor galeriei (regenerează la fiecare cerere)
-let dataGalerie = null;
-
-// 6. Funcție pentru generarea CSS-ului din SASS (simulare) - CORECTATĂ
-function compileazaSASS() {
-    if (!dataGalerie) {
-        dataGalerie = selecteazaImagini();
-    }
-    
-    const { numarImagini } = dataGalerie;
-    const durataAnimatie = numarImagini * 4; // 4 secunde per imagine
-    const durataFiecareiImagini = 100 / numarImagini; // Procentaj pentru fiecare imagine
-    
-    let css = `
-/* ===================================================================*/
-/* GALERIE ANIMATĂ - CSS GENERAT DINAMIC DIN SASS */
-/* Identificator: galerie-animata */
-/* Numărul de imagini: ${numarImagini} */
-/* ===================================================================*/
-
-.galerie-animata {
-    width: 800px;
-    height: 500px;
-    position: relative;
-    margin: 40px auto;
-    overflow: hidden;
-    border-radius: 15px;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
-    
-    /* Border-image cu imagine artistică - folosind una din imaginile tale */
-    border: 20px solid;
-    border-image: url('/resurse/imagini/StarryNight.jpg') 30 repeat;
-    border-image-slice: 30;
-    border-image-width: 20px;
-    border-image-outset: 0;
-    border-image-repeat: repeat;
-}
-
-/* Ascunde galeria pe ecrane medii și mici */
-@media (max-width: 1024px) {
-    .galerie-animata {
-        display: none !important;
-    }
-}
-
-.galerie-animata .imagine-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0; /* Toate încep invizibile */
-    z-index: 1;
-}
-
-/* PRIMA imagine să înceapă vizibilă pentru un start smooth */
-.galerie-animata .imagine-container:first-child {
-    opacity: 1;
-}
-
-.galerie-animata .imagine-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* Începem cu imaginea vizibilă complet */
-    clip-path: inset(0 0% 0 0%);
-}
-`;
-
-    // Generez delay-uri și z-index pentru fiecare imagine
-    for (let i = 0; i < numarImagini; i++) {
-        const delay = (i * durataAnimatie) / numarImagini;
-        const zIndex = numarImagini - i;
-        
-        css += `
-.galerie-animata .imagine-container:nth-child(${i + 1}) {
-    z-index: ${zIndex};
-    /* Fiecare imagine își controlează propria opacitate prin animație */
-    animation: container-reveal ${durataAnimatie}s infinite;
-    animation-delay: ${delay}s;
-}
-
-.galerie-animata .imagine-container:nth-child(${i + 1}) img {
-    animation: clip-reveal ${durataAnimatie}s infinite;
-    animation-delay: ${delay}s;
-}
-`;
-    }
-
-    css += `
-/* Pauzare animație la hover */
-.galerie-animata:hover .imagine-container,
-.galerie-animata:hover .imagine-container img {
-    animation-play-state: paused;
-}
-
-/* Animația pentru container (controlează opacity) */
-@keyframes container-reveal {
-    0% {
-        opacity: 0;
-    }
-    
-    /* Devine vizibil */
-    ${durataFiecareiImagini * 0.05}% {
-        opacity: 1;
-    }
-    
-    /* Rămâne vizibil */
-    ${durataFiecareiImagini * 0.95}% {
-        opacity: 1;
-    }
-    
-    /* Devine invizibil */
-    ${durataFiecareiImagini}% {
-        opacity: 0;
-    }
-    
-    /* Rămâne invizibil restul timpului */
-    100% {
-        opacity: 0;
-    }
-}
-
-/* Animația pentru imagine (controlează clip-path) */
-@keyframes clip-reveal {
-    0% {
-        clip-path: inset(0 50% 0 50%);
-    }
-    
-    /* Se deschide din centru */
-    ${durataFiecareiImagini * 0.1}% {
-        clip-path: inset(0 25% 0 25%);
-    }
-    
-    /* Complet vizibilă */
-    ${durataFiecareiImagini * 0.2}% {
-        clip-path: inset(0 0% 0 0%);
-    }
-    
-    /* Rămâne complet vizibilă */
-    ${durataFiecareiImagini * 0.8}% {
-        clip-path: inset(0 0% 0 0%);
-    }
-    
-    /* Se închide spre centru */
-    ${durataFiecareiImagini * 0.9}% {
-        clip-path: inset(0 25% 0 25%);
-    }
-    
-    /* Complet închisă */
-    ${durataFiecareiImagini}% {
-        clip-path: inset(0 50% 0 50%);
-    }
-    
-    /* Rămâne închisă */
-    100% {
-        clip-path: inset(0 50% 0 50%);
-    }
-}
-
-/* Pentru debugging - să vedem containerele */
-.galerie-animata .imagine-container {
-    border: 2px solid red;
-    box-sizing: border-box;
-}
-
-.galerie-animata .imagine-container img {
-    border: 1px solid blue;
-    box-sizing: border-box;
-}
-
-/* Titlu galerie */
-.galerie-animata-titlu {
-    text-align: center;
-    font-size: 1.8em;
-    margin: 20px 0;
-    color: #2c3e50;
-    font-family: 'Georgia', serif;
-}
-
-/* Informații tehnice */
-.galerie-info {
-    text-align: center;
-    font-size: 0.9em;
-    color: #7f8c8d;
-    margin: 10px 0;
-    font-style: italic;
-}
-
-/* Responsive - verificare suplimentară */
-@media (max-width: 1000px) {
-    .galerie-animata {
-        display: none !important;
-    }
-    
-    .galerie-animata-titlu {
-        display: none !important;
-    }
-    
-    .galerie-info {
-        display: none !important;
-    }
-}
-
-/* Efecte hover pe container */
-.galerie-animata:hover {
-    transform: scale(1.02);
-    transition: transform 0.3s ease;
-    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
-}
-`;
-
-    return css;
-}
-
-// 7. Funcție pentru generarea HTML-ului galeriei cu debugging
 function genereazaHTMLGalerie() {
-    // Regenerează datele la fiecare apel pentru a avea imagini noi
-    dataGalerie = selecteazaImagini();
-    const { imagini, numarImagini, offset } = dataGalerie;
-    
-    // Debugging - să vedem ce imagini se aleg
-    console.log(`Galerie generată cu ${numarImagini} imagini, offset ${offset}`);
-    console.log('Imaginile selectate:', imagini);
+    const { imagini, numarImagini, offset } = selecteazaImagini();
     
     let html = `<h3 class="galerie-animata-titlu">Galerie Animată - Colecția Noastră</h3>\n`;
-    html += `<p class="galerie-info">Imaginile: ${numarImagini} | Offset: ${offset} | Durată ciclu: ${numarImagini * 4}s</p>\n`;
+    html += `<p class="galerie-info">Imaginile: ${numarImagini} | Offset: ${offset}</p>\n`;
     html += '<div class="galerie-animata">\n';
     
     imagini.forEach((imagine, index) => {
         const caleCompleta = `/resurse/imagini/${imagine}`;
-        console.log(`Imagine ${index + 1}: ${caleCompleta}`);
         html += `    <div class="imagine-container">
-        <img src="${caleCompleta}" alt="Operă de artă ${index + 1} - ${imagine}" loading="lazy" 
-             onerror="console.error('Nu s-a putut încărca imaginea: ${caleCompleta}')" 
-             onload="console.log('Imaginea s-a încărcat cu succes: ${caleCompleta}')" />
+        <img src="${caleCompleta}" alt="Operă de artă ${index + 1}" loading="lazy" />
     </div>\n`;
     });
     
     html += '</div>\n';
-    
     return html;
 }
 
 // ===================================================================
-// FUNCȚII PENTRU APLICAȚIA EXPRESS (CODUL ORIGINAL)
+// FUNCȚII PENTRU ERORI
 // ===================================================================
 
-// Setări Express și EJS
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
-// Definirea folderului static pentru resurse
-app.use('/resurse', express.static(path.join(__dirname, 'resurse')));
-
-// Vectorul cu folderele de creat
-const vect_foldere = ['temp'];
-
-// Funcția pentru inițializarea erorilor
 function initErori() {
-    obGlobal.obErori = {
-        cale_baza: '/resurse/imagini/erori/',
-        eroare_default: {
-            titlu: 'Eroare',
-            text: 'A apărut o eroare neașteptată',
-            imagine: '/resurse/imagini/erori/default.jpg'
-        },
-        info_erori: [
-            {
-                identificator: 400,
-                status: true,
-                titlu: 'Cerere invalidă',
-                text: 'Cererea dumneavoastră nu poate fi procesată. Fișierele EJS nu pot fi accesate direct.',
-                imagine: '/resurse/imagini/erori/400.jpg'
+    try {
+        const eroriPath = path.join(__dirname, 'erori.json');
+        const eroriData = JSON.parse(fs.readFileSync(eroriPath, 'utf-8'));
+        
+        // Asigură-te că cale_baza se termină cu "/"
+        let caleBaza = eroriData.cale_baza;
+        if (!caleBaza.endsWith('/')) {
+            caleBaza += '/';
+        }
+        
+        // Setăm calea absolută pentru fiecare eroare
+        eroriData.info_erori.forEach(eroare => {
+            eroare.imagine = caleBaza + eroare.imagine;
+        });
+        
+        // Setăm și pentru eroarea default
+        if (eroriData.eroare_default) {
+            eroriData.eroare_default.imagine = caleBaza + eroriData.eroare_default.imagine;
+        }
+        
+        obGlobal.obErori = eroriData;
+        console.log('Erorile au fost încărcate cu succes din erori.json');
+        
+        // Debug - să vedem căile finale
+        console.log('Cale 404:', eroriData.info_erori.find(e => e.identificator === 404)?.imagine);
+        console.log('Cale default:', eroriData.eroare_default.imagine);
+        
+    } catch (error) {
+        console.error('Eroare la încărcarea fișierului erori.json:', error.message);
+        // Fallback la date hardcodate
+        obGlobal.obErori = {
+            cale_baza: '/resurse/imagini/erori/',
+            eroare_default: {
+                titlu: 'Eroare',
+                text: 'A apărut o eroare neașteptată',
+                imagine: '/resurse/imagini/erori/default.png'
             },
-            {
-                identificator: 403,
-                status: true,
-                titlu: 'Acces interzis',
-                text: 'Nu aveți permisiunea să accesați această resursă sau director.',
-                imagine: '/resurse/imagini/erori/403.jpg'
-            },
-            {
-                identificator: 404,
-                status: true,
-                titlu: 'Pagina nu a fost găsită',
-                text: 'Pagina pe care o căutați nu există. Verificați URL-ul sau navigați către pagina principală.',
-                imagine: '/resurse/imagini/erori/404.jpg'
-            }
-        ]
-    };
-    console.log('Erorile au fost încărcate cu succes');
+            info_erori: [
+                {
+                    identificator: 400,
+                    status: true,
+                    titlu: 'Cerere invalidă',
+                    text: 'Cererea dumneavoastră nu poate fi procesată. Fișierele EJS nu pot fi accesate direct.',
+                    imagine: '/resurse/imagini/erori/400.jpg'
+                },
+                {
+                    identificator: 403,
+                    status: true,
+                    titlu: 'Acces interzis',
+                    text: 'Nu aveți permisiunea să accesați această resursă sau director.',
+                    imagine: '/resurse/imagini/erori/403.jpg'
+                },
+                {
+                    identificator: 404,
+                    status: true,
+                    titlu: 'Pagina nu a fost găsită',
+                    text: 'Pagina pe care o căutați nu există. Verificați URL-ul sau navigați către pagina principală.',
+                    imagine: '/resurse/imagini/erori/404.jpg'
+                }
+            ]
+        };
+        console.log('S-au încărcat datele de eroare implicite');
+    }
 }
 
-// Funcția pentru afișarea erorilor
-function afisareEroare(res, identificator, titlu, text, imagine) {
-    let dateleErorii = obGlobal.obErori.eroare_default;
-    let statusCode = 200;
+function afisareEroare(res, identificator, titlu, text, imagine, ipUtilizator) {
+    let eroare;
     
-    if (identificator && obGlobal.obErori.info_erori) {
-        const eroareGasita = obGlobal.obErori.info_erori.find(e => e.identificator == identificator);
-        if (eroareGasita) {
-            dateleErorii = eroareGasita;
-            if (eroareGasita.status) {
-                statusCode = identificator;
-            }
-        }
+    console.log('=== DEBUG afisareEroare ===');
+    console.log('Identificator primit:', identificator);
+    
+    if (identificator) {
+        eroare = obGlobal.obErori.info_erori.find(e => e.identificator === identificator);
+        console.log('Eroare găsită pentru', identificator, ':', !!eroare);
     }
+    
+    if (!eroare) {
+        eroare = obGlobal.obErori.eroare_default;
+        console.log('Folosind eroarea default');
+    }
+    
+    const statusCode = (eroare.status && identificator) ? identificator : 200;
+    
+    // Determină IP-ul utilizatorului
+    const ipFinal = ipUtilizator || (res.req ? (res.req.ip || res.req.connection.remoteAddress || '::1') : '::1');
     
     const dateleFinale = {
-        titlu: titlu || dateleErorii.titlu,
-        text: text || dateleErorii.text,
-        imagine: imagine || dateleErorii.imagine
+        titlu: titlu || eroare.titlu,
+        text: text || eroare.text,
+        imagine: imagine || eroare.imagine,
+        ipUtilizator: ipFinal
     };
     
+    console.log('Datele finale pentru template:', dateleFinale);
+    console.log('===========================');
+    
     res.status(statusCode);
-    res.send(`
-    <!DOCTYPE html>
-    <html lang="ro">
-    <head>
-        <title>ArtModern - ${dateleFinale.titlu}</title>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="/resurse/CSS/general.css">
-    </head>
-    <body>
-        <header>
-            <h1>Magazin Online de Artă Modernă</h1>
-            <nav><ul><li><a href="/">Acasă</a></li></ul></nav>
-        </header>
-        <main>
-            <section class="eroare-section">
-                <h2>${dateleFinale.titlu}</h2>
-                <div class="eroare-content">
-                    <div class="eroare-text">
-                        <p>${dateleFinale.text}</p>
-                        <p><a href="/">Înapoi la pagina principală</a></p>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </body>
-    </html>
-    `);
-}
-
-// Funcția pentru crearea folderelor
-function creeazaFoldere() {
-    vect_foldere.forEach(numeFolder => {
-        const caleFolder = path.join(__dirname, numeFolder);
-        if (!fs.existsSync(caleFolder)) {
-            fs.mkdirSync(caleFolder);
-            console.log(`Folderul '${numeFolder}' a fost creat.`);
-        } else {
-            console.log(`Folderul '${numeFolder}' există deja.`);
-        }
-    });
-}
-
-// ===================================================================
-// RUTE EXPRESS CU INTEGRAREA GALERIEI ANIMATE
-// ===================================================================
-
-// Ruta pentru CSS-ul galeriei animate (GENERAT DINAMIC DIN SASS)
-app.get('/resurse/CSS/galerie-animata.css', (req, res) => {
-    try {
-        const cssContent = compileazaSASS();
-        res.setHeader('Content-Type', 'text/css');
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-        res.setHeader('Pragma', 'no-cache');
-        res.setHeader('Expires', '0');
-        res.send(cssContent);
-        console.log('CSS galerie animată generat cu succes');
-    } catch (error) {
-        console.error('Eroare la generarea CSS galerie:', error);
-        res.status(500).send('/* Eroare la generarea CSS-ului galeriei */');
-    }
-});
-
-// Helper functions pentru template-uri EJS
-app.locals.genereazaGalerieAnimata = genereazaHTMLGalerie;
-
-// Middleware pentru blocarea accesului la foldere din resurse
-app.get('/resurse/*/', (req, res) => {
-    afisareEroare(res, 403);
-});
-
-// Middleware pentru blocarea fișierelor .ejs
-app.get('*.ejs', (req, res) => {
-    afisareEroare(res, 400);
-});
-
-// Rutele pentru pagina principală
-app.get(['/', '/index', '/home'], (req, res) => {
-    const ipUtilizator = req.ip || req.connection.remoteAddress || '::1';
     
-    // Reset datele galeriei pentru a genera noi imagini
-    dataGalerie = null;
-    
-    res.render('pagini/index', { 
-        title: 'ArtModern - Acasă',
-        ipUtilizator: ipUtilizator
-    }, function(eroare, rezultatRandare) {
-        if (eroare) {
-            console.log('Eroare la randarea index:', eroare.message);
-            afisareEroare(res, 404);
+    // Încearcă să randeze template-ul
+    res.render('pagini/eroare', dateleFinale, function(eroareRender, rezultatRandare) {
+        if (eroareRender) {
+            console.log('EROARE la randarea template-ului eroare.ejs:', eroareRender.message);
+            // Fallback HTML simplu
+            res.send(`
+            <!DOCTYPE html>
+            <html lang="ro">
+            <head>
+                <title>ArtModern - ${dateleFinale.titlu}</title>
+                <meta charset="UTF-8">
+                <link rel="stylesheet" type="text/css" href="/resurse/CSS/general.css">
+            </head>
+            <body>
+                <header>
+                    <h1>Magazin Online de Artă Modernă</h1>
+                    <div class="user-info"><p>IP utilizator: ${ipFinal}</p></div>
+                    <nav><ul><li><a href="/">Acasă</a></li></ul></nav>
+                </header>
+                <main>
+                    <section class="eroare-section">
+                        <h2>${dateleFinale.titlu}</h2>
+                        <div class="eroare-content">
+                            <img src="${dateleFinale.imagine}" alt="${dateleFinale.titlu}" style="max-width: 200px;" />
+                            <p>${dateleFinale.text}</p>
+                            <p><a href="/">Înapoi la pagina principală</a></p>
+                        </div>
+                    </section>
+                </main>
+            </body>
+            </html>`);
         } else {
+            console.log('Template-ul de eroare a fost randat cu succes');
             res.send(rezultatRandare);
         }
     });
+}
+
+// ===================================================================
+// FUNCȚII UTILITARE
+// ===================================================================
+
+function creeazaFoldere() {
+    const vect_foldere = ['temp'];
+    vect_foldere.forEach(folder => {
+        const folderPath = path.join(__dirname, folder);
+        if (!fs.existsSync(folderPath)) {
+            fs.mkdirSync(folderPath);
+            console.log(`Folderul '${folder}' a fost creat: ${folderPath}`);
+        } else {
+            console.log(`Folderul '${folder}' există deja: ${folderPath}`);
+        }
+    });
+}
+
+// ===================================================================
+// INIȚIALIZARE
+// ===================================================================
+
+initErori();
+creeazaFoldere();
+
+// Helper pentru template-uri EJS
+app.locals.genereazaGalerieAnimata = genereazaHTMLGalerie;
+
+// ===================================================================
+// MIDDLEWARE ȘI RUTE
+// ===================================================================
+
+// Middleware pentru blocarea fișierelor .ejs - TREBUIE să fie primul
+app.get('*.ejs', function(req, res) {
+    console.log("Încercare de accesare directă a unui fișier .ejs:", req.path);
+    const ipUtilizator = req.ip || req.connection.remoteAddress || '::1';
+    afisareEroare(res, 400, null, null, null, ipUtilizator);
+});
+
+// Middleware pentru a bloca accesul direct la fișierele .ejs
+app.use((req, res, next) => {
+    if (req.path.endsWith('.ejs')) {
+        console.log("Încercare de accesare directă a unui fișier .ejs (middleware):", req.path);
+        const ipUtilizator = req.ip || req.connection.remoteAddress || '::1';
+        return afisareEroare(res, 400, null, null, null, ipUtilizator);
+    }
+    next();
 });
 
 // Ruta pentru favicon
@@ -489,34 +270,88 @@ app.get('/favicon.ico', (req, res) => {
     }
 });
 
-// Ruta generală pentru orice pagină
-app.get('/*', (req, res) => {
-    const numePagina = req.params[0];
+// Middleware pentru blocarea accesului la directoare din /resurse/
+app.all('/resurse/*', (req, res, next) => {
+    if (req.path.endsWith('/')) {
+        console.log("Încercare de accesare director din /resurse/:", req.path);
+        const ipUtilizator = req.ip || req.connection.remoteAddress || '::1';
+        return afisareEroare(res, 403, null, null, null, ipUtilizator);
+    }
+    next();
+});
+
+// Servește fișierele statice din folderul 'resurse'
+app.use('/resurse', express.static(path.join(__dirname, 'resurse')));
+
+// RUTELE PENTRU PAGINA PRINCIPALĂ - Cerința 8
+app.get(['/', '/index', '/home'], (req, res) => {
     const ipUtilizator = req.ip || req.connection.remoteAddress || '::1';
     
-    res.render(`pagini/${numePagina}`, { 
-        title: `ArtModern - ${numePagina}`,
+    res.render('pagini/index', { 
+        title: 'ArtModern - Acasă',
         ipUtilizator: ipUtilizator
     }, function(eroare, rezultatRandare) {
         if (eroare) {
-            console.log('Eroare la randarea paginii:', eroare.message);
-            afisareEroare(res, 404);
+            console.log('Eroare la randarea index:', eroare.message);
+            if (eroare.message.startsWith('Failed to lookup view')) {
+                afisareEroare(res, 404, null, null, null, ipUtilizator);
+            } else {
+                afisareEroare(res, 500, null, null, null, ipUtilizator);
+            }
         } else {
             res.send(rezultatRandare);
         }
     });
 });
 
-// ===================================================================
-// INIȚIALIZAREA ȘI PORNIREA SERVERULUI
-// ===================================================================
+// Pentru testarea explicita a erorii 400
+app.get('/test-400', (req, res) => {
+    console.log("Testare eroare 400");
+    const ipUtilizator = req.ip || req.connection.remoteAddress || '::1';
+    afisareEroare(res, 400, null, null, null, ipUtilizator);
+});
 
-// Inițializarea aplicației
-initErori();
-creeazaFoldere();
+// ULTIMA RUTĂ: Catch-all pentru orice alte cereri '/*' - Cerința 9
+app.get('/*', (req, res) => {
+    let url = req.url;
+    
+    // Elimină slash-ul inițial
+    if (url.startsWith('/')) {
+        url = url.substring(1);
+    }
+    
+    // Dacă URL-ul este gol, nu ar trebui să ajungă aici datorită rutelor de mai sus
+    if (!url) {
+        return res.redirect('/');
+    }
+    
+    const ipUtilizator = req.ip || req.connection.remoteAddress || '::1';
+    
+    console.log(`Încercare de randare pentru pagina: ${url}`);
+    
+    // Încearcă să randeze fișierul EJS corespunzător
+    res.render(`pagini/${url}`, { 
+        title: `ArtModern - ${url}`,
+        ipUtilizator: ipUtilizator
+    }, function(eroare, rezultatRandare) {
+        if (eroare) {
+            console.log(`Eroare la randarea paginii ${url}:`, eroare.message);
+            
+            if (eroare.message.startsWith('Failed to lookup view')) {
+                console.log(`Pagina ${url} nu a fost găsită - afișez eroarea 404`);
+                return afisareEroare(res, 404, null, null, null, ipUtilizator);
+            } else {
+                console.log(`Eroare generică pentru pagina ${url} - afișez eroarea 500`);
+                return afisareEroare(res, 500, null, null, null, ipUtilizator);
+            }
+        } else {
+            res.send(rezultatRandare);
+        }
+    });
+});
 
-// Pornirea serverului
+// Start the server
 app.listen(PORT, () => {
     console.log(`Serverul rulează pe http://localhost:${PORT}`);
-    console.log('Galerie animată implementată cu identificatorul: galerie-animata');
+    console.log('Galerie animată implementată cu succes');
 });

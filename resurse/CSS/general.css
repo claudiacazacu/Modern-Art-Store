@@ -205,6 +205,21 @@ main {
     grid-area: section8;
 }
 
+math[xmlns="http://www.w3.org/1998/Math/MathML"] * {
+    color: var(--color-primary) !important; /* Maro închis */
+    font-style: italic !important;
+}
+
+
+math {
+    color: #805e2e !important; /* Culoarea ta maro închis ca fallback */
+    font-style: italic !important;
+}
+
+math * {
+    color: #805e2e !important;
+    font-style: italic !important;
+}
 /* =================================================================== */
 /* NAVIGAȚIE REPARATĂ CU SUBMENIURI ȘI EFECTE */
 /* =================================================================== */
@@ -816,6 +831,7 @@ iframe[name="locatie-harta"] {
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
     border-bottom: 18px solid var(--color-secondary);
+    border-radius: 30px;
     transition: border-bottom-color 0.4s ease;
 }
 

@@ -1,0 +1,31 @@
+{
+    "cale_baza": "/resurse/imagini/erori/",
+    "eroare_default": {
+        "titlu": "Eroare necunoscută",
+        "text": "A apărut o eroare necunoscută.",
+        "imagine": "default.png"
+    },
+    "info_erori": [
+        {
+            "identificator": 404,
+            "status": true,
+            "titlu": "Eroare 404",
+            "text": "Pagina nu a fost găsită.",
+            "imagine": "404.jpg"
+        },
+        {
+            "identificator": 403,
+            "status": true,
+            "titlu": "Eroare 403",
+            "text": "Acces interzis.",
+            "imagine": "403.jpg"
+        },
+        {
+            "identificator": 400,
+            "status": true,
+            "titlu": "Eroare 400",
+            "text": "Cerere invalidă.",
+            "imagine": "400.jpg"
+        }
+    ]
+}

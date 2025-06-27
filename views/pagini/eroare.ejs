@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>ArtModern - <%= titlu %></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/general.css">
+</head>
+<body>
+    <header>
+        <h1>Magazin Online de Artă Modernă</h1>
+        <% if (typeof ipUtilizator !== 'undefined') { %>
+        <div class="user-info">
+            <p>IP utilizator: <%= ipUtilizator %></p>
+        </div>
+        <% } %>
+        <nav>
+            <ul>
+                <li><a href="/">Acasă</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="eroare-section">
+            <h2><%= titlu %></h2>
+            <div class="eroare-content">
+                <div class="eroare-imagine">
+                    <img src="<%= imagine %>" alt="<%= titlu %>" style="max-width: 300px;" />
+                </div>
+                <div class="eroare-text">
+                    <p><strong>Detalii eroare:</strong> <%= text %></p>
+                    <p><a href="/" style="background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Înapoi la pagina principală</a></p>
+                </div>
+            </div>
+        </section>
+     <%    
+     <!-- Debug info -->
+        <div style="border: 1px solid #ccc; padding: 10px; margin: 20px; background: #f9f9f9;">
+            <h3>Debug Info:</h3>
+            <p><strong>Titlu:</strong> "<%= titlu %>"</p>
+            <p><strong>Text:</strong> "<%= text %>"</p>
+            <p><strong>Imagine:</strong> "<%= imagine %>"</p>
+            <p><strong>IP:</strong> "<%= typeof ipUtilizator !== 'undefined' ? ipUtilizator : 'Nedefinit' %>"</p>
+        </div>
+    %>
+    </main>
+    
+    <footer>
+        <small>&copy; 2025 ArtModern</small>
+    </footer>
+</body>
+</html>
