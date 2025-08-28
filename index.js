@@ -30,7 +30,7 @@ console.log('Folder SCSS:', obGlobal.folderScss);
 console.log('Folder CSS:', obGlobal.folderCss);
 
 // ===================================================================
-// FUNCȚII PENTRU BAZA DE DATE
+// FUNCȚII PENTRU BAZA DE DATE (PARTEA EXISTENTĂ)
 // ===================================================================
 
 /**
@@ -108,7 +108,7 @@ async function testConexiune() {
             "SELECT to_regclass('public.produse') as tabel"
         );
         
-        if (tabelExista.tabel) {
+        if (tabelExista && tabelExista.tabel) {
             console.log('✅ Tabelul produse există în baza de date');
             
             // Numără produsele
@@ -121,6 +121,102 @@ async function testConexiune() {
     } catch (error) {
         console.error('❌ Eroare la conexiunea cu baza de date:', error.message);
     }
+}
+
+
+function toRows(result) {
+  if (!result) return [];
+  if (Array.isArray(result)) return result;         // pg-promise: array de obiecte
+  if (result.rows) return result.rows;              // node-postgres (pg): { rows: [...] }
+  return [];
+}
+
+
+
+// ===================================================================
+// (NOU) ADMIN DB – LISTARE TABELE + CONSOLE SELECT (READ-ONLY)
+// ===================================================================
+
+const ADMIN_SECRET = process.env.ADMIN_SECRET || null;
+
+function requireAdmin(req, res, next) {
+    if (!ADMIN_SECRET) return next(); // fără protecție dacă nu e setat
+    const ok = req.query.key === ADMIN_SECRET || req.headers['x-admin-key'] === ADMIN_SECRET;
+    if (ok) return next();
+    return res.status(401).send('Unauthorized. Adaugă ?key=ADMIN_SECRET în URL sau header X-Admin-Key.');
+}
+
+async function listTables() {
+  const sql = `
+    SELECT table_name
+    FROM information_schema.tables
+    WHERE table_schema='public' AND table_type='BASE TABLE'
+    ORDER BY table_name;
+  `;
+  const rs = await db.query ? await db.query(sql) : await db.any(sql);
+  const rows = toRows(rs);
+  return rows.map(r => r.table_name);
+}
+
+async function listColumns(table) {
+  const sql = `
+    SELECT column_name, data_type, ordinal_position
+    FROM information_schema.columns
+    WHERE table_schema='public' AND table_name = $1
+    ORDER BY ordinal_position;
+  `;
+  const rs = await (db.query ? db.query(sql, [table]) : db.any(sql, [table]));
+  return toRows(rs); // [{column_name, data_type, ordinal_position}]
+}
+
+function safeIdent(name) {
+  return `"${String(name).replace(/"/g, '""')}"`;
+}
+
+async function fetchRows(table, { page = 1, limit = 20, sort = null, dir = 'asc' } = {}) {
+  const cols = await listColumns(table);
+  if (!cols.length) return { rows: [], total: 0, cols: [] };
+
+  const offset  = (page - 1) * limit;
+  const sortCol = sort && cols.find(c => c.column_name === sort) ? sort : cols[0].column_name;
+  const dirSql  = (String(dir).toLowerCase() === 'desc') ? 'DESC' : 'ASC';
+  const tIdent  = safeIdent(table);
+  const sIdent  = safeIdent(sortCol);
+
+  const dataSql  = `SELECT * FROM ${tIdent} ORDER BY ${sIdent} ${dirSql} LIMIT $1 OFFSET $2;`;
+  const countSql = `SELECT COUNT(*)::int AS cnt FROM ${tIdent};`;
+
+  const dataRes  = await (db.query ? db.query(dataSql, [limit, offset]) : db.any(dataSql, [limit, offset]));
+  const countRes = await (db.query ? db.query(countSql) : db.any(countSql));
+
+  const rows      = toRows(dataRes);
+  const countRows = toRows(countRes);
+  const total     = countRows[0]?.cnt || 0;
+
+  return { rows, total, cols };
+}
+
+
+async function fetchRows(table, { page = 1, limit = 20, sort = null, dir = 'asc' } = {}) {
+  const cols = await listColumns(table);
+  if (!cols.length) return { rows: [], total: 0, cols: [] };
+
+  const offset = (page - 1) * limit;
+  const sortCol = sort && cols.find(c => c.column_name === sort) ? sort : cols[0].column_name;
+  const dirSql = (String(dir).toLowerCase() === 'desc') ? 'DESC' : 'ASC';
+  const tIdent = `"${String(table).replace(/"/g, '""')}"`;
+  const sIdent = `"${String(sortCol).replace(/"/g, '""')}"`;
+
+  const dataSql  = `SELECT * FROM ${tIdent} ORDER BY ${sIdent} ${dirSql} LIMIT $1 OFFSET $2;`;
+  const countSql = `SELECT COUNT(*)::int AS cnt FROM ${tIdent};`;
+
+  const dataRes  = await db.query(dataSql, [limit, offset]);
+  const countRes = await db.query(countSql);
+
+  const rows  = Array.isArray(dataRes)  ? dataRes  : (dataRes.rows  || []);
+  const total = Array.isArray(countRes) ? (countRes[0]?.cnt || 0) : (countRes.rows?.[0]?.cnt || 0);
+
+  return { rows, total, cols };
 }
 
 // ===================================================================
@@ -378,18 +474,18 @@ function salvareInBackup(caleCss) {
         }
 
         fs.copyFileSync(caleCss, caleBackup);
-        console.log(`💾 Backup salvat: ${numeFisierBackup}`);
+        console.log(` Backup salvat: ${numeFisierBackup}`);
 
     } catch (error) {
-        console.error(`❌ Eroare la salvarea în backup pentru ${caleCss}:`, error.message);
+        console.error(`Eroare la salvarea în backup pentru ${caleCss}:`, error.message);
     }
 }
 
 function compilareInitiala() {
-    console.log('\n🔄 Începe compilarea inițială SCSS...');
+    console.log('\n Incepe compilarea inițială SCSS...');
     
     if (!fs.existsSync(obGlobal.folderScss)) {
-        console.log(`📁 Creez folderul SCSS: ${obGlobal.folderScss}`);
+        console.log(`Creez folderul SCSS: ${obGlobal.folderScss}`);
         fs.mkdirSync(obGlobal.folderScss, { recursive: true });
         return;
     }
@@ -399,11 +495,11 @@ function compilareInitiala() {
         const fisiereScss = fisiere.filter(fisier => path.extname(fisier) === '.scss');
 
         if (fisiereScss.length === 0) {
-            console.log('📝 Nu s-au găsit fișiere SCSS pentru compilare');
+            console.log('Nu s-au găsit fișiere SCSS pentru compilare');
             return;
         }
 
-        console.log(`📋 Găsite ${fisiereScss.length} fișiere SCSS:`);
+        console.log(`Găsite ${fisiereScss.length} fișiere SCSS:`);
         fisiereScss.forEach(fisier => console.log(`   - ${fisier}`));
 
         let compilateReusit = 0;
@@ -413,50 +509,50 @@ function compilareInitiala() {
             }
         });
 
-        console.log(`✅ Compilare inițială completă: ${compilateReusit}/${fisiereScss.length} fișiere`);
+        console.log(`Compilare inițială completă: ${compilateReusit}/${fisiereScss.length} fișiere`);
 
     } catch (error) {
-        console.error('❌ Eroare la compilarea inițială:', error.message);
+        console.error('Eroare la compilarea inițială:', error.message);
     }
 }
 
 function configurareWatch() {
     if (!fs.existsSync(obGlobal.folderScss)) {
-        console.log('⚠️  Folderul SCSS nu există pentru watch');
+        console.log('Folderul SCSS nu exista pt watch');
         return;
     }
 
-    console.log(`👁️  Urmăresc modificările în: ${obGlobal.folderScss}`);
-
+    console.log(`urm modif aici in: ${obGlobal.folderScss}`);
+///
     try {
         fs.watch(obGlobal.folderScss, { recursive: true }, (eventType, filename) => {
             if (!filename || !filename.endsWith('.scss')) {
                 return;
             }
 
-            console.log(`\n🔔 Detectată modificare: ${filename} (${eventType})`);
+            console.log(`\n!!Detectata modifi: ${filename} (${eventType})`);
 
             setTimeout(() => {
                 const caleCompletaScss = path.join(obGlobal.folderScss, filename);
                 
                 if (fs.existsSync(caleCompletaScss)) {
-                    console.log(`🔄 Recompilare automată: ${filename}`);
+                    console.log(`Recompilare automt: ${filename}`);
                     compileazaScss(filename);
                 } else {
-                    console.log(`🗑️  Fișier șters: ${filename}`);
+                    console.log(`sterg file: ${filename}`);
                 }
             }, 100);
         });
 
-        console.log('✅ Watch configurat cu succes pentru fișierele SCSS');
+        console.log('Watch config cu succes pentru ffis SCSS');
 
     } catch (error) {
-        console.error('❌ Eroare la configurarea watch:', error.message);
+        console.error('Eroare la configuwatch:', error.message);
     }
 }
 
 // ===================================================================
-// FUNCȚII PENTRU ERORI
+// FUNCTII PENTRU ERORI
 // ===================================================================
 
 function initErori() {
@@ -871,6 +967,76 @@ app.get('/produs/:id', async (req, res) => {
     }
 });
 
+// ===================================================================
+// (NOU) RUTE ADMIN DB – înainte de catch-all
+// ===================================================================
+
+// UI viewer: lista tabele + preview rânduri
+app.get('/admin/db', requireAdmin, async (req, res) => {
+    const ipUtilizator = req.ip || req.connection.remoteAddress || '::1';
+    try {
+        const tables = await listTables();
+        const active = req.query.t || tables[0] || null;
+
+        let data = { rows: [], total: 0, cols: [] };
+        if (active) {
+            data = await fetchRows(active, {
+                page: parseInt(req.query.page || '1', 10),
+                limit: Math.min(parseInt(req.query.limit || '20', 10), 100),
+                sort: req.query.sort || null,
+                dir: req.query.dir || 'asc'
+            });
+        }
+
+        // randăm în views/pagini/admin-db.ejs
+        res.render('pagini/admin-db', {
+            title: 'Admin DB',
+            ipUtilizator,
+            tables,
+            active,
+            rows: data.rows,
+            total: data.total,
+            cols: data.cols,
+            page: parseInt(req.query.page || '1', 10),
+            limit: Math.min(parseInt(req.query.limit || '20', 10), 100),
+            dir: (req.query.dir || 'asc')
+        }, (e, html) => {
+            if (e) {
+                console.error('Eroare la randarea admin-db:', e.message);
+                return afisareEroare(res, 500, 'Eroare Admin DB', e.message, null, ipUtilizator);
+            }
+            res.send(html);
+        });
+    } catch (e) {
+        console.error(e);
+        afisareEroare(res, 500, 'Eroare Admin DB', 'Nu s-a putut încărca pagina.', null, ipUtilizator);
+    }
+});
+
+// API pentru consola read-only (doar SELECT)
+app.post('/admin/query', requireAdmin, async (req, res) => {
+    try {
+        const sql = (req.body.sql || '').trim();
+        if (!sql.toLowerCase().startsWith('select')) {
+            return res.status(400).json({ ok: false, error: 'Doar interogări SELECT sunt permise.' });
+        }
+        const { rows } = await db.query(sql);
+        return res.json({ ok: true, rows });
+    } catch (e) {
+        return res.status(400).json({ ok: false, error: e.message });
+    }
+});
+
+// (Optional) /debug-db – link există în produse.ejs
+app.get('/debug-db', async (req, res) => {
+    try {
+        const ping = await db.query('SELECT NOW() AS now;');
+        res.send(`<pre>DB OK\n${JSON.stringify(ping.rows || ping, null, 2)}</pre>`);
+    } catch (e) {
+        res.status(500).send(`<pre>Eroare DB:\n${e.message}</pre>`);
+    }
+});
+
 // ULTIMA RUTĂ: Catch-all pentru orice alte cereri
 app.get('/*', (req, res) => {
     let url = req.url;
@@ -922,6 +1088,7 @@ async function startServer() {
             console.log('✅ Conexiune PostgreSQL activă');
             console.log('📊 Pagina de produse cu filtrare și sortare gata');
             console.log('🕐 Pentru testare galerie: /galerie/test/14:30');
+            console.log('🛠 Admin DB: /admin/db (setează .env ADMIN_SECRET dacă vrei protecție)');
         });
         
     } catch (error) {

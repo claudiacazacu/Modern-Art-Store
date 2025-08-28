@@ -29,12 +29,17 @@
                 </div>
                 <div class="eroare-text">
                     <p><strong>Detalii eroare:</strong> <%= text %></p>
-                    <p><a href="/" style="background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Înapoi la pagina principală</a></p>
+                    <p>
+                        <a href="/" style="background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
+                            Înapoi la pagina principală
+                        </a>
+                    </p>
                 </div>
             </div>
         </section>
-     <%    
-     <!-- Debug info -->
+
+        <% if (process.env.NODE_ENV !== 'production') { %>
+        <!-- Debug Info (vizibil doar în dezvoltare) -->
         <div style="border: 1px solid #ccc; padding: 10px; margin: 20px; background: #f9f9f9;">
             <h3>Debug Info:</h3>
             <p><strong>Titlu:</strong> "<%= titlu %>"</p>
@@ -42,7 +47,7 @@
             <p><strong>Imagine:</strong> "<%= imagine %>"</p>
             <p><strong>IP:</strong> "<%= typeof ipUtilizator !== 'undefined' ? ipUtilizator : 'Nedefinit' %>"</p>
         </div>
-    %>
+        <% } %>
     </main>
     
     <footer>

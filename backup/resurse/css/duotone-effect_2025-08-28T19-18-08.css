@@ -33,5 +33,7 @@
   opacity: 0.3;
 }
 #duotone:hover::before {
-  background-color: rgb(23, 111, 69);
+  background-color: rgb(12, 70, 42);
+  opacity: 0.7;
+  mix-blend-mode: darken;
 }
