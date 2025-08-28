@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <title><%= typeof title !== 'undefined' ? title : 'ArtModern' %></title>
+    <title><%- include('../fragmente/head', {title: 'Modern Art Store'}) %></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="magazin, arta, sculpturi, vaze, arta moderna, artisti contemporani, artă modernă, galerie de artă, opere de artă contemporană, artiști contemporani, colecționare artă, picturi originale, sculpturi moderne, expoziții de artă, artă românească contemporană, investiție în artă">
@@ -77,18 +77,31 @@
         <section id="despre-noi">
             <h2>Despre noi</h2>
             <p>Bine ai venit în <strong>universul nostru creativ</strong>!<br/>
+            <hr class="efect-hr-balon">
              Magazinul nostru de <b>artă modernă</b> este locul unde imaginația prinde formă, iar arta devine accesibilă tuturor celor care caută ceva diferit, autentic și inspirat. Punem la dispoziție o selecție atent curatoriată de <b>lucrări contemporane</b> – de la picturi vibrante și <b>sculpturi conceptuale</b>, până la printuri grafice și obiecte decorative cu personalitate.</p>
             <p>Explorăm constant noile tendințe în <dfn>arta conceptuală</dfn>, care se referă la operele în care ideea primează asupra aspectului formal.</p>
             <p>Avem plăcerea să colaborăm cu <abbr title="Uniunea Artiștilor Plastici din România">UAPR</abbr> pentru a aduce cele mai bune lucrări de artă în galeria noastră.</p>
             <p><q>Arta nu reproduce vizibilul; ea face vizibilul.</q> - Paul Klee</p>
+            <hr class="efect-hr-balon">
             <p>Vizitează <a href="https://www.mnar.arts.ro/" target="_blank" rel="noopener noreferrer">Muzeul Național de Artă al României</a> pentru a înțelege mai bine contextul istoric al artei românești.</p>
         </section>
+<!-- GALERIA ANIMATĂ - DOAR CERINȚELE -->
+<section id="galerie-animata-section">
+    <!-- Titlu cu reflexie -->
+    <h1 id="titlu-reflexie">
+        <span id="text">Galeria noastră (generată dinamic!)</span>
+        <span id="text-reflectat">Galeria noastră (generată dinamic!)</span>
+    </h1>
 
-        <!-- GALERIA ANIMATĂ - DOAR CERINȚELE -->
-        <section id="galerie-animata-section">
-            <!-- Galeria generată dinamic de Node.js -->
-            <%- genereazaGalerieAnimata() %>
-        </section>
+    <hr class="efect-hr-balon">
+
+    <p class="text-random">
+    Aceasta este o secțiune de separare a galeriilor.
+    </p>
+
+    <hr class="efect-hr-balon">
+
+</section>
 
         <!-- Secțiunea 2 - Fun Facts -->
         <section id="fun-facts">
@@ -366,6 +379,16 @@
             
             </dl>
         </section>
+        <section id="duotone">
+            <figure>
+            <picture>
+                <img src="/resurse/imagini/duotone.jpg" alt="Imagine cu efect duotone">
+            </picture>
+            </figure>
+        </section>
+
+        <link rel="stylesheet" href="/resurse/CSS/galerie-statica.css">
+
 
         <!-- Secțiunea 8 - Newsletter -->
         <section id="newsletter">

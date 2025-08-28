@@ -1,0 +1,11 @@
+.efect-hr-balon {
+  border: none;
+  height: 100px;
+  width: 100%;
+  background-image: radial-gradient(circle, white 0%, #9b5de5 30%, transparent 65%), radial-gradient(circle, white 0%, #fee440 20%, transparent 50%), radial-gradient(circle, white 0%, #00f5d4 40%, transparent 70%), radial-gradient(circle, white 0%, #9b5de5 30%, transparent 65%), radial-gradient(circle, white 0%, #fee440 20%, transparent 50%), radial-gradient(circle, white 0%, #00f5d4 40%, transparent 70%), radial-gradient(circle, white 0%, #9b5de5 30%, transparent 65%), radial-gradient(circle, white 0%, #fee440 20%, transparent 50%), radial-gradient(circle, white 0%, #00f5d4 40%, transparent 70%), radial-gradient(circle, white 0%, #9b5de5 30%, transparent 65%), radial-gradient(circle, white 0%, #fee440 20%, transparent 50%), radial-gradient(circle, white 0%, #00f5d4 40%, transparent 70%), radial-gradient(circle, white 0%, #9b5de5 30%, transparent 65%), radial-gradient(circle, white 0%, #fee440 20%, transparent 50%), radial-gradient(circle, white 0%, #00f5d4 40%, transparent 70%);
+  background-repeat: no-repeat;
+  background-size: 70px 70px, 55px 55px, 90px 90px, 70px 70px, 55px 55px, 90px 90px, 70px 70px, 55px 55px, 90px 90px, 70px 70px, 55px 55px, 90px 90px, 70px 70px, 55px 55px, 90px 90px;
+  background-position: 8% 60%, 10% 80%, 12% 50%, 26% 35%, 28% 60%, 30% 28%, 48% 60%, 50% 75%, 52% 52%, 66% 38%, 68% 63%, 70% 30%, 88% 50%, 90% 65%, 92% 42%;
+  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+}

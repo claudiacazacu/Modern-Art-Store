@@ -1,0 +1,55 @@
+.efect-hr-balon {
+  border: none;
+  height: 100px;
+  width: 100%;
+
+  background-image:
+    /* ZONA 1 */
+    radial-gradient(circle, white 0%, #fee440 25%, transparent 45%),  /* galben */
+    radial-gradient(circle, white 0%, #9b5de5 30%, transparent 70%),  /* mov */
+    radial-gradient(circle, white 0%, #00f5d4 30%, transparent 50%),  /* albastru */
+
+    /* ZONA 2 */
+    radial-gradient(circle, white 0%, #fee440 25%, transparent 45%),
+    radial-gradient(circle, white 0%, #9b5de5 30%, transparent 70%),
+    radial-gradient(circle, white 0%, #00f5d4 30%, transparent 50%),
+
+    /* ZONA 3 */
+    radial-gradient(circle, white 0%, #fee440 25%, transparent 45%),
+    radial-gradient(circle, white 0%, #9b5de5 30%, transparent 70%),
+    radial-gradient(circle, white 0%, #00f5d4 30%, transparent 50%);
+
+  background-repeat: no-repeat;
+
+  background-size:
+    40px 40px,  /* galben - cel mai mic */
+    60px 60px,  /* mov - mijlociu */
+    65px 65px,  /* albastru - cel mai clar */
+
+    40px 40px,
+    60px 60px,
+    65px 65px,
+
+    40px 40px,
+    60px 60px,
+    65px 65px;
+
+  background-position:
+    /* ZONA 1 - mai compacte */
+    12% 68%,   /* galben */
+    13.5% 52%, /* mov */
+    15% 37%,   /* albastru */
+
+    /* ZONA 2 */
+    47% 69%,
+    48.5% 51%,
+    50% 35%,
+
+    /* ZONA 3 */
+    82% 67%,
+    83.5% 50%,
+    85% 36%;
+
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}

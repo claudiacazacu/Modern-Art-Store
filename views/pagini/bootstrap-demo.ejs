@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>ArtModern - Demo Bootstrap Custom</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap CSS (PRIMUL și SINGUR pentru test) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- CSS customizat Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/custom.css">
+    
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Header simplificat pentru test -->
+    <header class="bg-light p-3 mb-4">
+        <div class="container">
+            <h1>Magazin Online de Artă Modernă</h1>
+            <p>IP utilizator: <%= typeof ipUtilizator !== 'undefined' ? ipUtilizator : 'Necunoscut' %></p>
+        </div>
+    </header>
+    
+    <main class="bootstrap-demo">
+        <div class="container">
+            <h1 class="text-center mb-5">Demo Bootstrap Customizat - Schema ArtModern</h1>
+            
+            <!-- TEMA 1: Galerie Artistica -->
+            <section class="theme-gallery p-4 rounded mb-5">
+                <h2>Tema 1: Galerie Artistică</h2>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="card demo-card h-100">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Operă de Artă #1</h5>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <p class="card-text flex-grow-1">Această operă reprezintă frumusețea artei moderne cu schema cromatică customizată.</p>
+                                <div class="mt-auto">
+                                    <button class="btn btn-primary mb-2 w-100">Vezi Detalii</button>
+                                    <button class="btn btn-outline-secondary w-100">Adaugă la Favorite</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="card demo-card h-100">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Operă de Artă #2</h5>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <p class="card-text flex-grow-1">Border radius customizat și culori adaptate schemei ArtModern.</p>
+                                <div class="mt-auto">
+                                    <button class="btn btn-success mb-2 w-100">Cumpără Acum</button>
+                                    <button class="btn btn-warning w-100">Contactează Artist</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-md-12 col-xl-4">
+                        <div class="card demo-card h-100">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Colecție Specială</h5>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <p class="card-text flex-grow-1">Fonturile headingurilor sunt customizate cu dimensiuni mai mari pentru impact vizual.</p>
+                                <div class="mt-auto">
+                                    <button class="btn btn-info w-100">Explorează Colecția</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- TEMA 2: Modern Artist -->
+            <section class="theme-artist p-4 rounded mb-5">
+                <h2>Tema 2: Modern Artist</h2>
+                <div class="row g-4">
+                    <div class="col-12 col-lg-8">
+                        <div class="card demo-card h-100">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="card-title">Profil Artist</h3>
+                                <p class="card-text flex-grow-1">Tema întunecată cu efecte de blur și transparency pentru un aspect modern și sofisticat.</p>
+                                <div class="mt-auto">
+                                    <button class="btn btn-outline-light me-2 mb-2">Vezi Portfolio</button>
+                                    <button class="btn btn-outline-light mb-2">Contact Direct</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-lg-4">
+                        <div class="card demo-card h-100">
+                            <div class="card-body text-center d-flex flex-column justify-content-center">
+                                <h4 class="card-title">Statistici</h4>
+                                <h1 class="display-4 text-warning my-3">150+</h1>
+                                <p class="card-text">Opere create cu noua schemă de culori</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- DEMONSTRARE COMPONENTE BOOTSTRAP -->
+            <section class="bg-light p-4 rounded mb-5">
+                <h2>Componente Bootstrap Customizate</h2>
+                
+                <!-- Butoane cu diferite stiluri -->
+                <div class="demo-buttons mb-4">
+                    <h4>Butoane Customizate</h4>
+                    <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-md-start">
+                        <button class="btn btn-primary btn-lg">Primary Large</button>
+                        <button class="btn btn-secondary">Secondary</button>
+                        <button class="btn btn-success btn-sm">Success Small</button>
+                        <button class="btn btn-outline-danger">Outline Danger</button>
+                        <button class="btn btn-info">Info cu Border Radius</button>
+                    </div>
+                </div>
+                
+                <!-- Navigare -->
+                <div class="demo-navigation mb-4">
+                    <h4>Navigare Bootstrap</h4>
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="#">ArtModern</a>
+                            <div class="navbar-nav">
+                                <a class="nav-link active" href="#">Acasă</a>
+                                <a class="nav-link" href="#">Galerie</a>
+                                <a class="nav-link" href="#">Artiști</a>
+                                <a class="nav-link" href="#">Contact</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                
+                <!-- Alerte -->
+                <div class="demo-alerts mb-4">
+                    <h4>Alerte cu Schema Cromatică</h4>
+                    <div class="alert alert-primary" role="alert">
+                        <strong>Schema primară!</strong> Culorile au fost adaptate la paleta ArtModern.
+                    </div>
+                    <div class="alert alert-success" role="alert">
+                        <strong>Succes!</strong> Border radius customizat aplicat tuturor componentelor.
+                    </div>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Atenție!</strong> Fonturile headingurilor au dimensiuni mărite.
+                    </div>
+                </div>
+                
+                <!-- Formular și Tabel -->
+                <div class="row g-4">
+                    <div class="col-12 col-lg-6">
+                        <h4>Formular Customizat</h4>
+                        <form>
+                            <div class="mb-3">
+                                <label for="nume" class="form-label">Nume Artist</label>
+                                <input type="text" class="form-control" id="nume" placeholder="Introdu numele">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="artist@artmodern.ro">
+                            </div>
+                            <div class="mb-3">
+                                <label for="mesaj" class="form-label">Mesaj</label>
+                                <textarea class="form-control" id="mesaj" rows="3" placeholder="Descrie opera ta..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Trimite Cererea</button>
+                        </form>
+                    </div>
+                    
+                    <div class="col-12 col-lg-6">
+                        <h4>Tabel Responsive</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Rang</th>
+                                        <th>Artist</th>
+                                        <th>Opere</th>
+                                        <th>Rating</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Maria Popescu</td>
+                                        <td>25</td>
+                                        <td><span class="badge bg-success">Excelent</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Ion Artisan</td>
+                                        <td>18</td>
+                                        <td><span class="badge bg-primary">Foarte Bun</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Ana Moderna</td>
+                                        <td>12</td>
+                                        <td><span class="badge bg-warning">Bun</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            
+            <!-- INFO CUSTOMIZARI -->
+            <section class="bg-primary text-white p-4 rounded">
+                <h2>Customizări Implementate</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Culori Schema ArtModern:</h4>
+                        <ul>
+                            <li>Primary: #5d4037 (Maro închis)</li>
+                            <li>Secondary: #8d6e63 (Maro mediu)</li>
+                            <li>Accent: #a1887f (Maro deschis)</li>
+                            <li>Light: #d7ccc8 (Bej deschis)</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Customizări Tehnice:</h4>
+                        <ul>
+                            <li>Border radius: 12px (general), 16px (carduri)</li>
+                            <li>Font familie: Playfair Display, serif</li>
+                            <li>H1: 3.5rem, H2: 2.8rem, etc.</li>
+                            <li>Breakpoints: MD=768px, LG=1024px, XL=1280px</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Footer simplificat -->
+    <footer class="bg-dark text-light p-4 mt-5">
+        <div class="container text-center">
+            <small>&copy; 2025 ArtModern</small>
+        </div>
+    </footer>
+</body>
+</html>

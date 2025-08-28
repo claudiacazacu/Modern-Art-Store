@@ -1,0 +1,11 @@
+.efect-hr-balon {
+  border: none;
+  height: 100px;
+  width: 100%;
+  background-image: radial-gradient(circle, white 0%, #fee440 25%, transparent 45%), radial-gradient(circle, white 0%, #9b5de5 35%, transparent 80%), radial-gradient(circle, white 0%, #00f5d4 30%, transparent 60%), radial-gradient(circle, white 0%, #fee440 25%, transparent 45%), radial-gradient(circle, white 0%, #9b5de5 35%, transparent 80%), radial-gradient(circle, white 0%, #00f5d4 30%, transparent 60%), radial-gradient(circle, white 0%, #fee440 25%, transparent 45%), radial-gradient(circle, white 0%, #9b5de5 35%, transparent 80%), radial-gradient(circle, white 0%, #00f5d4 30%, transparent 60%);
+  background-repeat: no-repeat;
+  background-size: 45px 45px, 90px 90px, 60px 60px, 45px 45px, 90px 90px, 60px 60px, 45px 45px, 90px 90px, 60px 60px;
+  background-position: 9% 78%, 12% 52%, 15% 28%, 44% 80%, 47% 50%, 50% 25%, 79% 77%, 82% 49%, 85% 26%;
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}

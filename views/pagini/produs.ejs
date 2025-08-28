@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/general.css">
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/produs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Magazin Online de Artă Modernă</h1>
+        <div class="user-info">
+            <p>IP utilizator: <%= ipUtilizator %></p>
+        </div>
+        <nav>
+            <input type="checkbox" id="ch-menu">
+            <label for="ch-menu" id="hamburger">
+                <div class="hamburger-icon">
+                    <div class="hamburger-bar bar-1"></div>
+                    <div class="hamburger-bar bar-2"></div>
+                    <div class="hamburger-bar bar-3"></div>
+                </div>
+                <span class="hamburger-text">Meniu</span>
+            </label>
+            
+            <ul class="meniu">
+                <li class="dropdown">
+                    <a href="#"><i class="fa-solid fa-home"></i>Acasă</a>
+                    <ul>
+                        <li><a href="/">Pagina principală</a></li>
+                        <li><a href="/desprenoi">Despre noi</a></li>
+                        <li><a href="/servicii">Servicii</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#"><i class="fa-solid fa-palette"></i>Produse</a>
+                    <ul>
+                        <li><a href="/produse">Toate</a></li>
+                        <li><a href="/produse?categorie=pictura">Pictură</a></li>
+                        <li><a href="/produse?categorie=sculptura">Sculptură</a></li>
+                        <li><a href="/produse?categorie=arta_digitala">Artă Digitală</a></li>
+                        <li><a href="/produse?categorie=ceramica">Ceramică</a></li>
+                        <li><a href="/produse?categorie=fotografie">Fotografie</a></li>
+                    </ul>
+                </li>
+                <li><a href="/galerie"><i class="fa-solid fa-images"></i>Galerie</a></li>
+                <li><a href="/contact"><i class="fa-solid fa-envelope"></i>Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="produs-individual-container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="/">Acasă</a> &raquo; 
+                <a href="/produse">Produse</a> &raquo; 
+                <a href="/produse?categorie=<%= produs.categoria_mare %>">
+                    <%= produs.categoria_mare.charAt(0).toUpperCase() + produs.categoria_mare.slice(1).replace('_', ' ') %>
+                </a> &raquo; 
+                <span><%= produs.nume %></span>
+            </nav>
+
+            <article class="produs-detaliat" id="produs-<%= produs.id %>">
+                <div class="produs-grid">
+                    <!-- Galeria de imagini -->
+                    <div class="produs-imagini">
+                        <div class="imagine-principala">
+                            <img src="<%= produs.imagine %>" alt="<%= produs.nume %>" id="imagine-mare">
+                            <div class="zoom-overlay">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                                Apasă pentru mărire
+                            </div>
+                        </div>
+                        
+                        <!-- Placeholder pentru imagini multiple (dacă le ai) -->
+                        <div class="imagini-miniatura">
+                            <img src="<%= produs.imagine %>" alt="<%= produs.nume %> - vedere 1" class="miniatura activa">
+                            <!-- Poți adăuga mai multe imagini aici -->
+                        </div>
+                    </div>
+
+                    <!-- Informațiile produsului -->
+                    <div class="produs-informatii">
+                        <header class="produs-header">
+                            <h1><%= produs.nume %></h1>
+                            <div class="categorie-badge">
+                                <i class="fa-solid fa-tag"></i>
+                                <%= produs.categoria_mare.charAt(0).toUpperCase() + produs.categoria_mare.slice(1).replace('_', ' ') %>
+                            </div>
+                        </header>
+
+                        <div class="pret-container">
+                            <span class="pret-principal"><%= produs.pret %> RON</span>
+                            <span class="pret-info">
+                                <% if (produs.disponibil_livrare) { %>
+                                    <i class="fa-solid fa-truck text-success"></i> Livrare disponibilă
+                                <% } else { %>
+                                    <i class="fa-solid fa-store text-warning"></i> Doar ridicare din magazin
+                                <% } %>
+                            </span>
+                        </div>
+
+                        <div class="descriere-scurta">
+                            <p><%= produs.descriere %></p>
+                        </div>
+
+                        <!-- Specificații principale -->
+                        <div class="specificatii-rapide">
+                            <div class="spec-item">
+                                <i class="fa-solid fa-ruler"></i>
+                                <span class="spec-label">Dimensiune:</span>
+                                <span class="spec-value">
+                                    <% if (produs.dimensiune > 0) { %>
+                                        <%= produs.dimensiune %> cm
+                                    <% } else { %>
+                                        Variabilă/Digitală
+                                    <% } %>
+                                </span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fa-solid fa-palette"></i>
+                                <span class="spec-label">Culoare dominantă:</span>
+                                <span class="spec-value">
+                                    <span class="culoare-sample" style="background-color: 
+                                        <% switch(produs.culoare_dominanta) {
+                                            case 'rosu': %>red<% break;
+                                            case 'albastru': %>blue<% break;
+                                            case 'verde': %>green<% break;
+                                            case 'galben': %>yellow<% break;
+                                            case 'mov': %>purple<% break;
+                                            case 'maro': %>brown<% break;
+                                            case 'negru': %>black<% break;
+                                            case 'alb': %>white<% break;
+                                            default: %>gray<% break;
+                                        } %>"></span>
+                                    <%= produs.culoare_dominanta.charAt(0).toUpperCase() + produs.culoare_dominanta.slice(1) %>
+                                </span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fa-solid fa-calendar"></i>
+                                <span class="spec-label">Adăugat în:</span>
+                                <span class="spec-value">
+                                    <time datetime="<%= produs.data_adaugare %>">
+                                        <%= new Date(produs.data_adaugare).toLocaleDateString('ro-RO', {
+                                            day: 'numeric',
+                                            month: 'long', 
+                                            year: 'numeric'
+                                        }) %>
+                                    </time>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Butoane de acțiune -->
+                        <div class="actiuni-produs">
+                            <button class="btn btn-primary btn-large" id="btn-adauga-cos">
+                                <i class="fa-solid fa-shopping-cart"></i>
+                                Adaugă în coș
+                            </button>
+                            <button class="btn btn-secondary" id="btn-lista-dointe">
+                                <i class="fa-solid fa-heart"></i>
+                                Lista de dorințe
+                            </button>
+                            <button class="btn btn-info" id="btn-share">
+                                <i class="fa-solid fa-share"></i>
+                                Distribuie
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Specificații complete -->
+                <section class="specificatii-complete">
+                    <h2>Specificații complete</h2>
+                    
+                    <div class="specificatii-grid">
+                        <div class="spec-group">
+                            <h3>Informații generale</h3>
+                            <table class="detalii-tabel">
+                                <tr>
+                                    <td>ID Produs:</td>
+                                    <td><strong>#<%= produs.id %></strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Categorie:</td>
+                                    <td><%= produs.categoria_mare.charAt(0).toUpperCase() + produs.categoria_mare.slice(1).replace('_', ' ') %></td>
+                                </tr>
+                                <tr>
+                                    <td>Mod de prezentare:</td>
+                                    <td><%= produs.mod_prezentare.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') %></td>
+                                </tr>
+                                <tr>
+                                    <td>Dimensiune:</td>
+                                    <td>
+                                        <% if (produs.dimensiune > 0) { %>
+                                            <%= produs.dimensiune %> cm
+                                        <% } else { %>
+                                            Variabilă/Digitală
+                                        <% } %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Culoare dominantă:</td>
+                                    <td>
+                                        <span class="culoare-sample-mic" style="background-color: 
+                                            <% switch(produs.culoare_dominanta) {
+                                                case 'rosu': %>red<% break;
+                                                case 'albastru': %>blue<% break;
+                                                case 'verde': %>green<% break;
+                                                case 'galben': %>yellow<% break;
+                                                case 'mov': %>purple<% break;
+                                                case 'maro': %>brown<% break;
+                                                case 'negru': %>black<% break;
+                                                case 'alb': %>white<% break;
+                                                default: %>gray<% break;
+                                            } %>"></span>
+                                        <%= produs.culoare_dominanta.charAt(0).toUpperCase() + produs.culoare_dominanta.slice(1) %>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="spec-group">
+                            <h3>Tehnici și materiale</h3>
+                            <div class="tehnici-lista">
+                                <% produs.tehnici.split(',').forEach(function(tehnica) { %>
+                                    <span class="tehnica-badge">
+                                        <i class="fa-solid fa-brush"></i>
+                                        <%= tehnica.trim().split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') %>
+                                    </span>
+                                <% }); %>
+                            </div>
+                        </div>
+
+                        <div class="spec-group">
+                            <h3>Livrare și disponibilitate</h3>
+                            <table class="detalii-tabel">
+                                <tr>
+                                    <td>Livrare disponibilă:</td>
+                                    <td>
+                                        <% if (produs.disponibil_livrare) { %>
+                                            <span class="status-disponibil">
+                                                <i class="fa-solid fa-check-circle"></i> Da
+                                            </span>
+                                        <% } else { %>
+                                            <span class="status-indisponibil">
+                                                <i class="fa-solid fa-times-circle"></i> Nu
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Modalitate ridicare:</td>
+                                    <td>
+                                        <% if (produs.disponibil_livrare) { %>
+                                            Livrare la domiciliu sau ridicare din magazin
+                                        <% } else { %>
+                                            Doar ridicare din magazin
+                                        <% } %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Stoc:</td>
+                                    <td><span class="stoc-disponibil">Disponibil</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Data adăugării:</td>
+                                    <td>
+                                        <time datetime="<%= produs.data_adaugare %>">
+                                            <%= new Date(produs.data_adaugare).toLocaleDateString('ro-RO', {
+                                                day: 'numeric',
+                                                month: 'long', 
+                                                year: 'numeric',
+                                                weekday: 'long'
+                                            }) %>
+                                        </time>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Produse similare -->
+                <section class="produse-similare">
+                    <h2>Produse similare</h2>
+                    <div class="produse-similare-grid">
+                        <!-- Acestea ar trebui generate dinamic din baza de date -->
+                        <div class="produs-similar">
+                            <a href="/produse?categorie=<%= produs.categoria_mare %>">
+                                <i class="fa-solid fa-images"></i>
+                                <span>Vezi toate produsele din categoria <%= produs.categoria_mare.replace('_', ' ') %></span>
+                            </a>
+                        </div>
+                        <div class="produs-similar">
+                            <a href="/produse">
+                                <i class="fa-solid fa-palette"></i>
+                                <span>Explorează toate produsele</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 ArtModern - Magazin Online de Artă Modernă</p>
+            <p>Toate drepturile rezervate.</p>
+            <div class="footer-links">
+                <a href="/termeni">Termeni și condiții</a> |
+                <a href="/confidentialitate">Politica de confidențialitate</a> |
+                <a href="/contact">Contact</a>
+            </div>
+        </div>
+        <small>Dezvoltat cu drag pentru iubitorii de artă modernă</small>
+    </footer>
+
+    <!-- Link către vârful paginii -->
+    <div id="link-top">
+        <a href="#top">
+            <div id="triunghi"></div>
+        </a>
+    </div>
+
+    <!-- Modal pentru mărirea imaginii -->
+    <div id="modal-zoom" class="modal-zoom">
+        <span class="close-modal">&times;</span>
+        <img class="modal-imagine" id="modal-img">
+        <div class="modal-caption" id="modal-caption"></div>
+    </div>
+
+    <script src="/resurse/js/produs.js"></script>
+</body>
+</html>

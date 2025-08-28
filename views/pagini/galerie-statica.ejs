@@ -1,0 +1,133 @@
+<!-- =================================================================== -->
+<!-- FRAGMENT GALERIE STATICĂ - galerie-statica.ejs -->
+<!-- =================================================================== -->
+<style>
+  .galerie-grid.layout-obligatoriu {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+</style>
+
+<section class="galerie-statica" id="galerie-statica-section">
+    <h2>
+        <i class="fa-solid fa-images"></i>
+        Galeria Noastră de Artă
+    </h2>
+    
+    <% if (galerieData && galerieData.imagini && galerieData.imagini.length > 0) { %>
+        <!-- Grid pentru imagini -->
+        <div class="galerie-grid">
+            <% galerieData.imagini.forEach((imagine, index) => { %>
+                <div class="galerie-item" 
+                     data-titlu="<%= imagine.titlu %>" 
+                     data-interval="<%= imagine.timp %>">
+                    
+                    <figure>
+                        <picture>
+                            <!-- Surse pentru diferite dimensiuni de ecran -->
+                            <source media="(max-width: 768px)" 
+                                    srcset="<%= galerieData.cale_galerie %>small/<%= imagine.cale_imagine %>">
+                            <source media="(max-width: 1024px)" 
+                                    srcset="<%= galerieData.cale_galerie %>medium/<%= imagine.cale_imagine %>">
+                            
+                            <!-- Imaginea principală pentru ecrane mari -->
+                            <img src="<%= galerieData.cale_galerie %><%= imagine.cale_imagine %>" 
+                                 alt="<%= imagine.alt || imagine.titlu %>"
+                                 title="<%= imagine.descriere %>"
+                                 loading="lazy">
+                        </picture>
+                        
+                        <!-- Caption cu indexare automată prin CSS counter -->
+                        <figcaption>
+                            <%= imagine.descriere %>
+                        </figcaption>
+                        
+                        <!-- Informații de atribuire pentru CC-BY -->
+                        <% if (imagine.atribuire) { %>
+                            <div class="atribuire-info" title="<%= imagine.atribuire.licenta %> - <%= imagine.atribuire.autor %>">
+                                © <%= imagine.atribuire.autor %>
+                            </div>
+                        <% } %>
+                    </figure>
+                </div>
+            <% }); %>
+        </div>
+        
+        <!-- Informații despre galerie -->
+        <div class="galerie-info">
+            <p>
+                <i class="fa-solid fa-clock"></i>
+                <span class="ora-curenta">Ora curentă: <%= oraAfisare %></span>
+            </p>
+            <p>
+                <i class="fa-solid fa-filter"></i>
+                Afișăm <%= galerieData.imagini.length %> imagini disponibile în acest interval de timp
+            </p>
+            <% if (galerieData.totalImagini && galerieData.totalImagini > galerieData.imagini.length) { %>
+                <p>
+                    <i class="fa-solid fa-info-circle"></i>
+                    Total imagini în galerie: <%= galerieData.totalImagini %>
+                </p>
+            <% } %>
+        </div>
+        
+    <% } else { %>
+        <!-- Mesaj când nu sunt imagini disponibile -->
+        <div class="galerie-eroare">
+            <h3>
+                <i class="fa-solid fa-exclamation-triangle"></i>
+                Nu sunt imagini disponibile
+            </h3>
+            <p>
+                În acest moment (ora <%= oraAfisare %>), nu există imagini programate pentru afișare în galerie.
+            </p>
+            <p>
+                <small>Reveniți mai târziu pentru a vedea opere de artă noi!</small>
+            </p>
+        </div>
+    <% } %>
+</section>
+
+<!-- Încărcare CSS specific pentru galerie -->
+<link rel="stylesheet" href="/resurse/CSS/galerie-statica.css">
+<%- include('../fragmente/galerie_statica', { galerieData: galerieData, oraAfisare: oraAfisare }) %>
+<!-- Script pentru funcționalități suplimentare -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎨 Inițializare galerie statică...');
+    
+    // Adaugă event listenere pentru efecte suplimentare
+    const galerieItems = document.querySelectorAll('.galerie-item');
+    
+    galerieItems.forEach((item, index) => {
+        // Adaugă delay pentru animația de încărcare
+        item.style.animationDelay = `${index * 0.1}s`;
+        
+        // Log la hover pentru debugging
+        item.addEventListener('mouseenter', function() {
+            const titlu = this.dataset.titlu;
+            const interval = this.dataset.interval;
+            console.log(`🖼️ Hover pe: ${titlu} (${interval})`);
+        });
+        
+        // Adaugă funcționalitate de click pentru detalii
+        item.addEventListener('click', function() {
+            const titlu = this.dataset.titlu;
+            const descriere = this.querySelector('figcaption').textContent.replace(/^[a-z]\.\s/, '');
+            
+            // Poți adăuga aici o modal sau redirect către o pagină de detalii
+            console.log(`🔍 Click pe imagine: ${titlu}`);
+            console.log(`📝 Descriere: ${descriere}`);
+        });
+    });
+
+    
+    // Informații despre galerie în consolă
+    console.log(`✅ Galerie încărcată cu ${galerieItems.length} imagini`);
+    
+    // Verifică intervalele de timp (pentru debugging)
+    galerieItems.forEach(item => {
+        const interval = item.dataset.interval;
+        console.log(`⏰ Imagine afișată în intervalul: ${interval}`);
+    });
+});
+</script>

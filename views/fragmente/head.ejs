@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title><%= typeof title !== 'undefined' ? title : 'ArtModern' %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="magazin, arta, sculpturi, vaze, arta moderna, artisti contemporani, artă modernă, galerie de artă, opere de artă contemporană, artiști contemporani, colecționare artă, picturi originale, sculpturi moderne, expoziții de artă, artă românească contemporană, investiție în artă">
+    <meta name="description" content="Magazin online de artă modernă.">
+    <meta name="author" content="Claudia Cazacu">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/resurse/ico/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/resurse/ico/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/resurse/ico/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/resurse/ico/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="ArtModern" />
+    <link rel="manifest" href="/resurse/ico/favicon/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#ffffff">
+    
+    <!-- Bootstrap CSS (PRIMUL - foarte important!) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Bootstrap JavaScript pentru componente interactive -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- CSS customizat Bootstrap (dupa Bootstrap) -->
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/custom.css">
+    
+    <!-- CSS general pentru toate paginile -->
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/general.css">
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/nav700.css">
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/nav1000.css">
+    
+    <!-- CSS specific pentru pagini care au galerie animată -->
+    <% if (typeof includeGalerieCSS !== 'undefined' && includeGalerieCSS) { %>
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/galerie-animata.css">
+    <% } %>
+    
+    <link rel="stylesheet" href="/resurse/CSS/galerie-statica.css">
+
+
+    <!-- CSS pentru print -->
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/print.css" media="print">
+
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/duotone-effect.css">
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/reflexie-text.css">
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/efect-hr.css">
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/bd011679a8.js" crossorigin="anonymous"></script>
+</head>

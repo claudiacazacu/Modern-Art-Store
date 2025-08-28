@@ -1,0 +1,11 @@
+.efect-hr-balon {
+  border: none;
+  height: 100px;
+  background-image: radial-gradient(ellipse at 8% 50%, white 0%, #f15bb5 30%, transparent 70%), radial-gradient(ellipse at 12% 60%, white 0%, #fee440 25%, transparent 65%), radial-gradient(ellipse at 10% 40%, white 0%, #00bbf9 20%, transparent 60%), radial-gradient(ellipse at 28% 45%, white 0%, #f15bb5 28%, transparent 70%), radial-gradient(ellipse at 32% 55%, white 0%, #fee440 22%, transparent 65%), radial-gradient(ellipse at 30% 35%, white 0%, #00bbf9 26%, transparent 60%), radial-gradient(ellipse at 48% 50%, white 0%, #f15bb5 24%, transparent 65%), radial-gradient(ellipse at 52% 40%, white 0%, #fee440 28%, transparent 70%), radial-gradient(ellipse at 50% 60%, white 0%, #00bbf9 20%, transparent 60%), radial-gradient(ellipse at 68% 55%, white 0%, #f15bb5 26%, transparent 68%), radial-gradient(ellipse at 72% 45%, white 0%, #fee440 22%, transparent 65%), radial-gradient(ellipse at 70% 35%, white 0%, #00bbf9 25%, transparent 60%), radial-gradient(ellipse at 88% 50%, white 0%, #f15bb5 25%, transparent 65%), radial-gradient(ellipse at 92% 60%, white 0%, #fee440 20%, transparent 60%), radial-gradient(ellipse at 90% 40%, white 0%, #00bbf9 24%, transparent 65%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  /* estompare laterala */
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}

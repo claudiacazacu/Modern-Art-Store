@@ -169,6 +169,8 @@ main {
         "section5 section6 section7"
         "section3 section3 section2"
         "section4 section4 section2"
+        "section9 section9 section9"
+        "section10 section10 section10"
         "section8 section8 section8";
 }
 
@@ -203,6 +205,14 @@ main {
 
 #newsletter {
     grid-area: section8;
+}
+
+#galerie-animata-section {
+    grid-area: section9;
+}
+
+#duotone {
+    grid-area: section10;
 }
 
 math[xmlns="http://www.w3.org/1998/Math/MathML"] * {
@@ -838,6 +848,17 @@ iframe[name="locatie-harta"] {
 #link-top:hover #triunghi {
     border-bottom-color: var(--color-white);
 }
+.text-random {
+  color: var(--color-primary); /* contrast mai bun */
+  font-size: 1.3em;
+  font-style: normal; /* scoate italic */
+  background-color: transparent; /* elimină alb */
+  padding: 10px;
+  margin: 30px auto;
+  text-align: center;
+  max-width: 800px;
+}
+
 
 /* =================================================================== */
 /* STILIZARE LINKURI - Identificator: stilizare-linkuri */
@@ -865,7 +886,7 @@ a[href^="http"]:hover::before {
 /* 4. Linkuri din main - pata de culoare care crește din centru */
 main a {
     position: relative;
-    background-image: radial-gradient(circle, 
+    background-image: radial-gradient(ellipse 60% 40%,
         var(--color-light) 0%, /* c1 la 0% */
         var(--color-light) 40%, /* c1 la 40% */
         transparent 80%, /* transparent la 80% */
@@ -898,10 +919,10 @@ footer a:not([href^="http"]) {
 
 /* Linkurile externe din footer păstrează efectul */
 footer a[href^="http"] {
-    background-image: radial-gradient(circle, 
-        var(--color-light) 0%, 
-        var(--color-light) 40%, 
-        transparent 80%, 
+    background-image: radial-gradient(ellipse 150% 80%,
+        var(--color-light) 0%,
+        var(--color-light) 40%,
+        transparent 80%,
         transparent 100%);
     background-position: center;
     background-size: 0;
@@ -924,10 +945,10 @@ header a {
 
 /* Combinăm efectele pentru linkurile externe din main */
 main a[href^="http"] {
-    background-image: radial-gradient(circle, 
-        var(--color-light) 0%, 
-        var(--color-light) 40%, 
-        transparent 80%, 
+    background-image: radial-gradient(ellipse 150% 80%,
+        var(--color-light) 0%,
+        var(--color-light) 40%,
+        transparent 80%,
         transparent 100%);
 }
 

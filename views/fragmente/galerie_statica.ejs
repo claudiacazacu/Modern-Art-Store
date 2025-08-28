@@ -1,0 +1,23 @@
+<section class="galerie-statica">
+    <h2>Galerie Statică</h2>
+    <div class="galerie-grid">
+        <% if (galerieData && galerieData.imagini && galerieData.imagini.length > 0) { %>
+            <% galerieData.imagini.forEach(function(imag, index) { %>
+                <div class="galerie-item" data-titlu="<%= imag.titlu %>">
+                    <figure>
+                        <picture>
+                            <source media="(max-width: 768px)" srcset="<%= imag.fisier_mediu %>">
+                            <img src="<%= imag.fisier %>" alt="<%= imag.alt || imag.titlu %>" title="<%= imag.descriere %>">
+                        </picture>
+                        <figcaption><%= imag.titlu %></figcaption>
+                        <% if (imag.atributie) { %>
+                            <div class="atribuire-info">ⓒ <%= imag.atributie %></div>
+                        <% } %>
+                    </figure>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div class="galerie-loading">Momentan nu există imagini disponibile pentru ora <span class="ora-curenta"><%= oraAfisare %></span>.</div>
+        <% } %>
+    </div>
+</section>

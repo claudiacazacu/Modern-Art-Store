@@ -1,0 +1,13 @@
+@charset "UTF-8";
+#efect-hr {
+  height: 25px;
+  border: none;
+  background-image: radial-gradient(circle at 10% 50%, #6a5acd 0%, #6a5acd 30%, transparent 70%), radial-gradient(circle at 30% 40%, #20b2aa 0%, #20b2aa 25%, transparent 65%), radial-gradient(circle at 50% 55%, #ff69b4 0%, #ff69b4 20%, transparent 60%), radial-gradient(circle at 70% 45%, #ffa500 0%, #ffa500 30%, transparent 70%), radial-gradient(circle at 90% 50%, #40e0d0 0%, #40e0d0 25%, transparent 60%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  /* Gradient de transparență la margini */
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  margin: 60px auto;
+  width: 90%;
+}

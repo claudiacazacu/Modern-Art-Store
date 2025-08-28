@@ -1,0 +1,12 @@
+#efect-css-stilizare-hr {
+  border: none;
+  height: 20px;
+  margin: 50px auto;
+  width: 60%;
+  background-image: radial-gradient(circle at 20% 50%, #a1d3f2 20%, transparent 70%), radial-gradient(circle at 60% 40%, #9be7c4 15%, transparent 70%), radial-gradient(circle at 80% 60%, #f7a1c4 18%, transparent 70%);
+  background-repeat: no-repeat;
+  background-size: 150px 100%, 120px 100%, 130px 100%;
+  background-position: left, center, right;
+  mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+}

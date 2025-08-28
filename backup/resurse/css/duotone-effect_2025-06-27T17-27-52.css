@@ -1,0 +1,193 @@
+.duotone-effect, .duotone-effect-3, .duotone-effect-2 {
+  position: relative;
+  background-image: url("/resurse/imagini/duotone.jpg");
+  background-size: cover;
+  background-position: center;
+  width: 500px;
+  height: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  filter: brightness(200%) contrast(110%) grayscale(0);
+  transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(93, 64, 55, 0.2);
+}
+.duotone-effect::after, .duotone-effect-3::after, .duotone-effect-2::after, .duotone-effect::before, .duotone-effect-3::before, .duotone-effect-2::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 16px;
+  transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.duotone-effect::after, .duotone-effect-3::after, .duotone-effect-2::after {
+  background-color: rgb(60.9527027027, 41.9459459459, 36.0472972973);
+  mix-blend-mode: lighten;
+  opacity: 0.8;
+}
+.duotone-effect::before, .duotone-effect-3::before, .duotone-effect-2::before {
+  background-color: rgb(193.3918918919, 177.0067567568, 171.1081081081);
+  mix-blend-mode: darken;
+  opacity: 0.9;
+}
+.duotone-effect:hover, .duotone-effect-3:hover, .duotone-effect-2:hover {
+  filter: brightness(180%) contrast(120%) grayscale(0);
+  transform: scale(1.02);
+  box-shadow: 0 12px 35px rgba(93, 64, 55, 0.3);
+}
+.duotone-effect:hover::after, .duotone-effect-3:hover::after, .duotone-effect-2:hover::after {
+  background-color: #8d8363;
+  opacity: 0.75;
+}
+.duotone-effect:hover::before, .duotone-effect-3:hover::before, .duotone-effect-2:hover::before {
+  background-color: rgb(224.5, 199.5666666667, 190.5);
+  opacity: 0.85;
+}
+
+.duotone-effect-2 {
+  background-image: url("/resurse/imagini/arta2.jpg");
+}
+.duotone-effect-2::after {
+  background-color: #a17f87;
+}
+.duotone-effect-2::before {
+  background-color: #8d6382;
+}
+.duotone-effect-2:hover::after {
+  background-color: rgb(93, 92.5, 55);
+}
+.duotone-effect-2:hover::before {
+  background-color: rgb(215, 200.25, 200);
+}
+
+.duotone-effect-3 {
+  background-image: url("/resurse/imagini/arta3.jpg");
+}
+.duotone-effect-3::after {
+  background-color: #37545d;
+}
+.duotone-effect-3::before {
+  background-color: #7fa188;
+}
+.duotone-effect-3:hover::after {
+  background-color: #63748d;
+}
+.duotone-effect-3:hover::before {
+  background-color: rgb(203.5, 215, 200);
+}
+
+.duotone-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(215, 204, 200, 0.3) 0%, rgba(161, 136, 127, 0.2) 100%);
+  border-radius: 20px;
+  margin: 2rem 0;
+}
+.duotone-gallery .duotone-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.duotone-gallery .duotone-item h3 {
+  color: #5d4037;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+}
+.duotone-gallery .duotone-item p {
+  color: #8d6e63;
+  text-align: center;
+  font-size: 0.9rem;
+  margin: 0;
+  max-width: 300px;
+}
+
+@media (max-width: 1023px) {
+  .duotone-effect,
+  .duotone-effect-2,
+  .duotone-effect-3 {
+    width: 400px;
+    height: 400px;
+  }
+  .duotone-gallery {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+}
+@media (max-width: 767px) {
+  .duotone-effect,
+  .duotone-effect-2,
+  .duotone-effect-3 {
+    width: 300px;
+    height: 300px;
+  }
+  .duotone-gallery {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+}
+.galerie-animata .imagine-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.galerie-animata .imagine-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(60.9527027027, 41.9459459459, 36.0472972973, 0.3) 0%, rgba(193.3918918919, 177.0067567568, 171.1081081081, 0.2) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.galerie-animata .imagine-container:hover::after {
+  opacity: 1;
+}
+.galerie-animata .imagine-container img {
+  transition: transform 0.6s ease, filter 0.6s ease;
+}
+.galerie-animata .imagine-container:hover img {
+  transform: scale(1.05);
+  filter: brightness(110%) contrast(105%);
+}
+
+@keyframes duotone-pulse {
+  0%, 100% {
+    filter: brightness(200%) contrast(110%);
+  }
+  50% {
+    filter: brightness(220%) contrast(115%);
+  }
+}
+@keyframes duotone-shift {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.01) rotate(0.5deg);
+  }
+  75% {
+    transform: scale(1.01) rotate(-0.5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+.duotone-animated {
+  animation: duotone-pulse 4s ease-in-out infinite, duotone-shift 8s ease-in-out infinite;
+}
+.duotone-animated:hover {
+  animation-play-state: paused;
+}

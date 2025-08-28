@@ -1,0 +1,11 @@
+$primary-color: #5d4037;
+$secondary-color: #8d6e63;
+
+.test-scss {
+    color: $primary-color;
+    background-color: $secondary-color;
+    
+    &:hover {
+        opacity: 0.8;
+    }
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie Artă - Versiune Statică Desktop</title>
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/general.css">
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+}
+.galerie-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: auto;
+}
+.galerie-item {
+    opacity: 1;
+    overflow: hidden;
+    height: 320px;
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+.galerie-item.invizibil {
+    opacity: 0;
+    pointer-events: none;
+}
+.galerie-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 1.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: bottom center;
+}
+.galerie-item:hover img {
+    transform: translateY(-30%) scale(1.3);
+}
+.galerie-item figcaption {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 1.25s ease;
+}
+.galerie-item:hover figcaption {
+    background-color: #333;
+    color: #fff;
+}
+</style>
+</head>
+<body>
+    <header>
+        <h1 style="text-align: center; margin-top: 2rem;">Galeria de Artă - Vizualizare Completă</h1>
+    </header>
+
+    <main>
+        <div class="galerie-grid">
+            <% const toateImaginile = galerieData.imagini || []; %>
+            <% toateImaginile.forEach((img, index) => { %>
+                <div class="galerie-item <%= index >= 10 ? 'invizibil' : '' %>">
+                    <figure>
+                        <img src="/resurse/imagini/<%= img.cale_imagine %>" alt="<%= img.alt %>">
+                        <figcaption>
+                            <%= img.titlu %><br>
+                            <small><%= img.descriere %></small>
+                        </figcaption>
+                    </figure>
+                </div>
+            <% }); %>
+        </div>
+    </main>
+
+    <footer style="text-align: center; margin: 3rem 0;">
+        <p>&copy; 2025 Galeria ArtModern. Doar pentru desktop.</p>
+    </footer>
+</body>
+</html>

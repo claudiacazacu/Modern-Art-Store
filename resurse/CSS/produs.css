@@ -1,0 +1,112 @@
+/* =================================================================== */
+/* FIX LAYOUT FULL WIDTH - DOAR PENTRU ECRANUL TĂU */
+/* =================================================================== */
+
+/* RESETARE COMPLETĂ PENTRU FULL WIDTH */
+body {
+    margin: 10 !important;
+    padding: 10 !important;
+    width: 95% !important;
+    min-height: 120vh !important;
+}
+
+header, main, footer {
+    width: 90% !important;
+    max-width: none !important;
+}
+
+/* Container principal - FULL WIDTH */
+.produs-individual-container {
+    max-width: none !important;
+    width: 115% !important;
+    margin: 0 !important;
+    padding: 20px 40px !important;
+    box-sizing: border-box !important;
+}
+
+/* Breadcrumb - FULL WIDTH */
+.breadcrumb {
+    width: 100% !important;
+    max-width: none !important;
+    margin-bottom: 25px;
+    box-sizing: border-box !important;
+}
+
+/* Layout principal - FULL WIDTH GRID */
+.produs-detaliat {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+}
+
+.produs-grid {
+    display: grid !important;
+    grid-template-columns: 600px 1fr !important; /* Imagine fixă + restul spațiului */
+    gap: 60px !important;
+    padding: 40px 60px !important;
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+}
+
+/* Imaginea - dimensiuni fixe */
+.produs-imagini {
+    width: 600px !important;
+    max-width: 600px !important;
+}
+
+.imagine-principala {
+    width: 600px !important;
+    height: 450px !important;
+    max-width: 600px !important;
+}
+
+.imagini-miniatura {
+    width: 600px !important;
+    max-width: 600px !important;
+}
+
+/* Informațiile produsului - folosește tot spațiul rămas */
+.produs-informatii {
+    width: 100% !important;
+    max-width: none !important;
+    flex: 1 !important;
+}
+
+/* Titlul mai mare */
+.produs-header h1 {
+    font-size: 3rem !important;
+}
+
+/* Prețul mai mare */
+.pret-principal {
+    font-size: 3.5rem !important;
+}
+
+/* Specificații complete - FULL WIDTH */
+.specificatii-complete {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 40px 60px !important;
+    box-sizing: border-box !important;
+}
+
+.specificatii-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 40px !important;
+    width: 100% !important;
+}
+
+/* Produse similare - FULL WIDTH */
+.produse-similare {
+    width: 100% !important;
+    padding: 40px 60px !important;
+    box-sizing: border-box !important;
+}
+
+.produse-similare-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 40px !important;
+}

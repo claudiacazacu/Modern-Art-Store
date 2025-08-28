@@ -1,0 +1,530 @@
+// ===================================================================
+// CUSTOM BOOTSTRAP SCSS - Schema cromatica ArtModern (VERSIUNE FINALA)
+// ===================================================================
+
+// Import pentru noile functii de culoare SASS
+@use "sass:color";
+
+// ===================================================================
+// VARIABILE BOOTSTRAP CUSTOMIZATE - Schema cromatica ArtModern
+// ===================================================================
+
+// Culorile din schema cromatica existenta
+$artmodern-primary: #5d4037;    // Maro inchis
+$artmodern-secondary: #8d6e63;  // Maro mediu  
+$artmodern-accent: #a1887f;     // Maro deschis
+$artmodern-light: #d7ccc8;      // Bej deschis
+$artmodern-background: #efebe9; // Crem foarte deschis
+$artmodern-text: #3e2723;       // Maro foarte inchis
+
+// ===================================================================
+// CUSTOMIZARE CULORI BOOTSTRAP (prin CSS custom properties)
+// ===================================================================
+
+// Definim variabilele CSS pentru Bootstrap
+:root {
+  --bs-primary: #{$artmodern-primary};
+  --bs-secondary: #{$artmodern-secondary};
+  --bs-success: #4caf50;
+  --bs-info: #{$artmodern-accent};
+  --bs-warning: #ff9800;
+  --bs-danger: #d32f2f;
+  --bs-light: #{$artmodern-light};
+  --bs-dark: #{$artmodern-text};
+  
+  // Background si text
+  --bs-body-bg: #{$artmodern-background};
+  --bs-body-color: #{$artmodern-text};
+  
+  // Font customizations
+  --bs-font-sans-serif: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+  --bs-body-font-family: var(--bs-font-sans-serif);
+  
+  // Border radius customizations
+  --bs-border-radius: 12px;
+  --bs-border-radius-sm: 8px;
+  --bs-border-radius-lg: 16px;
+  --bs-border-radius-xl: 20px;
+  
+  // Spatiere customizata
+  --bs-spacer: 1.5rem;
+}
+
+// ===================================================================
+// DIMENSIUNI FONT HEADINGS CUSTOMIZATE
+// ===================================================================
+
+h1, .h1 { 
+  font-size: 3.5rem !important; 
+  color: $artmodern-primary !important;
+  font-weight: 600 !important;
+}
+
+h2, .h2 { 
+  font-size: 2.8rem !important; 
+  color: $artmodern-primary !important;
+  font-weight: 600 !important;
+}
+
+h3, .h3 { 
+  font-size: 2.2rem !important; 
+  color: $artmodern-secondary !important;
+  font-weight: 600 !important;
+}
+
+h4, .h4 { 
+  font-size: 1.8rem !important; 
+  color: $artmodern-secondary !important;
+  font-weight: 500 !important;
+}
+
+h5, .h5 { 
+  font-size: 1.4rem !important; 
+  font-weight: 500 !important;
+}
+
+h6, .h6 { 
+  font-size: 1.1rem !important; 
+  font-weight: 500 !important;
+}
+
+// ===================================================================
+// CUSTOMIZARE COMPONENTE BOOTSTRAP
+// ===================================================================
+
+// Butoane cu culorile noastre
+.btn-primary {
+  background-color: $artmodern-primary !important;
+  border-color: $artmodern-primary !important;
+  border-radius: 12px !important;
+  font-weight: 500 !important;
+  padding: 0.75rem 1.5rem !important;
+  
+  &:hover, &:focus {
+    background-color: color.adjust($artmodern-primary, $lightness: -10%) !important;
+    border-color: color.adjust($artmodern-primary, $lightness: -10%) !important;
+  }
+}
+
+.btn-secondary {
+  background-color: $artmodern-secondary !important;
+  border-color: $artmodern-secondary !important;
+  border-radius: 12px !important;
+  
+  &:hover, &:focus {
+    background-color: color.adjust($artmodern-secondary, $lightness: -10%) !important;
+    border-color: color.adjust($artmodern-secondary, $lightness: -10%) !important;
+  }
+}
+
+.btn-success {
+  background-color: #4caf50 !important;
+  border-color: #4caf50 !important;
+  border-radius: 12px !important;
+  
+  &:hover, &:focus {
+    background-color: color.adjust(#4caf50, $lightness: -10%) !important;
+    border-color: color.adjust(#4caf50, $lightness: -10%) !important;
+  }
+}
+
+.btn-warning {
+  background-color: #ff9800 !important;
+  border-color: #ff9800 !important;
+  border-radius: 12px !important;
+  
+  &:hover, &:focus {
+    background-color: color.adjust(#ff9800, $lightness: -10%) !important;
+    border-color: color.adjust(#ff9800, $lightness: -10%) !important;
+  }
+}
+
+.btn-info {
+  background-color: $artmodern-accent !important;
+  border-color: $artmodern-accent !important;
+  border-radius: 12px !important;
+  
+  &:hover, &:focus {
+    background-color: color.adjust($artmodern-accent, $lightness: -10%) !important;
+    border-color: color.adjust($artmodern-accent, $lightness: -10%) !important;
+  }
+}
+
+// Outline buttons
+.btn-outline-secondary {
+  border-color: $artmodern-secondary !important;
+  color: $artmodern-secondary !important;
+  border-radius: 12px !important;
+  
+  &:hover, &:focus {
+    background-color: $artmodern-secondary !important;
+    border-color: $artmodern-secondary !important;
+  }
+}
+
+// Cards customizate
+.card {
+  border-radius: 16px !important;
+  border: 2px solid $artmodern-light !important;
+  box-shadow: 0 4px 12px rgba($artmodern-text, 0.15) !important;
+  
+  .card-header {
+    background-color: $artmodern-primary !important;
+    color: white !important;
+    border-radius: 16px 16px 0 0 !important;
+    border-bottom: 2px solid $artmodern-light !important;
+    font-weight: 600;
+  }
+  
+  .card-title {
+    color: $artmodern-text !important;
+    font-weight: 600;
+  }
+  
+  .card-text {
+    color: $artmodern-text;
+  }
+}
+
+// Navbar customizat
+.navbar-light {
+  background-color: rgba($artmodern-background, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  
+  .navbar-brand, .nav-link {
+    color: $artmodern-text !important;
+    font-weight: 500;
+    
+    &:hover {
+      color: $artmodern-primary !important;
+    }
+  }
+  
+  .nav-link.active {
+    color: $artmodern-primary !important;
+    font-weight: 600;
+  }
+}
+
+// Alerte customizate
+.alert {
+  border-radius: 12px !important;
+  border: 2px solid;
+  font-weight: 500;
+}
+
+.alert-primary {
+  background-color: rgba($artmodern-primary, 0.1) !important;
+  border-color: $artmodern-primary !important;
+  color: $artmodern-text !important;
+}
+
+.alert-success {
+  background-color: rgba(#4caf50, 0.1) !important;
+  border-color: #4caf50 !important;
+  color: color.adjust(#4caf50, $lightness: -30%) !important;
+}
+
+.alert-warning {
+  background-color: rgba(#ff9800, 0.1) !important;
+  border-color: #ff9800 !important;
+  color: color.adjust(#ff9800, $lightness: -30%) !important;
+}
+
+.alert-info {
+  background-color: rgba($artmodern-accent, 0.1) !important;
+  border-color: $artmodern-accent !important;
+  color: $artmodern-text !important;
+}
+
+// Forms customizate
+.form-control {
+  border-color: $artmodern-light !important;
+  border-radius: 12px !important;
+  padding: 0.75rem 1rem;
+  
+  &:focus {
+    border-color: $artmodern-primary !important;
+    box-shadow: 0 0 0 0.2rem rgba($artmodern-primary, 0.25) !important;
+  }
+}
+
+.form-label {
+  color: $artmodern-text;
+  font-weight: 500;
+}
+
+// Tabele customizate
+.table {
+  border-color: $artmodern-light !important;
+  
+  th {
+    background-color: $artmodern-secondary !important;
+    color: white !important;
+    border-color: $artmodern-light !important;
+    font-weight: 600;
+  }
+  
+  td {
+    border-color: $artmodern-light !important;
+    color: $artmodern-text;
+  }
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba($artmodern-background, 0.5) !important;
+}
+
+// Badges customizate
+.badge {
+  border-radius: 8px !important;
+  font-weight: 500;
+}
+
+.bg-success {
+  background-color: #4caf50 !important;
+}
+
+.bg-primary {
+  background-color: $artmodern-primary !important;
+}
+
+.bg-warning {
+  background-color: #ff9800 !important;
+}
+
+// ===================================================================
+// TEMA CUSTOMIZATA 1: GALERIE ARTISTICA
+// ===================================================================
+
+.theme-gallery {
+  background: linear-gradient(135deg, $artmodern-background 0%, $artmodern-light 100%);
+  padding: 2rem;
+  border-radius: 20px;
+  
+  .card {
+    background: rgba(white, 0.95) !important;
+    transform: translateY(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba($artmodern-text, 0.2) !important;
+    }
+  }
+  
+  .btn-primary {
+    background: linear-gradient(45deg, $artmodern-primary, $artmodern-secondary) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba($artmodern-text, 0.15);
+    
+    &:hover {
+      background: linear-gradient(45deg, 
+        color.adjust($artmodern-primary, $lightness: -10%), 
+        color.adjust($artmodern-secondary, $lightness: -10%)
+      ) !important;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// ===================================================================
+// TEMA CUSTOMIZATA 2: MODERN ARTIST
+// ===================================================================
+
+.theme-artist {
+  background: $artmodern-text;
+  color: $artmodern-light;
+  padding: 2rem;
+  border-radius: 20px;
+  
+  .card {
+    background: rgba($artmodern-secondary, 0.1) !important;
+    border: 1px solid $artmodern-accent !important;
+    color: $artmodern-light !important;
+    
+    .card-body {
+      color: $artmodern-light !important;
+    }
+    
+    .card-title {
+      color: $artmodern-accent !important;
+    }
+    
+    .card-text {
+      color: $artmodern-light !important;
+    }
+    
+    .card-header {
+      background: rgba($artmodern-accent, 0.2) !important;
+      color: $artmodern-accent !important;
+    }
+  }
+  
+  .btn-outline-light {
+    border-color: $artmodern-accent !important;
+    color: $artmodern-accent !important;
+    
+    &:hover {
+      background-color: $artmodern-accent !important;
+      color: $artmodern-text !important;
+    }
+  }
+  
+  h2, h3, h4 {
+    color: $artmodern-accent !important;
+  }
+}
+
+// ===================================================================
+// RESPONSIVE CUSTOMIZATIONS PENTRU BREAKPOINTS CUSTOMIZATE
+// ===================================================================
+
+// Ecrane medii (768px - 1023px) - TABLETA
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+  
+  h1, .h1 { font-size: 2.8rem !important; }
+  h2, .h2 { font-size: 2.2rem !important; }
+  h3, .h3 { font-size: 1.8rem !important; }
+  
+  .btn {
+    padding: 0.6rem 1.2rem !important;
+    font-size: 0.9rem;
+  }
+  
+  .card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .theme-gallery, .theme-artist {
+    padding: 1.5rem;
+  }
+}
+
+// Ecrane mari (1024px - 1279px) - LAPTOP
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .container-fluid {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+  }
+  
+  .bootstrap-demo {
+    .demo-card {
+      margin-bottom: 2rem;
+    }
+  }
+  
+  .btn {
+    padding: 0.75rem 1.5rem !important;
+  }
+  
+  .theme-gallery, .theme-artist {
+    padding: 2rem;
+  }
+}
+
+// Ecrane extra mari (1280px+) - DESKTOP
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1140px !important;
+  }
+  
+  h1, .h1 { font-size: 4rem !important; }
+  h2, .h2 { font-size: 3.2rem !important; }
+  h3, .h3 { font-size: 2.4rem !important; }
+  
+  .btn {
+    padding: 0.875rem 1.75rem !important;
+    font-size: 1.1rem;
+  }
+  
+  .theme-gallery, .theme-artist {
+    padding: 3rem;
+  }
+  
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+// ===================================================================
+// COMPONENTE BOOTSTRAP DEMONSTRATE
+// ===================================================================
+
+.bootstrap-demo {
+  padding: 2rem 0;
+  
+  .demo-card {
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .demo-buttons .btn {
+    margin: 0.5rem;
+  }
+  
+  .demo-navigation {
+    margin: 2rem 0;
+  }
+  
+  .demo-alerts .alert {
+    margin: 1rem 0;
+  }
+  
+  .table-responsive {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+}
+
+// ===================================================================
+// CORECTII PENTRU COMPATIBILITATEA CU SITE-UL EXISTENT
+// ===================================================================
+
+// Pastrarea stilurilor originale pentru site-ul existent
+.site-original {
+  // Resetam fonturile Bootstrap pentru elementele existente
+  h1:not(.bootstrap-demo h1):not(.theme-gallery h1):not(.theme-artist h1) {
+    font-size: 2.5rem !important;
+    font-family: 'Georgia', 'Times New Roman', serif !important;
+    color: $artmodern-text !important;
+  }
+  
+  h2:not(.bootstrap-demo h2):not(.theme-gallery h2):not(.theme-artist h2) {
+    font-size: 2rem !important;
+    color: $artmodern-primary !important;
+  }
+  
+  // Pastreaza stilurile originale pentru linkuri
+  main a:not(.btn):not(.nav-link):not(.alert a) {
+    color: $artmodern-primary !important;
+    text-decoration: none !important;
+    
+    &:hover {
+      color: color.adjust($artmodern-primary, $lightness: -15%) !important;
+    }
+  }
+  
+  // Pastreaza tabelele originale
+  .opere-populare {
+    border: 5px double $artmodern-secondary !important;
+    
+    th {
+      background-color: $artmodern-secondary !important;
+      color: white !important;
+    }
+    
+    td {
+      border: 1px solid $artmodern-light !important;
+    }
+  }
+}

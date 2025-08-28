@@ -1,0 +1,36 @@
+@charset "UTF-8";
+#titlu-reflexie {
+  position: relative;
+  width: max-content; /* să se potrivească exact după text */
+  margin: 50px auto;
+  font-family: Arial, sans-serif;
+  font-size: 50px;
+  line-height: 50px;
+  font-weight: bold;
+  color: #222;
+  user-select: none;
+}
+
+/* reflexia, cu pseudoelementul ::after */
+#titlu-reflexie::after {
+  content: attr(data-text); /* ia textul din atributul data-text */
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  color: #222;
+  opacity: 0.55;
+  filter: blur(2px);
+  transform-origin: top left;
+  transform: rotateX(180deg) skew(-45deg) scaleY(0.5) translate(10px, -25px);
+  pointer-events: none; /* reflexia să nu afecteze interacțiunea */
+  transition: all 0.5s ease;
+  white-space: nowrap; /* ca textul să nu se rupă pe mai multe linii */
+}
+
+/* la hover pe elementul principal, modificăm reflexia */
+#titlu-reflexie:hover::after {
+  transform: rotateX(180deg) skew(-45deg) scaleY(1) translate(10px, -40px);
+  opacity: 0.7;
+  filter: blur(1.5px);
+}

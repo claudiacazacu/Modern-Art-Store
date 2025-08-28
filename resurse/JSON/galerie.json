@@ -1,0 +1,89 @@
+{
+  "cale_galerie": "resurse/imagini/",
+  "imagini": [
+    {
+      "cale_imagine": "arta1.jpg",
+      "titlu": "Peisaj de dimineața",
+      "descriere": "O frumoasă reprezentare a toamnei cu culori calde și vibrante",
+      "timp": "06:00-10:00",
+      "alt": "Peisaj toamna culori calde"
+    },
+    {
+      "cale_imagine": "arta2.jpg",
+      "titlu": "Abstract modern",
+      "descriere": "Compoziție abstractă cu forme geometrice și culori vibrante",
+      "timp": "08:00-12:00",
+      "alt": "Abstract geometric modern"
+    },
+    {
+      "cale_imagine": "arta3.jpg",
+      "titlu": "Portret clasic",
+      "descriere": "Portret realizat în stil clasic cu atenție la detalii",
+      "timp": "10:00-14:00",
+      "alt": "Portret clasic detaliat"
+    },
+    {
+      "cale_imagine": "arta4.jpg",
+      "titlu": "Natură moartă",
+      "descriere": "Compoziție clasică de natură moartă cu fructe și flori",
+      "timp": "12:00-16:00",
+      "alt": "Natura moarta fructe flori"
+    },
+    {
+      "cale_imagine": "arta5.jpg",
+      "titlu": "Peisaj de seară",
+      "descriere": "Atmosfera liniștită a unei seri de vară",
+      "timp": "14:00-18:00",
+      "alt": "Peisaj seara vara"
+    },
+    {
+      "cale_imagine": "arta6.jpg",
+      "titlu": "Artă contemporană",
+      "descriere": "Lucrare de artă contemporană cu elemente moderne",
+      "timp": "16:00-20:00",
+      "alt": "Arta contemporana moderna"
+    },
+    {
+      "cale_imagine": "arta7.jpg",
+      "titlu": "Impresionism",
+      "descriere": "Lucrare în stil impresionist cu jocuri de lumină",
+      "timp": "18:00-22:00",
+      "alt": "Impresionism lumina"
+    },
+    {
+      "cale_imagine": "arta8.jpg",
+      "titlu": "Nocturnă urbană",
+      "descriere": "Viața de noapte a orașului surprinsă în culori",
+      "timp": "20:00-00:00",
+      "alt": "Noaptea orasului urban"
+    },
+    {
+      "cale_imagine": "arta9.jpg",
+      "titlu": "Luna și stele",
+      "descriere": "Peisaj nocturn cu luna și stelele reflectate",
+      "timp": "22:00-02:00",
+      "alt": "Luna stele nocturn"
+    },
+    {
+      "cale_imagine": "arta10.jpg",
+      "titlu": "Miezul nopții",
+      "descriere": "Atmosfera mistică a miezului de noapte",
+      "timp": "00:00-06:00",
+      "alt": "Miez noapte mistic"
+    },
+    {
+      "cale_imagine": "arta11.jpg",
+      "titlu": "Zorile",
+      "descriere": "Primele raze ale soarelui la răsărit",
+      "timp": "04:00-08:00",
+      "alt": "Zorile rasarit"
+    },
+    {
+      "cale_imagine": "arta12.jpg",
+      "titlu": "Dimineața devreme",
+      "descriere": "Liniștea dimineții cu roua pe iarbă",
+      "timp": "05:00-09:00",
+      "alt": "Dimineata roua iarba"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" type="text/css" href="/resurse/CSS/general.css">
+</head>
+<body>
+    <header>
+        <h1>Magazin Online de Artă Modernă</h1>
+        <div class="user-info">
+            <p>IP utilizator: <%= ipUtilizator %></p>
+        </div>
+        <nav>
+            <ul class="meniu">
+                <li><a href="/">Acasă</a></li>
+                <li><a href="/produse">Produse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Produse din Baza de Date</h2>
+            
+            <!-- Verifică dacă există eroare -->
+            <% if (typeof eroare !== 'undefined') { %>
+                <div class="alert alert-danger">
+                    <h3>⚠️ Eroare la încărcarea produselor</h3>
+                    <p>Eroare: <%= eroare %></p>
+                </div>
+            <% } %>
+            
+            <!-- Verifică dacă produse este definit și nu este gol -->
+            <% if (typeof produse !== 'undefined' && Array.isArray(produse) && produse.length > 0) { %>
+                <h3>Produse disponibile</h3>
+                <div class="table-container">
+                    <table class="opere-populare">
+                        <caption>Lista produselor disponibile</caption>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nume Produs</th>
+                                <th>Preț</th>
+                                <th>Descriere</th>
+                                <th>Data Adăugării</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% produse.forEach(function(prod, index) { %>
+                                <tr>
+                                    <td><%= prod.id || 'N/A' %></td>
+                                    <td><%= prod.nume || prod.name || 'Fără nume' %></td>
+                                    <td><%= prod.pret || prod.price || '0' %> RON</td>
+                                    <td><%= prod.descriere || prod.description || 'Fără descriere' %></td>
+                                    <td><%= prod.data_adaugare || prod.created_at || 'N/A' %></td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5"><strong>Total produse: <%= produse.length %></strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                
+                <!-- Versiunea ta originală cu lista -->
+                <h3>Lista simplă</h3>
+                <ul>
+                    <% produse.forEach(prod => { %>
+                        <li><strong><%= prod.nume || prod.name || 'Produs fără nume' %></strong> – <%= prod.pret || prod.price || '0' %> RON</li>
+                    <% }) %>
+                </ul>
+                
+            <% } else { %>
+                <div class="alert alert-info">
+                    <h3>📦 Nu există produse în baza de date</h3>
+                    <p>Momentan nu sunt disponibile produse pentru afișare.</p>
+                    <p>Verifică dacă:</p>
+                    <ul>
+                        <li>Baza de date este conectată</li>
+                        <li>Tabela 'produse' există</li>
+                        <li>Tabela conține date</li>
+                    </ul>
+                </div>
+            <% } %>
+
+            <div style="margin-top: 30px;">
+                <p><a href="/debug-db">🔍 Debug baza de date</a></p>
+                <p><a href="/">← Înapoi la pagina principală</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Magazin Online de Artă Modernă. Toate drepturile rezervate.</p>
+    </footer>
+</body>
+</html>
