@@ -1,0 +1,7 @@
+.test-scss {
+  color: #5d4037;
+  background-color: #8d6e63;
+}
+.test-scss:hover {
+  opacity: 0.8;
+}

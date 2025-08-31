@@ -1,98 +1,251 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link rel="stylesheet" type="text/css" href="/resurse/CSS/general.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title><%= title || 'Produse' %></title>
+  <link rel="stylesheet" href="/resurse/CSS/general.css" />
+  <style>
+    :root{
+      --bg:#f8f3ef; --paper:#fff; --ink:#2b2b2b; --muted:#7a6b62; --accent:#7b4c36;
+      --line:#e9ddd4; --chip:#efe1d8; --badge:#e9dccf; --ok:#2e7d32; --warn:#b00020;
+    }
+    /* layout */
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;}
+    header{position:sticky;top:0;background:linear-gradient(180deg,#ffffffee,#ffffffcc);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--line);z-index:50}
+    .nav{max-width:1200px;margin:0 auto;display:flex;gap:18px;align-items:center;justify-content:space-between;padding:12px 16px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand h1{font-size:18px;letter-spacing:.4px;margin:0}
+    .crumbs{color:var(--muted);font-size:12px}
+    .nav a{color:var(--ink);text-decoration:none;padding:6px 10px;border-radius:10px}
+    .nav a:hover{background:var(--chip)}
+    .wrap{max-width:1200px;margin:24px auto 48px;padding:0 16px;display:grid;grid-template-columns:280px 1fr;gap:22px}
+    @media (max-width: 980px){.wrap{grid-template-columns:1fr}}
+    /* sidebar */
+    .panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:0 2px 12px rgba(0,0,0,.04);padding:16px;position:sticky;top:74px;height:fit-content}
+    .panel h3{margin:0 0 10px;font-size:16px}
+    .panel .group{display:grid;gap:8px;margin:12px 0}
+    .panel label{font-size:13px;color:var(--muted)}
+    .panel input,.panel select{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;font-size:14px}
+    .panel .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .panel .actions{display:flex;gap:10px;margin-top:8px}
+    .btn{border:1px solid var(--line);background:var(--paper);padding:10px 14px;border-radius:12px;cursor:pointer}
+    .btn.primary{background:var(--accent);border-color:transparent;color:#fff}
+    .btn.ghost:hover{background:var(--chip)}
+    /* top bar */
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .kpis{display:flex;gap:10px;flex-wrap:wrap}
+    .chip{background:var(--chip);color:#533f34;border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:12px}
+    .sort{display:flex;gap:8px;align-items:center}
+    .sort select{border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:#fff;font-size:14px}
+
+    /* grid of cards */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media (max-width: 1060px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width: 640px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 24px rgba(0,0,0,.05);transition:transform .15s ease, box-shadow .15s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+    .thumb{aspect-ratio:4/3;background:#faf7f4;border-bottom:1px solid var(--line);display:grid;place-items:center}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .ph{font-size:12px;color:var(--muted)}
+    .content{padding:14px 14px 12px;display:grid;gap:8px}
+    .title{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .title h4{margin:0;font-size:16px;line-height:1.2}
+    .price{font-weight:700}
+    .meta{display:flex;gap:8px;flex-wrap:wrap}
+    .badge{background:var(--badge);border:1px solid var(--line);font-size:12px;padding:4px 8px;border-radius:999px}
+    .desc{color:#4b403a;font-size:13px;line-height:1.45;min-height:2.6em}
+    .cta{display:flex;gap:8px;margin-top:6px}
+    .cta a,.cta button{all:unset}
+    .cta .btn{flex:1;text-align:center}
+    .stock.ok{color:var(--ok)} .stock.low{color:#8a6d3b} .stock.zero{color:var(--warn)}
+    /* table view (fallback) */
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}
+    table{width:100%;border-collapse:collapse;background:#fff}
+    th,td{padding:10px 12px;border-bottom:1px solid var(--line)}
+    th{text-align:left;font-size:13px;color:var(--muted);background:#fcf9f6}
+    caption{caption-side:bottom;padding:8px;color:var(--muted);font-size:12px}
+    /* pagination */
+    .pagination{display:flex;justify-content:center;gap:6px;margin-top:18px;flex-wrap:wrap}
+    .page{border:1px solid var(--line);padding:8px 12px;border-radius:12px;background:#fff;text-decoration:none;color:var(--ink)}
+    .page[aria-current="page"]{background:var(--accent);border-color:transparent;color:#fff}
+    .page:hover{background:var(--chip)}
+    footer{max-width:1200px;margin:24px auto 48px;padding:0 16px;color:var(--muted);font-size:13px}
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Magazin Online de Artă Modernă</h1>
-        <div class="user-info">
-            <p>IP utilizator: <%= ipUtilizator %></p>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2" fill="#7b4c36"/><rect x="13" y="13" width="8" height="8" rx="2" fill="#b68d7a"/><rect x="13" y="3" width="8" height="8" rx="2" fill="#e9dccf"/></svg>
+        <h1>Modern Art Store</h1>
+      </div>
+      <nav>
+        <a href="/">Acasă</a>
+        <a href="/produse">Produse</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- Sidebar filtre -->
+    <aside class="panel">
+      <h3>Filtre rapide</h3>
+      <form method="GET" action="/produse" id="filters">
+        <div class="group">
+          <label for="q">Caută după nume</label>
+          <input id="q" name="q" type="search" placeholder="ex: Mist, Stanza" value="<%= typeof q !== 'undefined' ? q : '' %>">
         </div>
-        <nav>
-            <ul class="meniu">
-                <li><a href="/">Acasă</a></li>
-                <li><a href="/produse">Produse</a></li>
-            </ul>
-        </nav>
-    </header>
 
+        <div class="group row">
+          <div>
+            <label for="min">Preț minim</label>
+            <input id="min" name="min" type="number" step="0.01" min="0" value="<%= typeof min !== 'undefined' ? min : '' %>">
+          </div>
+          <div>
+            <label for="max">Preț maxim</label>
+            <input id="max" name="max" type="number" step="0.01" min="0" value="<%= typeof max !== 'undefined' ? max : '' %>">
+          </div>
+        </div>
+
+        <div class="group">
+          <label for="material">Material</label>
+          <input id="material" name="material" list="materiale" placeholder="ex: Pânză, Acrilic" value="<%= typeof material !== 'undefined' ? material : '' %>">
+          <datalist id="materiale">
+            <% Array.isArray(produse) && produse.forEach(p => { %>
+              <% if (p.material) { %><option value="<%= p.material %>"></option><% } %>
+            <% }) %>
+          </datalist>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="submit">Aplică</button>
+          <a class="btn ghost" href="/produse">Resetează</a>
+        </div>
+      </form>
+    </aside>
+
+    <!-- Conținut -->
     <main>
-        <section>
-            <h2>Produse din Baza de Date</h2>
-            
-            <% if (typeof eroare !== 'undefined') { %>
-                <div class="alert alert-danger">
-                    <h3>⚠️ Eroare la încărcarea produselor</h3>
-                    <p>Eroare: <%= eroare %></p>
-                </div>
-            <% } %>
-            
-            <% if (typeof produse !== 'undefined' && Array.isArray(produse) && produse.length > 0) { %>
-                <h3>Produse disponibile</h3>
-                <div class="table-container">
-                    <table class="opere-populare">
-                        <caption>Lista produselor disponibile</caption>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nume Produs</th>
-                                <th>Preț</th>
-                                <th>Descriere</th>
-                                <th>Data Adăugării</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% produse.forEach(function(prod, index) { %>
-                                <tr>
-                                    <td><%= prod.id || 'N/A' %></td>
-                                    <td><%= prod.nume || prod.name || 'Fără nume' %></td>
-                                    <td><%= prod.pret || prod.price || '0' %> RON</td>
-                                    <td><%= prod.descriere || prod.description || 'Fără descriere' %></td>
-                                    <td><%= prod.data_adaugare || prod.created_at || 'N/A' %></td>
-                                </tr>
-                            <% }); %>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="5"><strong>Total produse: <%= produse.length %></strong></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                
-                <h3>Lista simplă</h3>
-                <ul>
-                    <% produse.forEach(prod => { %>
-                        <li><strong><%= prod.nume || prod.name || 'Produs fără nume' %></strong> – <%= prod.pret || prod.price || '0' %> RON</li>
-                    <% }) %>
-                </ul>
-                
-            <% } else { %>
-                <div class="alert alert-info">
-                    <h3>📦 Nu există produse în baza de date</h3>
-                    <p>Momentan nu sunt disponibile produse pentru afișare.</p>
-                    <p>Verifică dacă:</p>
-                    <ul>
-                        <li>Baza de date este conectată</li>
-                        <li>Tabela 'produse' există</li>
-                        <li>Tabela conține date</li>
-                    </ul>
-                </div>
-            <% } %>
+      <div class="topbar">
+        <div class="kpis">
+          <span class="chip">Total: <strong><%= Array.isArray(produse) ? produse.length : 0 %></strong></span>
+          <% if(typeof q !== 'undefined' && q){ %><span class="chip">Căutare: “<%= q %>”</span><% } %>
+          <% if(typeof material !== 'undefined' && material){ %><span class="chip">Material: <%= material %></span><% } %>
+        </div>
+        <form class="sort" method="GET" action="/produse">
+          <!-- păstrăm filtrele curente când sortăm -->
+          <input type="hidden" name="q" value="<%= typeof q !== 'undefined' ? q : '' %>">
+          <input type="hidden" name="min" value="<%= typeof min !== 'undefined' ? min : '' %>">
+          <input type="hidden" name="max" value="<%= typeof max !== 'undefined' ? max : '' %>">
+          <input type="hidden" name="material" value="<%= typeof material !== 'undefined' ? material : '' %>">
 
-            <div style="margin-top: 30px;">
-                <p><a href="/debug-db">🔍 Debug baza de date</a></p>
-                <p><a href="/">← Înapoi la pagina principală</a></p>
-            </div>
+          <label for="sort">Sortează:</label>
+          <select id="sort" name="sort" onchange="this.form.submit()">
+            <option value="">—</option>
+            <option value="pret_asc"  <%= sort==='pret_asc' ? 'selected' : '' %>>Preț: crescător</option>
+            <option value="pret_desc" <%= sort==='pret_desc'? 'selected' : '' %>>Preț: descrescător</option>
+            <option value="nume_asc"  <%= sort==='nume_asc' ? 'selected' : '' %>>Nume: A–Z</option>
+            <option value="nume_desc" <%= sort==='nume_desc'? 'selected' : '' %>>Nume: Z–A</option>
+            <option value="data_desc" <%= sort==='data_desc'? 'selected' : '' %>>Cele mai noi</option>
+          </select>
+        </form>
+      </div>
+
+      <% if (typeof eroare !== 'undefined') { %>
+        <div class="panel" style="border-color:#f5c2c7;background:#fff1f2">
+          <h3>⚠️ Eroare la încărcarea produselor</h3>
+          <p style="color:#7a1f2b"><%= eroare %></p>
+        </div>
+      <% } %>
+
+      <% if (Array.isArray(produse) && produse.length) { %>
+        <!-- CARD GRID -->
+        <section class="grid" aria-label="Lista produselor">
+          <% produse.forEach(function(p){ 
+               const pret = (p.pret ?? p.price ?? 0);
+               const stoc = p.stoc ?? p.stock ?? 0;
+               const stockClass = stoc > 10 ? 'ok' : (stoc > 0 ? 'low' : 'zero');
+          %>
+            <article class="card">
+              <div class="thumb">
+                <% if (p.imagine || p.poza || p.img){ %>
+                  <img src="<%= p.imagine || p.poza || p.img %>" alt="<%= p.nume || p.name || 'Lucrare' %>">
+                <% } else { %>
+                  <div class="ph">fără imagine</div>
+                <% } %>
+              </div>
+              <div class="content">
+                <div class="title">
+                  <h4 title="<%= p.nume || p.name %>"><%= p.nume || p.name || 'Lucrare' %></h4>
+                  <div class="price"><%= pret %> RON</div>
+                </div>
+                <div class="meta">
+                  <% if (p.material) { %><span class="badge"><%= p.material %></span><% } %>
+                  <span class="badge stock <%= stockClass %>">
+                    <% if (stoc > 10) { %>în stoc<% } else if (stoc > 0) { %>stoc redus (<%= stoc %>)<% } else { %>stoc epuizat<% } %>
+                  </span>
+                  <% if (p.data_adaugare || p.created_at) { %>
+                    <span class="badge">adăugat: <%= (p.data_adaugare || p.created_at).toString().slice(0,10) %></span>
+                  <% } %>
+                </div>
+                <p class="desc"><%= (p.descriere || p.description || '—') %></p>
+                <div class="cta">
+                  <a class="btn" href="/produs/<%= p.id %>">Vezi detalii</a>
+                  <form method="POST" action="/cos/adauga" style="flex:1">
+                    <input type="hidden" name="id_produs" value="<%= p.id %>">
+                    <button class="btn primary" type="submit" <%= stoc === 0 ? 'disabled' : '' %>><%= stoc===0 ? 'Indisponibil' : 'Adaugă în coș' %></button>
+                  </form>
+                </div>
+              </div>
+            </article>
+          <% }) %>
         </section>
-    </main>
 
-    <footer>
-        <p>&copy; 2024 Magazin Online de Artă Modernă. Toate drepturile rezervate.</p>
-    </footer>
+        <!-- (opțional) tabel compact ca fallback / export -->
+        <details style="margin-top:18px">
+          <summary style="cursor:pointer;color:var(--muted)">Afișează tabel (mod compact)</summary>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Nume</th><th>Material</th><th>Preț</th><th>Stoc</th><th>Data</th></tr></thead>
+              <tbody>
+                <% produse.forEach(p => { %>
+                  <tr>
+                    <td><%= p.id %></td>
+                    <td><a href="/produs/<%= p.id %>"><%= p.nume || p.name %></a></td>
+                    <td><%= p.material || '—' %></td>
+                    <td><%= p.pret ?? p.price ?? 0 %> RON</td>
+                    <td><%= p.stoc ?? p.stock ?? 0 %></td>
+                    <td><%= (p.data_adaugare || p.created_at || '').toString().slice(0,10) %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+              <caption>Total: <%= produse.length %> produse</caption>
+            </table>
+          </div>
+        </details>
+
+        <!-- paginare -->
+        <% if (typeof pageCount !== 'undefined' && pageCount > 1) { %>
+          <nav class="pagination" aria-label="Paginare">
+            <% for (let i=1;i<=pageCount;i++){ %>
+              <a class="page" href="?q=<%= q||'' %>&min=<%= min||'' %>&max=<%= max||'' %>&material=<%= material||'' %>&sort=<%= sort||'' %>&page=<%= i %>" aria-current="<%= i===page ? 'page' : '' %>"><%= i %></a>
+            <% } %>
+          </nav>
+        <% } %>
+
+      <% } else { %>
+        <div class="panel">
+          <h3>📦 Nu există produse</h3>
+          <p class="muted">Încearcă să modifici filtrele sau verifică popularea bazei de date.</p>
+        </div>
+      <% } %>
+    </main>
+  </div>
+
+  <footer>
+    <div>IP utilizator: <%= ipUtilizator %></div>
+    <div>&copy; <%= new Date().getFullYear() %> Modern Art Store</div>
+  </footer>
 </body>
 </html>

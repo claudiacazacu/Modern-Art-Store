@@ -1,41 +1,135 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8"><title><%= title %></title>
-  <link rel="stylesheet" href="/resurse/CSS/general.css">
-  <style>table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #eee}</style>
+  <meta charset="UTF-8" />
+  <title><%= title || 'Admin produse' %></title>
+  <link rel="stylesheet" href="/resurse/CSS/general.css" />
+  <style>
+    :root{
+      --bg:#f8f3ef; --paper:#fff; --ink:#2b2b2b; --muted:#7a6b62; --accent:#7b4c36;
+      --line:#e9ddd4; --accent-2:#9a6a52; --danger:#b0412e; --good:#2f7d32;
+    }
+    body{background:var(--bg); color:var(--ink);}
+    .container{max-width:1100px; margin:24px auto 48px; padding:0 16px;}
+    header h1{font-weight:700; text-align:center; margin:0 0 18px;}
+    .meta{ text-align:center; color:var(--muted); margin:6px 0 18px;}
+
+    .actions-bar{
+      display:flex; flex-wrap:wrap; gap:12px; justify-content:center; align-items:center;
+      margin:0 auto 18px; max-width:900px;
+    }
+    .filters{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end;
+    }
+    .filters input, .filters select{
+      padding:9px 10px; border:1px solid var(--line); border-radius:8px; background:#fff;
+    }
+    .btn{padding:10px 14px; border-radius:8px; border:0; cursor:pointer}
+    .btn-primary{background:var(--accent); color:#fff}
+    .btn-ghost{background:#eee; color:#333; text-decoration:none; display:inline-block; line-height:38px; padding:0 14px; border-radius:8px}
+    .btn-new{background:var(--good); color:#fff; text-decoration:none}
+
+    .table-wrap{
+      background:var(--paper); border:1px solid var(--line); border-radius:12px;
+      overflow:hidden; margin:0 auto; max-width:100%;
+      box-shadow: 0 2px 8px rgba(0,0,0,.03);
+    }
+    table{width:100%; border-collapse:collapse;}
+    thead th{background:#efe1d8; font-size:.9rem; letter-spacing:.02em;}
+    th,td{padding:12px 10px; border-bottom:1px solid var(--line); text-align:center; vertical-align:top;}
+    td .stack{display:flex; gap:8px; justify-content:center; flex-wrap:wrap}
+    .link{color:var(--accent-2); text-decoration:none}
+    .danger{color:#fff; background:var(--danger); border-radius:8px; padding:6px 10px; border:0; cursor:pointer}
+    .empty{padding:24px; text-align:center; background:var(--paper); border:1px dashed var(--line); border-radius:12px}
+
+    .pager{display:flex; gap:8px; justify-content:center; align-items:center; margin-top:16px}
+    .pager a, .pager span{
+      padding:8px 12px; border-radius:8px; background:#eee; color:#333; text-decoration:none; border:1px solid var(--line)
+    }
+    .pager .disabled{opacity:.5; pointer-events:none}
+    @media (max-width:720px){
+      th,td{padding:10px 8px; font-size:.95rem}
+      .filters{width:100%; justify-content:center}
+    }
+  </style>
 </head>
 <body>
-<header>
-  <h1>Admin produse</h1>
-  <nav><a href="/admin/db">Admin DB</a> · <a href="/admin/produse/new">Produs nou</a></nav>
-</header>
-<main>
-  <form method="get" action="/admin/produse" style="margin:10px 0;display:flex;gap:8px">
-    <input type="text" name="q" placeholder="cauta dupa nume" value="<%= q %>">
-    <button type="submit">cauta</button>
-  </form>
+  <div class="container">
+    <header>
+      <h1>Administrare produse</h1>
+    </header>
 
-  <table>
-    <thead><tr><th>ID</th><th>Nume</th><th>Material</th><th>Pret</th><th>Stoc</th><th>Actiuni</th></tr></thead>
-    <tbody>
-    <% (produse||[]).forEach(p => { %>
-      <tr>
-        <td><%= p.id_produs %></td>
-        <td><%= p.nume %></td>
-        <td><%= p.material||'' %></td>
-        <td><%= p.pret %></td>
-        <td><%= p.stoc %></td>
-        <td>
-          <a href="/admin/produse/<%= p.id_produs %>/edit">editeaza</a>
-          <form action="/admin/produse/<%= p.id_produs %>/delete" method="post" style="display:inline" onsubmit="return confirm('stergi produsul?')">
-            <button type="submit">sterge</button>
-          </form>
-        </td>
-      </tr>
-    <% }) %>
-    </tbody>
-  </table>
-</main>
+    <div class="meta">
+      <span>IP: <%= ipUtilizator %></span>
+      <% if (q) { %> · căutare: „<strong><%= q %></strong>” <% } %>
+    </div>
+
+    <div class="actions-bar">
+      <form method="get" action="/admin/produse" class="filters">
+        <input type="text" name="q" placeholder="caută după nume…" value="<%= q||'' %>">
+        <input type="hidden" name="page" value="1">
+        <select name="limit" aria-label="Randuri per pagină">
+          <% [10,20,50,100].forEach(function(n){ %>
+            <option value="<%= n %>" <%= (Number(limit||20)===n)?'selected':'' %>><%= n %>/pag</option>
+          <% }) %>
+        </select>
+        <button class="btn btn-primary" type="submit"> Cautare</button>
+        <a class="btn-ghost" href="/admin/produse">↺ Resetează</a>
+      </form>
+
+      <a class="btn btn-new" href="/admin/produse/new">Produs nou</a>
+      <a class="btn btn-ghost" href="/admin/db">Admin DB</a>
+    </div>
+
+    <% if (produse && produse.length) { %>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nume</th>
+              <th>Material</th>
+              <th>Preț</th>
+              <th>Stoc</th>
+              <th>Acțiuni</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% produse.forEach(function(p){ %>
+              <tr>
+                <td>#<%= p.id_produs %></td>
+                <td style="text-align:left"><%= p.nume %></td>
+                <td><%= p.material || '—' %></td>
+                <td><%= Number(p.pret||0).toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2}) %> RON</td>
+                <td><%= p.stoc %></td>
+                <td>
+                  <div class="stack">
+                    <a class="link" href="/admin/produse/<%= p.id_produs %>/edit">editeaza</a>
+                    <form action="/admin/produse/<%= p.id_produs %>/delete" method="post" onsubmit="return confirm('Ștergi produsul «<%= p.nume %>»?');">
+                      <button class="danger" type="submit">sterge</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pager">
+        <% const curr = Number(page||1), lim = Number(limit||20); %>
+        <% const hasPrev = curr>1; const hasNext = (produse.length===lim); %>
+        <a class="<%= hasPrev?'':'disabled' %>" href="/admin/produse?<%= new URLSearchParams({q:q||'', page:String(curr-1), limit:String(lim)}).toString() %>">« anterioară</a>
+        <span>pagina <strong><%= curr %></strong></span>
+        <a class="<%= hasNext?'':'disabled' %>" href="/admin/produse?<%= new URLSearchParams({q:q||'', page:String(curr+1), limit:String(lim)}).toString() %>">următoarea »</a>
+      </div>
+
+    <% } else { %>
+      <div class="empty">
+        <h3>Nu există produse pentru criteriile curente.</h3>
+        <p>Încearcă alt text de căutare sau apasă „Resetează”.</p>
+      </div>
+    <% } %>
+  </div>
 </body>
 </html>

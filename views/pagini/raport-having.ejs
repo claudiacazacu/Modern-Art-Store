@@ -1,28 +1,102 @@
 <!DOCTYPE html>
 <html lang="ro">
-<head><meta charset="UTF-8"><title><%= title %></title>
-<link rel="stylesheet" href="/resurse/CSS/general.css"></head>
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title || 'Raport HAVING' %></title>
+  <link rel="stylesheet" href="/resurse/CSS/general.css" />
+  <style>
+    :root{
+      --bg:#f8f3ef; --paper:#fff; --ink:#2b2b2b; --muted:#7a6b62; --accent:#7b4c36;
+      --line:#e9ddd4;
+    }
+    body{background:var(--bg); color:var(--ink);}
+    .container{max-width:1100px; margin:24px auto 48px; padding:0 16px;}
+    header h1{font-weight:700; text-align:center; margin:0 0 18px;}
+    .meta{text-align:center; color:var(--muted); margin:6px 0 18px;}
+
+    .filters{
+      display:flex; flex-wrap:wrap; gap:12px; justify-content:center; align-items:flex-end;
+      margin:0 auto 18px; max-width:900px;
+    }
+    .filters label{display:flex; flex-direction:column; gap:6px; font-size:.95rem;}
+    .filters input{padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:#fff;}
+    .btn{padding:10px 14px; border-radius:8px; border:0; cursor:pointer}
+    .btn-primary{background:var(--accent); color:#fff}
+    .btn-ghost{background:#eee; color:#333; text-decoration:none; display:inline-block; line-height:38px; padding:0 14px; border-radius:8px}
+
+    .table-wrap{
+      background:var(--paper); border:1px solid var(--line); border-radius:12px;
+      overflow:hidden; margin:0 auto; max-width:100%;
+      box-shadow:0 2px 8px rgba(0,0,0,.03);
+    }
+    table{width:100%; border-collapse:collapse;}
+    thead th{background:#efe1d8; font-size:.9rem; letter-spacing:.02em;}
+    th,td{padding:12px 10px; border-bottom:1px solid var(--line); text-align:center; vertical-align:top;}
+    tfoot td{background:#faf6f3; font-weight:700}
+    .badge{display:inline-block; padding:.25rem .6rem; background:#e9dccf; border-radius:999px; font-size:.8rem}
+    .empty{padding:24px; text-align:center; background:var(--paper); border:1px dashed var(--line); border-radius:12px}
+    @media(max-width:720px){
+      .filters{gap:10px}
+      th,td{padding:10px 8px; font-size:.95rem}
+    }
+  </style>
+</head>
 <body>
-<header><h1>Raport grupare + HAVING</h1></header>
-<main>
-  <form method="get" action="/rapoarte/having" style="display:flex;gap:8px;flex-wrap:wrap">
-    <label>min produse <input type="number" name="min_items" value="<%= min_items||'' %>"></label>
-    <label>min valoare <input type="number" step="0.01" name="min_total" value="<%= min_total||'' %>"></label>
-    <button>aplica</button>
-  </form>
-  <table>
-    <thead><tr><th>client</th><th>nr comenzi</th><th>nr produse</th><th>total</th></tr></thead>
-    <tbody>
-      <% (rows||[]).forEach(r=>{ %>
-        <tr>
-          <td>#<%= r.id_client %> — <%= r.nume %> <%= r.prenume %></td>
-          <td><%= r.nr_comenzi %></td>
-          <td><%= r.nr_produse %></td>
-          <td><%= r.total_valoare %></td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
-</main>
+  <div class="container">
+    <header>
+      <h1>Raport grupare HAVING</h1>
+    </header>
+
+    <form method="get" action="/rapoarte/having" class="filters">
+      <label>
+        min produse
+        <input type="number" name="min_items" value="<%= min_items||'' %>">
+      </label>
+      <label>
+        min valoare
+        <input type="number" step="0.01" name="min_total" value="<%= min_total||'' %>">
+      </label>
+      <button type="submit" class="btn btn-primary">Aplica</button>
+      <a class="btn-ghost" href="/rapoarte/having">Reseteaza</a>
+    </form>
+
+    <div class="meta">
+      <span class="badge">rezultate: <strong><%= (rows && rows.length) ? rows.length : 0 %></strong></span>
+      <% if (min_items) { %> · min produse: <%= min_items %> <% } %>
+      <% if (min_total) { %> · min valoare: <%= Number(min_total).toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2}) %> RON <% } %>
+    </div>
+
+    <% if (rows && rows.length) { %>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Nr comenzi</th>
+              <th>Nr produse</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% 
+              const fmtMoney = v => Number(v||0).toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2});
+              rows.forEach(r => { %>
+              <tr>
+                <td>#<%= r.id_client %> — <%= r.nume %> <%= r.prenume %></td>
+                <td><%= r.nr_comenzi %></td>
+                <td><%= r.nr_produse %></td>
+                <td><%= fmtMoney(r.total_valoare) %> RON</td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="empty">
+        <h3>Nu s-au gasit rezultate pentru filtrele alese.</h3>
+        <p>Modifica valorile minime si cauta din nou.</p>
+      </div>
+    <% } %>
+  </div>
 </body>
 </html>

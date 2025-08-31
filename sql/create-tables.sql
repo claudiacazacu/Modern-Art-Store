@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS public.produs(
     pret NUMERIC(10,2) NOT NULL CHECK (pret >= 0),
     stoc INT NOT NULL DEFAULT 0 CHECK (stoc >= 0)
 );
+
 CREATE INDEX IF NOT EXISTS idx_produs_artist   ON public.produs(id_artist);
 CREATE INDEX IF NOT EXISTS idx_produs_colectie ON public.produs(id_colectie);
 

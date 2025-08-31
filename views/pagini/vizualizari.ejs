@@ -1,53 +1,116 @@
 <!DOCTYPE html>
 <html lang="ro">
-<head><meta charset="UTF-8"><title><%= title %></title>
-<link rel="stylesheet" href="/resurse/CSS/general.css">
-<style>table{width:100%;border-collapse:collapse}th,td{padding:6px;border-bottom:1px solid #eee}</style>
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title || 'Vizualizari' %></title>
+  <link rel="stylesheet" href="/resurse/CSS/general.css" />
+  <style>
+    :root{
+      --bg:#f8f3ef; --paper:#fff; --ink:#2b2b2b; --muted:#7a6b62; --accent:#7b4c36;
+      --line:#e9ddd4;
+    }
+    body{background:var(--bg); color:var(--ink);}
+    .container{max-width:1100px; margin:24px auto 48px; padding:0 16px;}
+    header h1{font-weight:700; text-align:center; margin:0 0 18px;}
+    .meta{text-align:center; color:var(--muted); margin:6px 0 18px;}
+
+    section{margin-bottom:36px;}
+    h2{margin:12px 0; text-align:center}
+
+    .table-wrap{
+      background:var(--paper); border:1px solid var(--line); border-radius:12px;
+      overflow:hidden; margin:0 auto; max-width:100%;
+      box-shadow:0 2px 8px rgba(0,0,0,.03);
+    }
+    table{width:100%; border-collapse:collapse;}
+    thead th{background:#efe1d8; font-size:.9rem; letter-spacing:.02em;}
+    th,td{padding:12px 10px; border-bottom:1px solid var(--line); text-align:center; vertical-align:top;}
+    tbody td form{display:flex; gap:6px; justify-content:center; flex-wrap:wrap}
+    .btn{padding:8px 12px; border-radius:8px; border:0; cursor:pointer}
+    .btn-primary{background:var(--accent); color:#fff}
+    .empty{padding:24px; text-align:center; background:var(--paper); border:1px dashed var(--line); border-radius:12px}
+    @media(max-width:720px){th,td{padding:10px 8px; font-size:.95rem}}
+  </style>
 </head>
 <body>
-<header><h1>Vizualizari</h1></header>
-<main>
-  <section>
-    <h2>v_produs_simplu (updatabil)</h2>
-    <table>
-      <thead><tr><th>id</th><th>nume</th><th>pret</th><th>stoc</th><th>modifica</th></tr></thead>
-      <tbody>
-        <% (v1||[]).forEach(r=>{ %>
-          <tr>
-            <td><%= r.id_produs %></td>
-            <td><%= r.nume %></td>
-            <td><%= r.pret %></td>
-            <td><%= r.stoc %></td>
-            <td>
-              <form method="post" action="/vizualizari/produs/update" style="display:flex;gap:6px">
-                <input type="hidden" name="id_produs" value="<%= r.id_produs %>">
-                <input type="number" step="0.01" name="pret" value="<%= r.pret %>" required>
-                <input type="number" name="stoc" value="<%= r.stoc %>" required>
-                <button>salveaza</button>
-              </form>
-            </td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
-  </section>
+  <div class="container">
+    <header>
+      <h1>Vizualizari</h1>
+    </header>
 
-  <section>
-    <h2>v_raport_vanzari_clienti (complex, read only)</h2>
-    <table>
-      <thead><tr><th>client</th><th>nr comenzi</th><th>nr produse</th><th>total</th></tr></thead>
-      <tbody>
-        <% (v2||[]).forEach(r=>{ %>
-          <tr>
-            <td>#<%= r.id_client %> — <%= r.nume %> <%= r.prenume %></td>
-            <td><%= r.nr_comenzi %></td>
-            <td><%= r.nr_produse %></td>
-            <td><%= r.total_valoare %></td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
-  </section>
-</main>
+    <section>
+      <h2>v_produs_simplu (updatabil)</h2>
+      <% if (v1 && v1.length) { %>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nume</th>
+                <th>Pret</th>
+                <th>Stoc</th>
+                <th>Modifica</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% v1.forEach(r=>{ %>
+                <tr>
+                  <td><%= r.id_produs %></td>
+                  <td><%= r.nume %></td>
+                  <td><%= r.pret %></td>
+                  <td><%= r.stoc %></td>
+                  <td>
+                    <form method="post" action="/vizualizari/produs/update">
+                      <input type="hidden" name="id_produs" value="<%= r.id_produs %>">
+                      <input type="number" step="0.01" name="pret" value="<%= r.pret %>" required>
+                      <input type="number" name="stoc" value="<%= r.stoc %>" required>
+                      <button class="btn btn-primary" type="submit">Salveaza</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="empty">
+          <h3>Nu exista produse in v_produs_simplu.</h3>
+        </div>
+      <% } %>
+    </section>
+
+    <section>
+      <h2>v_raport_vanzari_clienti (complex, read only)</h2>
+      <% if (v2 && v2.length) { %>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Nr comenzi</th>
+                <th>Nr produse</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% const fmtMoney = v => Number(v||0).toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2}); %>
+              <% v2.forEach(r=>{ %>
+                <tr>
+                  <td>#<%= r.id_client %> — <%= r.nume %> <%= r.prenume %></td>
+                  <td><%= r.nr_comenzi %></td>
+                  <td><%= r.nr_produse %></td>
+                  <td><%= fmtMoney(r.total_valoare) %> RON</td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="empty">
+          <h3>Nu exista date in v_raport_vanzari_clienti.</h3>
+        </div>
+      <% } %>
+    </section>
+  </div>
 </body>
 </html>
