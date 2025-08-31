@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8"><title><%= title %></title>
+  <link rel="stylesheet" href="/resurse/CSS/general.css">
+  <style>table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #eee}</style>
+</head>
+<body>
+<header>
+  <h1>Admin produse</h1>
+  <nav><a href="/admin/db">Admin DB</a> · <a href="/admin/produse/new">Produs nou</a></nav>
+</header>
+<main>
+  <form method="get" action="/admin/produse" style="margin:10px 0;display:flex;gap:8px">
+    <input type="text" name="q" placeholder="cauta dupa nume" value="<%= q %>">
+    <button type="submit">cauta</button>
+  </form>
+
+  <table>
+    <thead><tr><th>ID</th><th>Nume</th><th>Material</th><th>Pret</th><th>Stoc</th><th>Actiuni</th></tr></thead>
+    <tbody>
+    <% (produse||[]).forEach(p => { %>
+      <tr>
+        <td><%= p.id_produs %></td>
+        <td><%= p.nume %></td>
+        <td><%= p.material||'' %></td>
+        <td><%= p.pret %></td>
+        <td><%= p.stoc %></td>
+        <td>
+          <a href="/admin/produse/<%= p.id_produs %>/edit">editeaza</a>
+          <form action="/admin/produse/<%= p.id_produs %>/delete" method="post" style="display:inline" onsubmit="return confirm('stergi produsul?')">
+            <button type="submit">sterge</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

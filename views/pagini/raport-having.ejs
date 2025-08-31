@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head><meta charset="UTF-8"><title><%= title %></title>
+<link rel="stylesheet" href="/resurse/CSS/general.css"></head>
+<body>
+<header><h1>Raport grupare + HAVING</h1></header>
+<main>
+  <form method="get" action="/rapoarte/having" style="display:flex;gap:8px;flex-wrap:wrap">
+    <label>min produse <input type="number" name="min_items" value="<%= min_items||'' %>"></label>
+    <label>min valoare <input type="number" step="0.01" name="min_total" value="<%= min_total||'' %>"></label>
+    <button>aplica</button>
+  </form>
+  <table>
+    <thead><tr><th>client</th><th>nr comenzi</th><th>nr produse</th><th>total</th></tr></thead>
+    <tbody>
+      <% (rows||[]).forEach(r=>{ %>
+        <tr>
+          <td>#<%= r.id_client %> — <%= r.nume %> <%= r.prenume %></td>
+          <td><%= r.nr_comenzi %></td>
+          <td><%= r.nr_produse %></td>
+          <td><%= r.total_valoare %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

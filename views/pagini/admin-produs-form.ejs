@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8"><title><%= title %></title>
+  <link rel="stylesheet" href="/resurse/CSS/general.css">
+  <style>label{display:block;margin:6px 0}</style>
+</head>
+<body>
+<header><h1><%= creare?'Produs nou':'Editeaza produs' %></h1></header>
+<main>
+  <form method="post" action="<%= creare?'/admin/produse/create':'/admin/produse/'+produs.id_produs+'/update' %>">
+    <label>nume <input name="nume" value="<%= produs.nume||'' %>" required></label>
+    <label>material <input name="material" value="<%= produs.material||'' %>"></label>
+    <label>pret <input type="number" step="0.01" name="pret" value="<%= produs.pret||0 %>" required></label>
+    <label>stoc <input type="number" name="stoc" value="<%= produs.stoc||0 %>" required></label>
+    <button type="submit"><%= creare?'creeaza':'salveaza' %></button>
+    <a href="/admin/produse">anuleaza</a>
+  </form>
+</main>
+</body>
+</html>

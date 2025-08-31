@@ -26,50 +26,36 @@ const obGlobal = {
   folderCss: path.join(__dirname, 'resurse', 'CSS')
 }
 
+// === produse pe baza tabelului public.produs din schema ===
 async function getProduse(categorieFilter = null) {
   try {
-    let query = 'SELECT * FROM produse'
-    let params = []
-    if (categorieFilter) {
-      query += ' WHERE categoria_mare = $1'
-      params = [categorieFilter]
-    }
-    query += ' ORDER BY id'
-    const rezultat = await db.query(query, params)
-    console.log(normMsg(`preluate ${rezultat.length} produse din baza de date`))
-    return rezultat
-  } catch (error) {
-    console.error(normMsg('eroare la preluarea produselor'))
+    const q = `SELECT id_produs AS id, nume, pret, stoc FROM public.produs ORDER BY id_produs`
+    const rs = await db.query(q)
+    return rs.rows || rs
+  } catch (e) {
+    console.error('eroare la preluarea produselor', e.message)
     return []
   }
 }
 
 async function getProdusById(id) {
   try {
-    const query = 'SELECT * FROM produse WHERE id = $1'
-    const rezultat = await db.oneOrNone(query, [id])
-    if (rezultat) {
-      console.log(normMsg(`produs gasit ${rezultat.nume}`))
-      return rezultat
-    } else {
-      console.log(normMsg(`nu am gasit produsul cu id ${id}`))
-      return null
-    }
-  } catch (error) {
-    console.error(normMsg('eroare la preluarea produsului'))
+    const q = `SELECT id_produs AS id, nume, pret, stoc, id_artist, id_colectie 
+               FROM public.produs WHERE id_produs = $1`
+    const row = await db.oneOrNone(q, [id])
+    return row || null
+  } catch (e) {
+    console.error('eroare la preluarea produsului', e.message)
     return null
   }
 }
 
+// categorii mock fallback
 async function getCategorii() {
   try {
-    const query = 'SELECT DISTINCT categoria_mare FROM produse ORDER BY categoria_mare'
-    const rezultat = await db.query(query)
-    const categorii = rezultat.map(row => row.categoria_mare)
-    console.log(normMsg(`categorii gasite ${categorii.join(' ')}`))
-    return categorii
-  } catch (error) {
-    console.error(normMsg('eroare la preluarea categoriilor'))
+    // daca nu ai coloana categoria in schema, intoarce fallback
+    return ['pictura', 'sculptura', 'arta_digitala', 'ceramica', 'fotografie']
+  } catch {
     return ['pictura', 'sculptura', 'arta_digitala', 'ceramica', 'fotografie']
   }
 }
@@ -78,13 +64,13 @@ async function testConexiune() {
   try {
     await db.connect()
     console.log(normMsg('conexiunea merge la baza de date'))
-    const tabelExista = await db.oneOrNone("SELECT to_regclass('public.produse') as tabel")
+    const tabelExista = await db.oneOrNone("SELECT to_regclass('public.produs') as tabel")
     if (tabelExista && tabelExista.tabel) {
-      console.log(normMsg('tabelul produse exista in baza de date'))
-      const numarProduse = await db.one('SELECT COUNT(*) FROM produse')
+      console.log(normMsg('tabelul produs exista in baza de date'))
+      const numarProduse = await db.one('SELECT COUNT(*) FROM public.produs')
       console.log(normMsg(`numar de produse in baza de date ${numarProduse.count}`))
     } else {
-      console.log(normMsg('tabelul produse nu exista in baza de date'))
+      console.log(normMsg('tabelul produs nu exista in baza de date'))
     }
   } catch (error) {
     console.error(normMsg('eroare la conexiunea cu baza de date'))
@@ -458,11 +444,11 @@ initImagini()
 
 app.locals.genereazaGalerieAnimata = genereazaHTMLGalerie
 
+// blocari acces .ejs
 app.get('*.ejs', function (req, res) {
   const ipUtilizator = req.ip || req.connection.remoteAddress || '::1'
   afisareEroare(res, 400, null, null, null, ipUtilizator)
 })
-
 app.use((req, res, next) => {
   if (req.path.endsWith('.ejs')) {
     const ipUtilizator = req.ip || req.connection.remoteAddress || '::1'
@@ -471,12 +457,12 @@ app.use((req, res, next) => {
   next()
 })
 
+// static si utilitare
 app.get('/favicon.ico', (req, res) => {
   const faviconPath = path.join(__dirname, 'resurse', 'ico', 'favicon', 'favicon.ico')
   if (fs.existsSync(faviconPath)) res.sendFile(faviconPath)
   else res.status(404).send(normMsg('favicon lipsa'))
 })
-
 app.all('/resurse/*', (req, res, next) => {
   if (req.path.endsWith('/')) {
     const ipUtilizator = req.ip || req.connection.remoteAddress || '::1'
@@ -484,9 +470,9 @@ app.all('/resurse/*', (req, res, next) => {
   }
   next()
 })
-
 app.use('/resurse', express.static(path.join(__dirname, 'resurse')))
 
+// pagini publice
 app.get(['/', '/index', '/home'], (req, res) => {
   const ipUtilizator = req.ip || req.connection.remoteAddress || '::1'
   res.render('pagini/index', {
@@ -546,6 +532,7 @@ app.get('/galerie/test/:ora', (req, res) => {
   }
 })
 
+// demo si produse public
 app.get('/test-400', (req, res) => {
   const ipUtilizator = req.ip || req.connection.remoteAddress || '::1'
   afisareEroare(res, 400, null, null, null, ipUtilizator)
@@ -622,6 +609,7 @@ app.get('/produs/:id', async (req, res) => {
   }
 })
 
+// === admin db existent ===
 app.get('/admin/db', requireAdmin, async (req, res) => {
   const ipUtilizator = req.ip || req.connection.remoteAddress || '::1'
   try {
@@ -646,7 +634,8 @@ app.get('/admin/db', requireAdmin, async (req, res) => {
       cols: data.cols,
       page: parseInt(req.query.page || '1', 10),
       limit: Math.min(parseInt(req.query.limit || '20', 10), 100),
-      dir: (req.query.dir || 'asc')
+      dir: (req.query.dir || 'asc'),
+      sort: req.query.sort || null
     }, (e, html) => {
       if (e) return afisareEroare(res, 500, normMsg('eroare admin db'), normMsg('nu s a putut incarca pagina'), null, ipUtilizator)
       res.send(html)
@@ -669,15 +658,235 @@ app.post('/admin/query', requireAdmin, async (req, res) => {
   }
 })
 
-app.get('/debug-db', async (req, res) => {
+// === admin produse crud ===
+app.get('/admin/produse', requireAdmin, async (req, res) => {
   try {
-    const ping = await db.query('SELECT NOW() AS now;')
-    res.send(`<pre>db ok\n${JSON.stringify(ping.rows || ping, null, 2)}</pre>`)
-  } catch (e) {
-    res.status(500).send(`<pre>eroare db\n${e.message}</pre>`)
+    const { page=1, limit=20, q='' } = req.query
+    const off = (parseInt(page)-1)*parseInt(limit)
+    const sql = `
+      SELECT id_produs, nume, material, pret, stoc
+      FROM public.produs
+      WHERE ($1 = '' OR nume ILIKE '%'||$1||'%')
+      ORDER BY id_produs DESC
+      LIMIT $2 OFFSET $3`
+    const rs = await db.query(sql, [q, parseInt(limit), off])
+    res.render('pagini/admin-produse', {
+      title:'admin produse',
+      ipUtilizator: req.ip||'::1',
+      produse: rs.rows||rs,
+      page: parseInt(page), limit: parseInt(limit), q
+    }, (e, html) => {
+      if (e) return afisareEroare(res, 500, normMsg('eroare admin produse'), normMsg('nu s a putut afisa pagina'), null, req.ip||'::1')
+      res.send(html)
+    })
+  } catch {
+    afisareEroare(res, 500, normMsg('eroare admin produse'), normMsg('nu s a putut afisa pagina'), null, req.ip||'::1')
   }
 })
 
+app.get('/admin/produse/new', requireAdmin, (req, res) => {
+  res.render('pagini/admin-produs-form', {
+    title:'produs nou', ipUtilizator: req.ip||'::1',
+    produs: { id_produs:null, nume:'', material:'', pret:0, stoc:0 }, creare:true
+  }, (e, html) => {
+    if (e) return afisareEroare(res, 500, normMsg('eroare admin produse'), normMsg('nu s a putut afisa formularul'), null, req.ip||'::1')
+    res.send(html)
+  })
+})
+
+app.post('/admin/produse/create', requireAdmin, async (req, res) => {
+  try {
+    const { nume, material, pret, stoc } = req.body
+    await db.query(
+      `INSERT INTO public.produs(nume, material, pret, stoc) VALUES ($1,$2,$3,$4)`,
+      [nume, material||null, Number(pret), parseInt(stoc)]
+    )
+    res.redirect('/admin/produse')
+  } catch {
+    afisareEroare(res, 500, normMsg('eroare creare produs'), normMsg('nu s a putut crea produsul'), null, req.ip||'::1')
+  }
+})
+
+app.get('/admin/produse/:id/edit', requireAdmin, async (req, res) => {
+  try {
+    const id = parseInt(req.params.id)
+    const row = await db.oneOrNone(`SELECT * FROM public.produs WHERE id_produs=$1`, [id])
+    if (!row) return res.redirect('/admin/produse')
+    res.render('pagini/admin-produs-form', {
+      title:`editeaza produs #${id}`, ipUtilizator: req.ip||'::1',
+      produs: row, creare:false
+    }, (e, html) => {
+      if (e) return afisareEroare(res, 500, normMsg('eroare admin produse'), normMsg('nu s a putut afisa formularul'), null, req.ip||'::1')
+      res.send(html)
+    })
+  } catch {
+    afisareEroare(res, 500, normMsg('eroare admin produse'), normMsg('nu s a putut incarca produsul'), null, req.ip||'::1')
+  }
+})
+
+app.post('/admin/produse/:id/update', requireAdmin, async (req, res) => {
+  try {
+    const id = parseInt(req.params.id)
+    const { nume, material, pret, stoc } = req.body
+    await db.query(
+      `UPDATE public.produs SET nume=$1, material=$2, pret=$3, stoc=$4 WHERE id_produs=$5`,
+      [nume, material||null, Number(pret), parseInt(stoc), id]
+    )
+    res.redirect('/admin/produse')
+  } catch {
+    afisareEroare(res, 500, normMsg('eroare update produs'), normMsg('nu s a putut salva produsul'), null, req.ip||'::1')
+  }
+})
+
+app.post('/admin/produse/:id/delete', requireAdmin, async (req, res) => {
+  try {
+    const id = parseInt(req.params.id)
+    await db.query(`DELETE FROM public.produs WHERE id_produs=$1`, [id])
+    res.redirect('/admin/produse')
+  } catch {
+    afisareEroare(res, 500, normMsg('eroare stergere produs'), normMsg('nu s a putut sterge produsul'), null, req.ip||'::1')
+  }
+})
+
+// === raport joins 3+ tabele cu 2+ conditii ===
+app.get('/rapoarte/joins', requireAdmin, async (req, res) => {
+  try {
+    const { date_from=null, date_to=null, min_pret=null } = req.query
+    const sql = `
+      SELECT c.id_comanda, c."data" AS data_comanda,
+             cl.nume||' '||COALESCE(cl.prenume,'') AS client,
+             p.nume AS produs, pc.cantitate,
+             p.pret, (pc.cantitate*p.pret)::numeric(12,2) AS subtotal
+      FROM public.comanda c
+      JOIN public.comanda_client cc ON cc.id_comanda=c.id_comanda
+      JOIN public.client cl ON cl.id_client=cc.id_client
+      JOIN public.produs_comanda pc ON pc.id_comanda=c.id_comanda
+      JOIN public.produs p ON p.id_produs=pc.id_produs
+      WHERE ($1::date IS NULL OR c."data" >= $1::date)
+        AND ($2::date IS NULL OR c."data" <= $2::date)
+        AND ($3::numeric IS NULL OR p.pret >= $3::numeric)
+      ORDER BY c.id_comanda DESC, produs`
+    const rs = await db.query(sql, [date_from, date_to, min_pret])
+    res.render('pagini/raport-joins', {
+      title:'raport join',
+      ipUtilizator: req.ip||'::1',
+      rows: rs.rows||rs, date_from, date_to, min_pret
+    }, (e, html) => {
+      if (e) return afisareEroare(res, 500, normMsg('eroare raport join'), normMsg('nu s a putut afisa raportul'), null, req.ip||'::1')
+      res.send(html)
+    })
+  } catch {
+    afisareEroare(res, 500, normMsg('eroare raport join'), normMsg('nu s a putut afisa raportul'), null, req.ip||'::1')
+  }
+})
+
+// === raport group by + having ===
+app.get('/rapoarte/having', requireAdmin, async (req, res) => {
+  try {
+    const { min_total=null, min_items=null } = req.query
+    const sql = `
+      SELECT cl.id_client, cl.nume, COALESCE(cl.prenume,'') AS prenume,
+             COUNT(DISTINCT c.id_comanda) AS nr_comenzi,
+             COALESCE(SUM(pc.cantitate),0) AS nr_produse,
+             COALESCE(SUM(pc.cantitate*p.pret),0)::numeric(12,2) AS total_valoare
+      FROM public.client cl
+      LEFT JOIN public.comanda_client cc ON cc.id_client=cl.id_client
+      LEFT JOIN public.comanda c ON c.id_comanda=cc.id_comanda
+      LEFT JOIN public.produs_comanda pc ON pc.id_comanda=c.id_comanda
+      LEFT JOIN public.produs p ON p.id_produs=pc.id_produs
+      GROUP BY cl.id_client, cl.nume, cl.prenume
+      HAVING ($1::int IS NULL OR COALESCE(SUM(pc.cantitate),0) >= $1::int)
+         AND ($2::numeric IS NULL OR COALESCE(SUM(pc.cantitate*p.pret),0) >= $2::numeric)
+      ORDER BY total_valoare DESC, nr_produse DESC
+      LIMIT 100`
+    const rs = await db.query(sql, [min_items, min_total])
+    res.render('pagini/raport-having', {
+      title:'raport having',
+      ipUtilizator: req.ip||'::1',
+      rows: rs.rows||rs, min_items, min_total
+    }, (e, html) => {
+      if (e) return afisareEroare(res, 500, normMsg('eroare raport having'), normMsg('nu s a putut afisa raportul'), null, req.ip||'::1')
+      res.send(html)
+    })
+  } catch {
+    afisareEroare(res, 500, normMsg('eroare raport having'), normMsg('nu s a putut afisa raportul'), null, req.ip||'::1')
+  }
+})
+
+// === cascade demo pe comenzi ===
+app.get('/admin/comenzi', requireAdmin, async (req, res) => {
+  try {
+    const sql = `
+      SELECT c.id_comanda, c."data", c.adresa_livrare,
+        (SELECT COUNT(*) FROM public.produs_comanda pc WHERE pc.id_comanda=c.id_comanda) AS linii,
+        (SELECT COUNT(*) FROM public.factura f WHERE f.id_comanda=c.id_comanda) AS facturi,
+        (SELECT COUNT(*) FROM public.recenzie r WHERE r.id_comanda=c.id_comanda) AS recenzii
+      FROM public.comanda c
+      ORDER BY c.id_comanda DESC
+      LIMIT 100`
+    const rs = await db.query(sql)
+    res.render('pagini/admin-comenzi', {
+      title:'admin comenzi',
+      ipUtilizator: req.ip||'::1',
+      comenzi: rs.rows||rs
+    }, (e, html) => {
+      if (e) return afisareEroare(res, 500, normMsg('eroare admin comenzi'), normMsg('nu s a putut afisa pagina'), null, req.ip||'::1')
+      res.send(html)
+    })
+  } catch {
+    afisareEroare(res, 500, normMsg('eroare admin comenzi'), normMsg('nu s a putut afisa pagina'), null, req.ip||'::1')
+  }
+})
+
+app.post('/admin/comenzi/:id/delete', requireAdmin, async (req, res) => {
+  try {
+    const id = parseInt(req.params.id)
+    const before = await db.oneOrNone(`
+      SELECT 
+        (SELECT COUNT(*) FROM public.produs_comanda WHERE id_comanda=$1) AS linii,
+        (SELECT COUNT(*) FROM public.factura WHERE id_comanda=$1) AS facturi,
+        (SELECT COUNT(*) FROM public.recenzie WHERE id_comanda=$1) AS recenzii
+    `, [id])
+    console.log(normMsg('cascade pre stergere comanda')), console.log(before)
+    await db.query(`DELETE FROM public.comanda WHERE id_comanda=$1`, [id])
+    res.redirect('/admin/comenzi')
+  } catch {
+    afisareEroare(res, 500, normMsg('eroare stergere comanda'), normMsg('nu s a putut sterge comanda'), null, req.ip||'::1')
+  }
+})
+
+// === vizualizari: una updatabila si una complexa read only ===
+app.get('/vizualizari', requireAdmin, async (req, res) => {
+  try {
+    const v1 = await db.query(`SELECT * FROM public.v_produs_simplu ORDER BY id_produs LIMIT 200`)
+    const v2 = await db.query(`SELECT * FROM public.v_raport_vanzari_clienti ORDER BY total_valoare DESC LIMIT 200`)
+    res.render('pagini/vizualizari', {
+      title:'vizualizari',
+      ipUtilizator: req.ip||'::1',
+      v1: v1.rows||v1, v2: v2.rows||v2
+    }, (e, html) => {
+      if (e) return afisareEroare(res, 500, normMsg('eroare vizualizari'), normMsg('nu s a putut afisa pagina'), null, req.ip||'::1')
+      res.send(html)
+    })
+  } catch {
+    afisareEroare(res, 500, normMsg('eroare vizualizari'), normMsg('nu s a putut afisa pagina'), null, req.ip||'::1')
+  }
+})
+
+app.post('/vizualizari/produs/update', requireAdmin, async (req, res) => {
+  try {
+    const { id_produs, pret, stoc } = req.body
+    await db.query(
+      `UPDATE public.v_produs_simplu SET pret=$1, stoc=$2 WHERE id_produs=$3`,
+      [Number(pret), parseInt(stoc), parseInt(id_produs)]
+    )
+    res.redirect('/vizualizari')
+  } catch {
+    afisareEroare(res, 500, normMsg('eroare update vizualizare'), normMsg('nu s a putut salva prin view'), null, req.ip||'::1')
+  }
+})
+
+// catch all
 app.get('/*', (req, res) => {
   let url = req.url
   if (url.startsWith('/')) url = url.substring(1)
@@ -707,6 +916,7 @@ async function startServer() {
       console.log(normMsg('compilator scss activ'))
       console.log(normMsg('conexiune postgresql activa'))
       console.log(normMsg('pagina produse cu filtrare si sortare ok'))
+      console.log(normMsg('rapoarte si admin rute adaugate'))
       console.log(normMsg('pentru testare galerie ruta galerie test hh mm'))
       console.log(normMsg('admin db ruta admin db seteaza env admin secret pt protectie'))
       console.log(`http://localhost:${PORT}`)

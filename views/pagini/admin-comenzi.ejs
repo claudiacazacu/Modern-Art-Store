@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head><meta charset="UTF-8"><title><%= title %></title>
+<link rel="stylesheet" href="/resurse/CSS/general.css"></head>
+<body>
+<header><h1>Comenzi (demonstratie ON DELETE CASCADE)</h1></header>
+<main>
+<table>
+  <thead><tr><th>id</th><th>data</th><th>linii</th><th>facturi</th><th>recenzii</th><th>actiuni</th></tr></thead>
+  <tbody>
+    <% (comenzi||[]).forEach(c=>{ %>
+    <tr>
+      <td>#<%= c.id_comanda %></td>
+      <td><%= c.data %></td>
+      <td><%= c.linii %></td>
+      <td><%= c.facturi %></td>
+      <td><%= c.recenzii %></td>
+      <td>
+        <form method="post" action="/admin/comenzi/<%= c.id_comanda %>/delete" onsubmit="return confirm('sterge comanda si tot ce depinde de ea prin cascade?')">
+          <button>sterge</button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+<p>la stergere, postgres elimina automat in lant liniile din <code>produs_comanda</code>, <code>factura</code> si <code>recenzie</code> datorita <em>ON DELETE CASCADE</em> din schema</p>
+</main>
+</body>
+</html>

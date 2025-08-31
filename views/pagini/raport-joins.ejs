@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head><meta charset="UTF-8"><title><%= title %></title>
+<link rel="stylesheet" href="/resurse/CSS/general.css">
+<style>table{width:100%;border-collapse:collapse}th,td{padding:6px;border-bottom:1px solid #eee}</style>
+</head>
+<body>
+<header><h1>Raport JOIN (≥3 tabele, ≥2 conditii)</h1></header>
+<main>
+  <form method="get" action="/rapoarte/joins" style="display:flex;gap:8px;flex-wrap:wrap">
+    <label>de la <input type="date" name="date_from" value="<%= date_from||'' %>"></label>
+    <label>pana la <input type="date" name="date_to" value="<%= date_to||'' %>"></label>
+    <label>pret minim produs <input type="number" step="0.01" name="min_pret" value="<%= min_pret||'' %>"></label>
+    <button>filtreaza</button>
+  </form>
+
+  <table>
+    <thead><tr><th>comanda</th><th>data</th><th>client</th><th>produs</th><th>cant</th><th>pret</th><th>subtotal</th></tr></thead>
+    <tbody>
+      <% (rows||[]).forEach(r=>{ %>
+        <tr>
+          <td>#<%= r.id_comanda %></td>
+          <td><%= r.data_comanda %></td>
+          <td><%= r.client %></td>
+          <td><%= r.produs %></td>
+          <td><%= r.cantitate %></td>
+          <td><%= r.pret %></td>
+          <td><%= r.subtotal %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>
