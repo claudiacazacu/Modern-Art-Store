@@ -1,9 +1,5 @@
-/* =================================================================== */
-/* PRINT.CSS - STILURI PENTRU TIPĂRIRE - css-printare */
-/* =================================================================== */
 
 @media print {
-    /* Resetare stiluri pentru print */
     * {
         box-shadow: none !important;
         text-shadow: none !important;
@@ -21,19 +17,17 @@
         font-family: "Times New Roman", Times, serif;
     }
     
-    /* 1. Banner în dreapta-sus a primei pagini - FORȚAT SĂ APARĂ */
     @page:first {
-        margin-top: 4cm; /* Mai mult spațiu sus pentru banner */
+        margin-top: 4cm; 
     }
     
-    /* Banner prin element HTML dedicat */
     #banner-print {
         content: "Acesta este un proiect școlar!" !important;
         position: fixed !important;
         display: block !important;
         top: 1cm !important;
         right: 1cm !important;
-        width: 50% !important; /* jumătate din lățimea conținutului */
+        width: 50% !important; 
         border: 3px double black !important;
         background: white !important;
         padding: 10pt !important;
@@ -56,7 +50,6 @@
         font-size: 12pt !important;
     }
     
-    /* 2. Ascunderea elementelor media și dependente */
     img,
     iframe,
     embed,
@@ -78,7 +71,6 @@
         display: none !important;
     }
     
-    /* 3. Grid-ul paginii afișat ca block */
     main {
         display: block !important;
         grid-template-areas: none !important;
@@ -99,7 +91,6 @@
         grid-area: auto !important;
     }
     
-    /* 4. Linkurile ca text normal */
     a {
         color: black !important;
         text-decoration: none !important;
@@ -115,7 +106,6 @@
         color: black !important;
     }
     
-    /* 5. Header pe prima pagină cu page break */
     header {
         page-break-after: always;
         background: white !important;
@@ -126,7 +116,6 @@
         margin: 0 0 10pt 0;
     }
     
-    /* Titlul site-ului centrat */
     h1 {
         text-align: center !important;
         font-size: 20pt;
@@ -140,7 +129,6 @@
         padding-left: 0 !important;
     }
     
-    /* Meniul ca listă neordonată */
     nav {
         display: block !important;
         background: white !important;
@@ -205,7 +193,6 @@
         display: none !important;
     }
     
-    /* Sublistele pentru submeniu */
     nav ul ul,
     ul.meniu ul {
         display: block !important;
@@ -240,7 +227,6 @@
         font-weight: normal;
     }
     
-    /* Footer normal fără modificări speciale */
     footer {
         page-break-before: always;
         background: white !important;
@@ -251,17 +237,15 @@
         margin: 10pt 0 0 0;
     }
     
-    /* Ascundem paragraful cu textul banner-ului din footer */
     footer p:last-child {
         display: none !important;
     }
     
-    /* 6. Watermark pe fiecare pagină - Claudia Cazacu */
     #watermark-print {
         position: fixed !important;
         display: block !important;
-        width: 60vw !important; /* 60% din lățimea paginii */
-        height: 10vh !important; /* 10% din înălțimea paginii */
+        width: 60vw !important; 
+        height: 10vh !important; 
         text-align: center !important;
         font-size: 24pt !important;
         right: 0 !important;
@@ -278,14 +262,13 @@
     #watermark-print p {
         margin: 0 !important;
         padding: 0 !important;
-        color: rgba(0, 0, 0, 0.3) !important; /* opacitate 0.3 pe culoare */
+        color: rgba(0, 0, 0, 0.3) !important; 
         font-weight: bold !important;
         background: transparent !important;
         line-height: 1.2 !important;
         font-size: 24pt !important;
     }
     
-    /* Restul elementelor */
     h2 {
         font-size: 16pt;
         margin: 15pt 0 10pt 0;
@@ -315,7 +298,6 @@
         text-align: justify;
     }
     
-    /* Tabelul */
     table {
         border-collapse: collapse !important;
         width: 100% !important;
@@ -348,7 +330,6 @@
         margin-bottom: 5pt;
     }
     
-    /* Liste */
     ul, ol {
         margin: 8pt 0;
         padding-left: 20pt;
@@ -360,7 +341,6 @@
         background: white !important;
     }
     
-    /* Details/summary pentru print */
     details {
         border: 1px solid black !important;
         padding: 10pt !important;
@@ -391,7 +371,6 @@
         content: "▼ ";
     }
     
-    /* Blockquote */
     blockquote {
         border-left: 3px solid black;
         padding-left: 10pt;
@@ -401,7 +380,6 @@
         background: white !important;
     }
     
-    /* Strong și emphasis */
     strong, b {
         font-weight: bold;
         color: black !important;
@@ -412,7 +390,6 @@
         color: black !important;
     }
     
-    /* Time și small */
     time {
         color: black !important;
         font-style: normal !important;
@@ -424,34 +401,31 @@
         background: white !important;
     }
     
-    /* User info */
     .user-info {
         display: none !important;
     }
     
-    /* Math */
     math {
         color: black !important;
         background: white !important;
     }
     
-    /* 7. Margini pentru pagini pare/impare */
     @page {
         margin-top: 2cm;
         margin-bottom: 2cm;
     }
     
     @page:left {
-        margin-left: 2cm;  /* stânga: 2cm stânga */
-        margin-right: 1cm; /* stânga: 1cm dreapta */
+        margin-left: 2cm;  
+        margin-right: 1cm; 
     }
     
     @page:right {
-        margin-left: 1cm;  /* dreapta: 1cm stânga */
-        margin-right: 2cm; /* dreapta: 2cm dreapta */
+        margin-left: 1cm;  
+        margin-right: 2cm; 
     }
     
     @page:first {
-        margin-top: 3cm; /* mai mult spațiu sus pentru banner */
+        margin-top: 3cm; 
     }
 }

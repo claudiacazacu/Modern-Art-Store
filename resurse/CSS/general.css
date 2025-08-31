@@ -1,11 +1,3 @@
-/* =================================================================== */
-/* GENERAL.CSS - STILURI COMPLETE PENTRU SITE */
-/* =================================================================== */
-
-/* ===================================================================== */
-/* STILURI PENTRU SECȚIUNEA GALERIEI ANIMATE */
-/* ===================================================================== */
-
 #galerie-animata-section {
     background: linear-gradient(135deg, var(--color-background) 0%, var(--color-light) 100%);
     border-left: 5px solid var(--color-accent);
@@ -26,7 +18,6 @@
     margin: 0 auto 30px auto;
 }
 
-/* Stilizare pentru informațiile de debug */
 .galerie-info-grid dl {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -48,7 +39,6 @@
     margin: 0;
 }
 
-/* Stilizare pentru aside-ul cu instrucțiuni */
 #galerie-animata-section aside {
     background-color: var(--color-white);
     border: 1px solid var(--color-light);
@@ -88,15 +78,14 @@
     border-bottom: none;
 }
 
-/* Responsive pentru secțiunea galeriei */
 @media (max-width: 1024px) {
     #galerie-animata-section {
-        /* Secțiunea rămâne vizibilă, doar galeria se ascunde */
+        
         text-align: center;
     }
     
     #galerie-animata-section::after {
-        content: "📱 Galeria animată este disponibilă doar pe ecrane mari pentru o experiență optimă.";
+        content: "Galeria  este disponibila doar pe ecrane mari ";
         display: block;
         background-color: var(--color-background);
         color: var(--color-secondary);
@@ -123,11 +112,6 @@
     }
 }
 
-/* =================================================================== */
-/* VARIABILE CSS ȘI STILURI DE BAZĂ */
-/* =================================================================== */
-
-/* Variabile CSS pentru spațiere și culori */
 :root {
     --padding-main: 80px;
     --padding-medium: 40px;
@@ -142,7 +126,7 @@
     --color-background: #efebe9;
     --color-white: #ffffff;
     --color-text: #3e2723;
-    --color-link-visited: #6d4c41; /* Culoare pentru linkurile vizitate */
+    --color-link-visited: #6d4c41; 
 }
 
 body {
@@ -154,11 +138,6 @@ body {
     font-family: 'Georgia', 'Times New Roman', serif;
 }
 
-/* =================================================================== */
-/* LAYOUT PRINCIPAL CU CSS GRID */
-/* =================================================================== */
-
-/* Layout principal cu CSS Grid */
 main {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -174,7 +153,6 @@ main {
         "section8 section8 section8";
 }
 
-/* Assignarea secțiunilor la zonele grid-ului */
 #despre-noi {
     grid-area: section1;
 }
@@ -216,13 +194,13 @@ main {
 }
 
 math[xmlns="http://www.w3.org/1998/Math/MathML"] * {
-    color: var(--color-primary) !important; /* Maro închis */
+    color: var(--color-primary) !important; 
     font-style: italic !important;
 }
 
 
 math {
-    color: #805e2e !important; /* Culoarea ta maro închis ca fallback */
+    color: #805e2e !important; 
     font-style: italic !important;
 }
 
@@ -230,16 +208,6 @@ math * {
     color: #805e2e !important;
     font-style: italic !important;
 }
-/* =================================================================== */
-/* NAVIGAȚIE REPARATĂ CU SUBMENIURI ȘI EFECTE */
-/* =================================================================== */
-
-/* Resetare și configurare de bază pentru navigație */
-/* =================================================================== */
-/* NAVIGAȚIE REPARATĂ CU SUBMENIURI ȘI EFECTE - VERSIUNEA CURĂȚATĂ */
-/* =================================================================== */
-
-/* Resetare și configurare de bază pentru navigație */
 nav {
     background-color: var(--color-white);
     border-radius: 8px;
@@ -248,13 +216,11 @@ nav {
     position: relative;
 }
 
-/* Ascundem hamburger-ul și checkbox-ul pe desktop */
 #hamburger, 
 #ch-menu {
     display: none;
 }
 
-/* Meniul principal - layout flexibil */
 nav ul.meniu {
     list-style: none;
     margin: 0;
@@ -266,13 +232,11 @@ nav ul.meniu {
     align-items: center;
 }
 
-/* Elementele principale din meniu */
 nav ul.meniu > li {
     position: relative;
     display: inline-block;
 }
 
-/* Stilizare linkuri principale */
 nav ul.meniu > li > a {
     display: block;
     padding: 12px 20px;
@@ -286,7 +250,6 @@ nav ul.meniu > li > a {
     z-index: 1;
 }
 
-/* Efectul de dreptunghi care se mărește pentru linkurile normale */
 nav ul.meniu > li:not(.dropdown) > a::before {
     content: "";
     position: absolute;
@@ -294,26 +257,23 @@ nav ul.meniu > li:not(.dropdown) > a::before {
     left: 50%;
     width: 0;
     height: 0;
-    background-color: #3e2723; /* Maro închis */
+    background-color: #3e2723; 
     border-radius: 6px;
     transform: translate(-50%, -50%) scale(0);
     transition: all 0.4s ease;
     z-index: -1;
 }
 
-/* La hover, dreptunghiul se mărește și acoperă butonul */
 nav ul.meniu > li:not(.dropdown) > a:hover::before {
     width: 100%;
     height: 100%;
     transform: translate(-50%, -50%) scale(1);
 }
 
-/* Textul devine alb când dreptunghiul apare */
 nav ul.meniu > li:not(.dropdown) > a:hover {
     color: var(--color-white);
 }
 
-/* Stilizare specială pentru dropdown (Acasă) */
 nav ul.meniu > li.dropdown > a {
     background-color: var(--color-secondary);
     color: var(--color-white);
@@ -326,7 +286,6 @@ nav ul.meniu > li.dropdown > a:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* SUBMENIUL DROPDOWN - ASCUNS COMPLET */
 nav ul.meniu > li.dropdown ul {
     position: absolute !important;
     top: 100% !important;
@@ -340,7 +299,7 @@ nav ul.meniu > li.dropdown ul {
     list-style: none !important;
     padding: 8px 0 !important;
     margin: 5px 0 0 0 !important;
-    /* ASCUNS COMPLET - TOATE METODELE */
+
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
@@ -348,7 +307,7 @@ nav ul.meniu > li.dropdown ul {
     transition: all 0.3s ease !important;
 }
 
-/* AFIȘAREA SUBMENIU DOAR LA HOVER - FORȚATĂ */
+
 nav ul.meniu > li.dropdown:hover ul {
     display: block !important;
     opacity: 1 !important;
@@ -356,7 +315,6 @@ nav ul.meniu > li.dropdown:hover ul {
     transform: translateY(0) scale(1) !important;
 }
 
-/* Elementele din submeniu */
 nav ul.meniu > li.dropdown ul li {
     width: 100%;
     border-bottom: 1px solid rgba(161, 136, 127, 0.2);
@@ -366,7 +324,6 @@ nav ul.meniu > li.dropdown ul li:last-child {
     border-bottom: none;
 }
 
-/* Linkurile din submeniu */
 nav ul.meniu > li.dropdown ul li a {
     display: block;
     padding: 10px 20px;
@@ -384,7 +341,6 @@ nav ul.meniu > li.dropdown ul li a:hover {
     padding-left: 25px;
 }
 
-/* Săgeată pentru elementele din submeniu */
 nav ul.meniu > li.dropdown ul li a::before {
     content: "▶ ";
     color: var(--color-accent);
@@ -397,7 +353,6 @@ nav ul.meniu > li.dropdown ul li a:hover::before {
     transform: translateX(3px);
 }
 
-/* Iconuri Font Awesome */
 nav ul.meniu > li > a i {
     margin-right: 8px;
     font-size: 1.1em;
@@ -412,9 +367,6 @@ nav ul.meniu > li > a i {
     }
 }
 
-/* =================================================================== */
-/* STILURI PENTRU ELEMENTELE DE BAZĂ */
-/* =================================================================== */
 
 header {
     background-color: var(--color-white);
@@ -556,9 +508,6 @@ small {
     margin-top: 10px;
 }
 
-/* =================================================================== */
-/* STILIZARE PENTRU INFORMAȚIILE UTILIZATORULUI (IP) */
-/* =================================================================== */
 
 .user-info {
     background-color: var(--color-background);
@@ -576,9 +525,6 @@ small {
     background-color: transparent;
 }
 
-/* =================================================================== */
-/* STILIZARE PAGINI DE EROARE */
-/* =================================================================== */
 
 .eroare-section {
     text-align: center;
@@ -636,10 +582,6 @@ small {
     background-color: var(--color-primary);
 }
 
-/* =================================================================== */
-/* STILIZARE TABEL */
-/* =================================================================== */
-
 .table-container {
     overflow-x: auto;
     margin: 20px 0;
@@ -688,7 +630,6 @@ small {
     border-top: 2px solid var(--color-secondary);
 }
 
-/* Culori alternate pe coloane */
 .opere-populare td:nth-child(odd),
 .opere-populare th:nth-child(odd) {
     color: var(--color-primary);
@@ -699,7 +640,6 @@ small {
     color: var(--color-secondary);
 }
 
-/* Header și footer păstrează culorile originale */
 .opere-populare thead th {
     color: var(--color-white) !important;
 }
@@ -708,7 +648,6 @@ small {
     color: var(--color-primary) !important;
 }
 
-/* Hover effect pe rânduri */
 .opere-populare tbody tr:hover td {
     background-color: var(--color-accent);
     color: var(--color-white);
@@ -717,15 +656,11 @@ small {
     transform: scale(1.02);
 }
 
-/* =================================================================== */
-/* STILIZARE IFRAME-URI */
-/* =================================================================== */
 
 iframe[name="locatie-harta"] {
     border: 0;
 }
 
-/* Font Awesome animații */
 .fa-beat-fade {
     --fa-beat-fade-opacity: 0.67;
     --fa-beat-fade-scale: 1.075;
@@ -735,7 +670,6 @@ iframe[name="locatie-harta"] {
     --fa-animation-duration: 3s;
 }
 
-/* Stilizare taburi iframe */
 .container-iframe {
     margin: 20px 0;
     background-color: var(--color-white);
@@ -791,9 +725,6 @@ iframe[name="locatie-harta"] {
     background-color: var(--color-white);
 }
 
-/* =================================================================== */
-/* LINK TOP - BUTON FIX PENTRU ÎNTOARCERE SUS */
-/* =================================================================== */
 
 #link-top {
     position: fixed;
@@ -849,10 +780,10 @@ iframe[name="locatie-harta"] {
     border-bottom-color: var(--color-white);
 }
 .text-random {
-  color: var(--color-primary); /* contrast mai bun */
+  color: var(--color-primary); 
   font-size: 1.3em;
-  font-style: normal; /* scoate italic */
-  background-color: transparent; /* elimină alb */
+  font-style: normal; 
+  background-color: transparent; 
   padding: 10px;
   margin: 30px auto;
   text-align: center;
@@ -860,64 +791,53 @@ iframe[name="locatie-harta"] {
 }
 
 
-/* =================================================================== */
-/* STILIZARE LINKURI - Identificator: stilizare-linkuri */
-/* =================================================================== */
 
-/* 1. Linkuri vizitate - culoare diferită prin variabilă CSS */
 a:visited {
     color: var(--color-link-visited);
 }
 
-/* 2. Linkuri externe - pseudoelement ::before cu simbolul ⮳ */
 a[href^="http"]::before {
     content: "⮳";
-    font-size: 1.5em; /* 50% mai mare decât fontul linkului (unitate relativă) */
+    font-size: 1.5em; 
     margin-right: 0.3em;
     transition: color 0.3s ease;
-    color: var(--color-secondary); /* Culoare din schema cromatică */
+    color: var(--color-secondary); 
 }
 
-/* 3. Hover pe linkuri externe - simbolul își schimbă culoarea */
 a[href^="http"]:hover::before {
-    color: var(--color-primary); /* Schimbă la altă culoare din schemă */
+    color: var(--color-primary); 
 }
 
-/* 4. Linkuri din main - pata de culoare care crește din centru */
 main a {
     position: relative;
     background-image: radial-gradient(ellipse 60% 40%,
-        var(--color-light) 0%, /* c1 la 0% */
-        var(--color-light) 40%, /* c1 la 40% */
-        transparent 80%, /* transparent la 80% */
-        transparent 100%); /* transparent la 100% */
-    background-position: center; /* poziționat centrat */
-    background-size: 0; /* dimensiune inițială 0 */
+        var(--color-light) 0%, 
+        var(--color-light) 40%, 
+        transparent 80%, 
+        transparent 100%); 
+    background-position: center; 
+    background-size: 0; 
     background-repeat: no-repeat;
-    transition: background-size 0.4s ease; /* tranziție pentru background-size */
+    transition: background-size 0.4s ease; 
     border-radius: 4px;
     padding: 2px 6px;
 }
 
-/* 5. Hover pe linkuri din main - pata crește la 100% */
 main a:hover {
-    background-size: 100%; /* crește la 100% */
-    color: var(--color-primary); /* Text contrastant */
+    background-size: 100%; 
+    color: var(--color-primary); 
 }
 
-/* Excludem linkurile din meniu (nu din main) */
 nav a {
     background-image: none !important;
     background-size: auto !important;
 }
 
-/* Excludem linkurile din footer - EXCEPTIE pentru linkurile externe */
 footer a:not([href^="http"]) {
     background-image: none !important;
     background-size: auto !important;
 }
 
-/* Linkurile externe din footer păstrează efectul */
 footer a[href^="http"] {
     background-image: radial-gradient(ellipse 150% 80%,
         var(--color-light) 0%,
@@ -934,16 +854,14 @@ footer a[href^="http"] {
 
 footer a[href^="http"]:hover {
     background-size: 100%;
-    color: var(--color-white); /* Text alb pentru contrast pe footer închis */
+    color: var(--color-white); 
 }
 
-/* Excludem linkurile din header */
 header a {
     background-image: none !important;
     background-size: auto !important;
 }
 
-/* Combinăm efectele pentru linkurile externe din main */
 main a[href^="http"] {
     background-image: radial-gradient(ellipse 150% 80%,
         var(--color-light) 0%,
@@ -957,12 +875,10 @@ main a[href^="http"]:hover {
     color: var(--color-primary);
 }
 
-/* Simbolul rămâne vizibil pe fundal colorat */
 main a[href^="http"]:hover::before {
     color: var(--color-primary);
 }
 
-/* Stilizări bonus pentru alte tipuri de linkuri */
 a[download]::after {
     content: " ⬇";
     font-size: 0.9em;
@@ -993,7 +909,6 @@ a[href^="tel:"]:hover::before {
     color: var(--color-primary);
 }
 
-/* Media queries pentru responsive design */
 @media (max-width: 1024px) {
     body {
         padding-left: var(--padding-medium);
@@ -1085,7 +1000,6 @@ a[href^="tel:"]:hover::before {
         top: 15px;
     }
     
-    /* Responsive pentru pagini de eroare */
     .eroare-content {
         flex-direction: column;
         text-align: center;
@@ -1095,7 +1009,6 @@ a[href^="tel:"]:hover::before {
         text-align: center;
     }
     
-    /* Responsive pentru user-info */
     .user-info {
         font-size: 0.8em;
         padding: 6px 12px;

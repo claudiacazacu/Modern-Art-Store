@@ -1,8 +1,8 @@
 {
     "cale_baza": "/resurse/imagini/erori/",
     "eroare_default": {
-        "titlu": "Eroare necunoscută",
-        "text": "A apărut o eroare necunoscută.",
+        "titlu": "Eroare necunoscuta",
+        "text": "A apărut o eroare necunoscuta.",
         "imagine": "default.png"
     },
     "info_erori": [
@@ -10,7 +10,7 @@
             "identificator": 404,
             "status": true,
             "titlu": "Eroare 404",
-            "text": "Pagina nu a fost găsită.",
+            "text": "Pagina nu a fost gasita.",
             "imagine": "404.jpg"
         },
         {
@@ -24,7 +24,7 @@
             "identificator": 400,
             "status": true,
             "titlu": "Eroare 400",
-            "text": "Cerere invalidă.",
+            "text": "Cerere invalida.",
             "imagine": "400.jpg"
         }
     ]

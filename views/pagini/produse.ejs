@@ -24,7 +24,6 @@
         <section>
             <h2>Produse din Baza de Date</h2>
             
-            <!-- Verifică dacă există eroare -->
             <% if (typeof eroare !== 'undefined') { %>
                 <div class="alert alert-danger">
                     <h3>⚠️ Eroare la încărcarea produselor</h3>
@@ -32,7 +31,6 @@
                 </div>
             <% } %>
             
-            <!-- Verifică dacă produse este definit și nu este gol -->
             <% if (typeof produse !== 'undefined' && Array.isArray(produse) && produse.length > 0) { %>
                 <h3>Produse disponibile</h3>
                 <div class="table-container">
@@ -66,7 +64,6 @@
                     </table>
                 </div>
                 
-                <!-- Versiunea ta originală cu lista -->
                 <h3>Lista simplă</h3>
                 <ul>
                     <% produse.forEach(prod => { %>
